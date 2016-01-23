@@ -1,0 +1,29 @@
+{
+  "name": "tab-sleeper",
+  "version": "0.0.0",
+  "description": "Sleep and wake windows",
+  "manifest_version": 2,
+  "permissions": [
+    "chrome://favicon/",
+    "tabs"
+  ],
+  "icons": {
+    "128": "icon/128.png"
+  },
+  "background": {
+    "scripts": [
+      "build/background.js"
+    ]
+  },
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+  "chrome_url_overrides" : {
+    "newtab": "static/newtab.html"
+  },
+  "browser_action": {
+    "default_icon": {
+      "19": "icon/browserAction/19.png",
+      "38": "icon/browserAction/38.png"
+    },
+    "default_title": "Sleep this window"
+  }
+}

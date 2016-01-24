@@ -52,6 +52,9 @@ If there are no problems, great!
 See Chrome developer docs section on [loading the
 Extension](https://developer.chrome.com/extensions/getstarted#unpacked)
 
-## Integrating your changes
+## Submitting your changes
 
-Send a pull request through GitHub
+[Send a pull request through
+GitHub](https://help.github.com/articles/using-pull-requests/) and it will be
+reviewed, and any further changes that might need to be made can be discussed
+in the issue thread.

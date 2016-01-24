@@ -29,7 +29,7 @@ up or have any questions, email me - my address is on my GitHub profile)
 
 ## Set up
 
-[Get Node](https://nodejs.org/en/) - This project is currently build using
+[Get Node](https://nodejs.org/en/) - This project is currently built using
 5.4.1, with npm v3.5.3
 
 Fork and clone this repository

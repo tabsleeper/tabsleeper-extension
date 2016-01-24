@@ -34,7 +34,7 @@ up or have any questions, email me - my address is on my GitHub profile)
 
 Fork and clone this repository
 
-    $ git clone git@github.com:_yourusername_/tab-sleeper.git
+    $ git clone git@github.com:<yourusername>/tab-sleeper.git
     $ cd tab-sleeper.git
 
 Install the dependencies

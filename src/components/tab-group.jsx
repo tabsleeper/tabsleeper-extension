@@ -2,7 +2,7 @@ import React from 'react';
 
 import constants from '../constants';
 
-class TabGroup extends React.Component {
+export class TabGroup extends React.Component {
 
   constructor(props) {
     super(props);
@@ -66,23 +66,27 @@ class TabGroup extends React.Component {
 
   render() {
     let pluralization = (this.state.tabs.length === 0) ? '' : 's';
+    let { group, className, ...attrs } = this.props;
 
-    return <div>
-      <strong>
-        {this.state.tabs.length} Tab{pluralization}
-      </strong>
+    let title = `${this.state.tabs.length} Tab${pluralization}`;
 
-      <ul>
-        <li onClick={this.onWakeClicked.bind(this)}>Wake</li>
-        <li onClick={this.onRenameClicked.bind(this)}>Rename</li>
-        <li onClick={this.onDeleteClicked.bind(this)}>Delete</li>
+    return <div {...attrs} className={`tab-group ${className || ''}`}>
+      <div className='tab-group--title-action-container'>
+        <span className='tab-group--title'>
+          {this.state.tabs.length} Tab{pluralization}
+        </span>
+
+        <ul className='tab-group--actions'>
+          <li><a onClick={this.onWakeClicked.bind(this)}>Wake</a></li>
+          <li><a onClick={this.onRenameClicked.bind(this)}>Rename</a></li>
+          <li><a onClick={this.onDeleteClicked.bind(this)}>Delete</a></li>
+        </ul>
+      </div>
+
+      <ul className='tab-group--urls'>
+        {this.state.tabs
+          .map(t => <li key={t.id}><a target='_blank' href={t.url}>{t.title}</a></li>)}
       </ul>
-
-      <ul>
-        {this.state.tabs.map(t => <li key={t.id}>{t.title} - {t.url}</li>)}
-      </ul>
-
-      <hr />
     </div>;
   }
 }

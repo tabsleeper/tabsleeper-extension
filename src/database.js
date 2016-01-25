@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 
-class Database extends Dexie {
+export class Database extends Dexie {
 
   static DB_NAME = 'tab-sleeper';
 

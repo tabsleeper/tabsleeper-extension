@@ -5,7 +5,8 @@
   "manifest_version": 2,
   "permissions": [
     "chrome://favicon/",
-    "tabs"
+    "tabs",
+    "topSites"
   ],
   "icons": {
     "128": "icon/128.png"

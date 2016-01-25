@@ -132,6 +132,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.TabGroup = undefined;
 
 	var _nodeUuid = __webpack_require__(2);
 
@@ -153,7 +154,7 @@
 	 * Represents a group of suspended tabs, backed by IndexedDB
 	 */
 
-	var TabGroup = function () {
+	var TabGroup = exports.TabGroup = function () {
 	  function TabGroup(_ref) {
 	    var _ref$uuid = _ref.uuid;
 	    var uuid = _ref$uuid === undefined ? _nodeUuid2.default.v4() : _ref$uuid;
@@ -4407,6 +4408,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Database = undefined;
 
 	var _dexie = __webpack_require__(28);
 
@@ -4420,7 +4422,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Database = function (_Dexie) {
+	var Database = exports.Database = function (_Dexie) {
 	  _inherits(Database, _Dexie);
 
 	  function Database() {

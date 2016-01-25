@@ -81,6 +81,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.TabGroup = undefined;
 
 	var _nodeUuid = __webpack_require__(2);
 
@@ -102,7 +103,7 @@
 	 * Represents a group of suspended tabs, backed by IndexedDB
 	 */
 
-	var TabGroup = function () {
+	var TabGroup = exports.TabGroup = function () {
 	  function TabGroup(_ref) {
 	    var _ref$uuid = _ref.uuid;
 	    var uuid = _ref$uuid === undefined ? _nodeUuid2.default.v4() : _ref$uuid;
@@ -4356,6 +4357,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Database = undefined;
 
 	var _dexie = __webpack_require__(28);
 
@@ -4369,7 +4371,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Database = function (_Dexie) {
+	var Database = exports.Database = function (_Dexie) {
 	  _inherits(Database, _Dexie);
 
 	  function Database() {
@@ -27328,6 +27330,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.NewTab = undefined;
 
 	var _react = __webpack_require__(31);
 
@@ -27343,7 +27346,13 @@
 
 	var _tabGroup3 = __webpack_require__(189);
 
-	var _tabGroup4 = _interopRequireDefault(_tabGroup3);
+	var _topSite = __webpack_require__(190);
+
+	var _topSite2 = _interopRequireDefault(_topSite);
+
+	var _clock = __webpack_require__(191);
+
+	var _clock2 = _interopRequireDefault(_clock);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27353,7 +27362,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var NewTab = function (_React$Component) {
+	var NewTab = exports.NewTab = function (_React$Component) {
 	  _inherits(NewTab, _React$Component);
 
 	  function NewTab(props) {
@@ -27362,7 +27371,8 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewTab).call(this, props));
 
 	    _this.state = {
-	      groups: []
+	      tabGroups: [],
+	      topSites: []
 	    };
 
 	    _this.db = new _database2.default();
@@ -27370,24 +27380,45 @@
 	    return _this;
 	  }
 
+	  /**
+	   * Fetch the initial data
+	   */
+
 	  _createClass(NewTab, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      this.refreshGroups();
+	      this.refreshTabGroups();
 	    }
+
+	    /**
+	     * Set up a listener so the page will update when changes are broadcast
+	     */
+
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      chrome.runtime.onMessage.addListener(this.refreshGroups.bind(this));
-	    }
-	  }, {
-	    key: 'refreshGroups',
-	    value: function refreshGroups() {
 	      var _this2 = this;
 
-	      this.db.groups.toArray(function (groups) {
-	        _this2.setState({
-	          groups: groups.map(function (g) {
+	      chrome.runtime.onMessage.addListener(this.refreshTabGroups.bind(this));
+
+	      chrome.topSites.get(function (topSites) {
+	        topSites = topSites.splice(0, 4);
+	        _this2.setState({ topSites: topSites });
+	      });
+	    }
+
+	    /**
+	     * Fetch tabGroups from storage and update component state
+	     */
+
+	  }, {
+	    key: 'refreshTabGroups',
+	    value: function refreshTabGroups() {
+	      var _this3 = this;
+
+	      this.db.groups.toArray(function (tabGroups) {
+	        _this3.setState({
+	          tabGroups: tabGroups.map(function (g) {
 	            return new _tabGroup2.default(g);
 	          })
 	        });
@@ -27398,15 +27429,35 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'new-tab' },
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Snoozed sessions'
+	          'div',
+	          { className: 'new-tab--clock-container' },
+	          _react2.default.createElement('div', { className: 'new-tab--clock-flex' }),
+	          _react2.default.createElement(_clock2.default, { className: 'new-tab--clock' })
 	        ),
-	        this.state.groups.map(function (g) {
-	          return _react2.default.createElement(_tabGroup4.default, { key: g.uuid, group: g });
-	        })
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'new-tab--top-sites' },
+	          this.state.topSites.map(function (s) {
+	            return _react2.default.createElement(
+	              'li',
+	              { key: s.url },
+	              _react2.default.createElement(_topSite2.default, { url: s.url, title: s.title })
+	            );
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'new-tab--tab-groups' },
+	          this.state.tabGroups.map(function (g) {
+	            return _react2.default.createElement(
+	              'li',
+	              { key: g.uuid },
+	              _react2.default.createElement(_tabGroup3.TabGroup, { group: g })
+	            );
+	          })
+	        )
 	      );
 	    }
 	  }]);
@@ -27422,11 +27473,14 @@
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.TabGroup = undefined;
 
 	var _react = __webpack_require__(31);
 
@@ -27438,13 +27492,15 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TabGroup = function (_React$Component) {
+	var TabGroup = exports.TabGroup = function (_React$Component) {
 	  _inherits(TabGroup, _React$Component);
 
 	  function TabGroup(props) {
@@ -27529,50 +27585,74 @@
 	    key: 'render',
 	    value: function render() {
 	      var pluralization = this.state.tabs.length === 0 ? '' : 's';
+	      var _props = this.props;
+	      var group = _props.group;
+	      var className = _props.className;
+
+	      var attrs = _objectWithoutProperties(_props, ['group', 'className']);
+
+	      var title = this.state.tabs.length + ' Tab' + pluralization;
 
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        _extends({}, attrs, { className: 'tab-group ' + (className || '') }),
 	        _react2.default.createElement(
-	          'strong',
-	          null,
-	          this.state.tabs.length,
-	          ' Tab',
-	          pluralization
-	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
+	          'div',
+	          { className: 'tab-group--title-action-container' },
 	          _react2.default.createElement(
-	            'li',
-	            { onClick: this.onWakeClicked.bind(this) },
-	            'Wake'
+	            'span',
+	            { className: 'tab-group--title' },
+	            this.state.tabs.length,
+	            ' Tab',
+	            pluralization
 	          ),
 	          _react2.default.createElement(
-	            'li',
-	            { onClick: this.onRenameClicked.bind(this) },
-	            'Rename'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            { onClick: this.onDeleteClicked.bind(this) },
-	            'Delete'
+	            'ul',
+	            { className: 'tab-group--actions' },
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                'a',
+	                { onClick: this.onWakeClicked.bind(this) },
+	                'Wake'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                'a',
+	                { onClick: this.onRenameClicked.bind(this) },
+	                'Rename'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                'a',
+	                { onClick: this.onDeleteClicked.bind(this) },
+	                'Delete'
+	              )
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'ul',
-	          null,
+	          { className: 'tab-group--urls' },
 	          this.state.tabs.map(function (t) {
 	            return _react2.default.createElement(
 	              'li',
 	              { key: t.id },
-	              t.title,
-	              ' - ',
-	              t.url
+	              _react2.default.createElement(
+	                'a',
+	                { target: '_blank', href: t.url },
+	                t.title
+	              )
 	            );
 	          })
-	        ),
-	        _react2.default.createElement('hr', null)
+	        )
 	      );
 	    }
 	  }]);
@@ -27581,6 +27661,399 @@
 	}(_react2.default.Component);
 
 	exports.default = TabGroup;
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.TopSite = undefined;
+
+	var _react = __webpack_require__(31);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TopSite = exports.TopSite = function (_React$Component) {
+	  _inherits(TopSite, _React$Component);
+
+	  function TopSite() {
+	    _classCallCheck(this, TopSite);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TopSite).apply(this, arguments));
+	  }
+
+	  _createClass(TopSite, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var className = _props.className;
+	      var title = _props.title;
+	      var url = _props.url;
+
+	      var attrs = _objectWithoutProperties(_props, ['className', 'title', 'url']);
+
+	      return _react2.default.createElement(
+	        'a',
+	        _extends({}, attrs, { className: 'top-site ' + (className || ''), href: this.props.url }),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'top-site--favicon-container' },
+	          _react2.default.createElement('img', { className: 'top-site--favicon', ref: 'image', src: 'chrome://favicon/' + this.props.url })
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'top-site--title' },
+	          this.props.title
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TopSite;
+	}(_react2.default.Component);
+
+	exports.default = TopSite;
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Clock = undefined;
+
+	var _react = __webpack_require__(31);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _dateformat = __webpack_require__(192);
+
+	var _dateformat2 = _interopRequireDefault(_dateformat);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Clock = exports.Clock = function (_React$Component) {
+	  _inherits(Clock, _React$Component);
+
+	  function Clock(props) {
+	    _classCallCheck(this, Clock);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Clock).call(this, props));
+
+	    _this.state = {
+	      currentTime: new Date()
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Clock, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      this.timer = window.setInterval(function () {
+	        _this2.setState({ currentTime: new Date() });
+	      }, 1000);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      window.clearInterval(this.timer);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var className = _props.className;
+
+	      var attrs = _objectWithoutProperties(_props, ['className']);
+
+	      return _react2.default.createElement(
+	        'time',
+	        _extends({}, attrs, { className: 'clock ' + (className || ''), dateTime: this.state.currentTime.toISOString() }),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'clock--time' },
+	          (0, _dateformat2.default)(this.state.currentTime, "h:MM")
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'clock--date' },
+	          (0, _dateformat2.default)(this.state.currentTime, "dddd, mmm d")
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Clock;
+	}(_react2.default.Component);
+
+	exports.default = Clock;
+
+/***/ },
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*
+	 * Date Format 1.2.3
+	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+	 * MIT license
+	 *
+	 * Includes enhancements by Scott Trenda <scott.trenda.net>
+	 * and Kris Kowal <cixar.com/~kris.kowal/>
+	 *
+	 * Accepts a date, a mask, or a date and a mask.
+	 * Returns a formatted version of the given date.
+	 * The date defaults to the current date/time.
+	 * The mask defaults to dateFormat.masks.default.
+	 */
+
+	(function(global) {
+	  'use strict';
+
+	  var dateFormat = (function() {
+	      var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZWN]|'[^']*'|'[^']*'/g;
+	      var timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
+	      var timezoneClip = /[^-+\dA-Z]/g;
+	  
+	      // Regexes and supporting functions are cached through closure
+	      return function (date, mask, utc, gmt) {
+	  
+	        // You can't provide utc if you skip other args (use the 'UTC:' mask prefix)
+	        if (arguments.length === 1 && kindOf(date) === 'string' && !/\d/.test(date)) {
+	          mask = date;
+	          date = undefined;
+	        }
+	  
+	        date = date || new Date;
+	  
+	        if(!(date instanceof Date)) {
+	          date = new Date(date);
+	        }
+	  
+	        if (isNaN(date)) {
+	          throw TypeError('Invalid date');
+	        }
+	  
+	        mask = String(dateFormat.masks[mask] || mask || dateFormat.masks['default']);
+	  
+	        // Allow setting the utc/gmt argument via the mask
+	        var maskSlice = mask.slice(0, 4);
+	        if (maskSlice === 'UTC:' || maskSlice === 'GMT:') {
+	          mask = mask.slice(4);
+	          utc = true;
+	          if (maskSlice === 'GMT:') {
+	            gmt = true;
+	          }
+	        }
+	  
+	        var _ = utc ? 'getUTC' : 'get';
+	        var d = date[_ + 'Date']();
+	        var D = date[_ + 'Day']();
+	        var m = date[_ + 'Month']();
+	        var y = date[_ + 'FullYear']();
+	        var H = date[_ + 'Hours']();
+	        var M = date[_ + 'Minutes']();
+	        var s = date[_ + 'Seconds']();
+	        var L = date[_ + 'Milliseconds']();
+	        var o = utc ? 0 : date.getTimezoneOffset();
+	        var W = getWeek(date);
+	        var N = getDayOfWeek(date);
+	        var flags = {
+	          d:    d,
+	          dd:   pad(d),
+	          ddd:  dateFormat.i18n.dayNames[D],
+	          dddd: dateFormat.i18n.dayNames[D + 7],
+	          m:    m + 1,
+	          mm:   pad(m + 1),
+	          mmm:  dateFormat.i18n.monthNames[m],
+	          mmmm: dateFormat.i18n.monthNames[m + 12],
+	          yy:   String(y).slice(2),
+	          yyyy: y,
+	          h:    H % 12 || 12,
+	          hh:   pad(H % 12 || 12),
+	          H:    H,
+	          HH:   pad(H),
+	          M:    M,
+	          MM:   pad(M),
+	          s:    s,
+	          ss:   pad(s),
+	          l:    pad(L, 3),
+	          L:    pad(Math.round(L / 10)),
+	          t:    H < 12 ? 'a'  : 'p',
+	          tt:   H < 12 ? 'am' : 'pm',
+	          T:    H < 12 ? 'A'  : 'P',
+	          TT:   H < 12 ? 'AM' : 'PM',
+	          Z:    gmt ? 'GMT' : utc ? 'UTC' : (String(date).match(timezone) || ['']).pop().replace(timezoneClip, ''),
+	          o:    (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+	          S:    ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
+	          W:    W,
+	          N:    N
+	        };
+	  
+	        return mask.replace(token, function (match) {
+	          if (match in flags) {
+	            return flags[match];
+	          }
+	          return match.slice(1, match.length - 1);
+	        });
+	      };
+	    })();
+
+	  dateFormat.masks = {
+	    'default':               'ddd mmm dd yyyy HH:MM:ss',
+	    'shortDate':             'm/d/yy',
+	    'mediumDate':            'mmm d, yyyy',
+	    'longDate':              'mmmm d, yyyy',
+	    'fullDate':              'dddd, mmmm d, yyyy',
+	    'shortTime':             'h:MM TT',
+	    'mediumTime':            'h:MM:ss TT',
+	    'longTime':              'h:MM:ss TT Z',
+	    'isoDate':               'yyyy-mm-dd',
+	    'isoTime':               'HH:MM:ss',
+	    'isoDateTime':           'yyyy-mm-dd\'T\'HH:MM:sso',
+	    'isoUtcDateTime':        'UTC:yyyy-mm-dd\'T\'HH:MM:ss\'Z\'',
+	    'expiresHeaderFormat':   'ddd, dd mmm yyyy HH:MM:ss Z'
+	  };
+
+	  // Internationalization strings
+	  dateFormat.i18n = {
+	    dayNames: [
+	      'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+	      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+	    ],
+	    monthNames: [
+	      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+	      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+	    ]
+	  };
+
+	function pad(val, len) {
+	  val = String(val);
+	  len = len || 2;
+	  while (val.length < len) {
+	    val = '0' + val;
+	  }
+	  return val;
+	}
+
+	/**
+	 * Get the ISO 8601 week number
+	 * Based on comments from
+	 * http://techblog.procurios.nl/k/n618/news/view/33796/14863/Calculate-ISO-8601-week-and-year-in-javascript.html
+	 *
+	 * @param  {Object} `date`
+	 * @return {Number}
+	 */
+	function getWeek(date) {
+	  // Remove time components of date
+	  var targetThursday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+	  // Change date to Thursday same week
+	  targetThursday.setDate(targetThursday.getDate() - ((targetThursday.getDay() + 6) % 7) + 3);
+
+	  // Take January 4th as it is always in week 1 (see ISO 8601)
+	  var firstThursday = new Date(targetThursday.getFullYear(), 0, 4);
+
+	  // Change date to Thursday same week
+	  firstThursday.setDate(firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3);
+
+	  // Check if daylight-saving-time-switch occured and correct for it
+	  var ds = targetThursday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
+	  targetThursday.setHours(targetThursday.getHours() - ds);
+
+	  // Number of weeks between target Thursday and first Thursday
+	  var weekDiff = (targetThursday - firstThursday) / (86400000*7);
+	  return 1 + Math.floor(weekDiff);
+	}
+
+	/**
+	 * Get ISO-8601 numeric representation of the day of the week
+	 * 1 (for Monday) through 7 (for Sunday)
+	 * 
+	 * @param  {Object} `date`
+	 * @return {Number}
+	 */
+	function getDayOfWeek(date) {
+	  var dow = date.getDay();
+	  if(dow === 0) {
+	    dow = 7;
+	  }
+	  return dow;
+	}
+
+	/**
+	 * kind-of shortcut
+	 * @param  {*} val
+	 * @return {String}
+	 */
+	function kindOf(val) {
+	  if (val === null) {
+	    return 'null';
+	  }
+
+	  if (val === undefined) {
+	    return 'undefined';
+	  }
+
+	  if (typeof val !== 'object') {
+	    return typeof val;
+	  }
+
+	  if (Array.isArray(val)) {
+	    return 'array';
+	  }
+
+	  return {}.toString.call(val)
+	    .slice(8, -1).toLowerCase();
+	};
+
+
+
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	      return dateFormat;
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof exports === 'object') {
+	    module.exports = dateFormat;
+	  } else {
+	    global.dateFormat = dateFormat;
+	  }
+	})(this);
+
 
 /***/ }
 /******/ ]);

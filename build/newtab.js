@@ -27647,7 +27647,7 @@
 	              { key: t.id },
 	              _react2.default.createElement(
 	                'a',
-	                { target: '_blank', href: t.url },
+	                { href: t.url },
 	                t.title
 	              )
 	            );

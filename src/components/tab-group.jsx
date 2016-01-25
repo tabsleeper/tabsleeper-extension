@@ -85,7 +85,7 @@ export class TabGroup extends React.Component {
 
       <ul className='tab-group--urls'>
         {this.state.tabs
-          .map(t => <li key={t.id}><a target='_blank' href={t.url}>{t.title}</a></li>)}
+          .map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>)}
       </ul>
     </div>;
   }

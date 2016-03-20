@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { TabGroupActions } from '../actions';
 import constants from '../constants';
 
 export class TabGroup extends React.Component {
@@ -22,16 +23,7 @@ export class TabGroup extends React.Component {
   onWakeClicked(evt) {
     evt.preventDefault();
 
-    chrome.tabs.getCurrent((currentTab) => {
-      chrome.windows.create({
-        url: this.state.tabs.map(t => t.url),
-        focused: true
-      }, (win) => {
-        this.group.destroy().then(() => {
-          chrome.tabs.remove(currentTab.id);
-        });
-      });
-    });
+    TabGroupActions.wakeGroup(this.props.group);
   }
 
   /**

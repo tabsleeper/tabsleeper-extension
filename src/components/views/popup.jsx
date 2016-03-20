@@ -1,13 +1,12 @@
 import React from 'react';
 
-import TabGroup from '../../tab-group';
+import { TabGroup } from '../../models';
 import Database from '../../database';
 
-import { TabGroup as TabGroupComponent } from '../tab-group.jsx'
-import TopSite from '../top-site.jsx';
-import Clock from '../clock.jsx';
+import { TabGroup as TabGroupComponent } from '../tab-group.jsx';
+import SleepWindowButton from '../sleep-window-button.jsx';
 
-export class NewTab extends React.Component {
+export class Popup extends React.Component {
 
   constructor(props) {
     super(props);
@@ -52,18 +51,9 @@ export class NewTab extends React.Component {
   }
 
   render() {
-    return <div className='new-tab'>
-      <div className='new-tab--clock-container'>
-        <div className='new-tab--clock-flex' />
-        <Clock className='new-tab--clock' />
-      </div>
-
-      <ul className='new-tab--top-sites'>
-        {this.state.topSites
-          .map(s => <li key={s.url}><TopSite url={s.url} title={s.title} /></li>)}
-      </ul>
-
-      <ul className='new-tab--tab-groups'>
+    return <div className='popup'>
+      <SleepWindowButton />
+      <ul className='popup--tab-groups'>
         {this.state.tabGroups
           .map(g => <li key={g.uuid}><TabGroupComponent group={g} /></li>)}
       </ul>
@@ -71,4 +61,4 @@ export class NewTab extends React.Component {
   }
 }
 
-export default NewTab;
+export default Popup;

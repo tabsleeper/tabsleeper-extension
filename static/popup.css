@@ -13,48 +13,14 @@ html, body {
 /**
  * Higher level layout and aesthetic rules for NewTab
  */
-.new-tab {
+.popup {
   min-height: 100vh;
 }
 
   /**
-   * Clock section
-   */
-  .new-tab--clock-container {
-    display: flex;
-    flex-direction: column;
-
-    height: 50vh;
-    text-align: center;
-  }
-
-    /**
-     * Use a flex element to push the clock to the bottom of the container.
-     * I'm doing this over something like position: absolute; to preserve
-     * wrapping, alignment, fluid width and other nice things that absolute
-     * positioning takes away.
-     */
-    .new-tab--clock-flex {
-      flex: 1;
-    }
-    
-    .new-tab--clock {
-      margin-bottom: 10vh;
-    }
-
-  /**
-   * Top Site section
-   */
-  .new-tab--top-sites {
-    text-align: center;
-  }
-
-    .new-tab--top-sites>li { display: inline-block; }
-
-  /**
    * Tab Groups section
    */
-  .new-tab--tab-groups {
+  .popup--tab-groups {
     text-align: center;
     margin-top: 10vh;
   }

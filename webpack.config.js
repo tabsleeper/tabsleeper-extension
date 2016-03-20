@@ -1,7 +1,7 @@
 module.exports = {
   context: __dirname + '/src',
   entry: {
-    newtab:     './newtab',
+    popup:     './popup',
     background: './background'
   },
 

@@ -2,10 +2,10 @@ import domready from 'domready';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import NewTab from './components/views/new-tab.jsx';
+import Popup from './components/views/popup.jsx';
 
 domready(() => {
   let container = document.getElementById('container');
 
-  ReactDOM.render(<NewTab />, container);
+  ReactDOM.render(<Popup />, container);
 });

@@ -54,8 +54,9 @@ export class Popup extends React.Component {
     return <div className='popup'>
       <SleepWindowButton />
       <ul className='popup--tab-groups'>
-        {this.state.tabGroups
-          .map(g => <li key={g.uuid}><TabGroupComponent group={g} /></li>)}
+        {this.state.tabGroups.map(g => {
+          return <li key={g.uuid}><TabGroupComponent group={g} /></li>;
+        })}
       </ul>
     </div>;
   }

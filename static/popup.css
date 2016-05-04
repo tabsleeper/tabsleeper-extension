@@ -7,109 +7,92 @@
 
 html, body {
   font-family: Roboto, sans-serif;
-  height: 100%;
+  height: 400px;
+
+  background: #F8F8F8;
 }
 
 /**
  * Higher level layout and aesthetic rules for NewTab
  */
 .popup {
-  min-height: 100vh;
+  height: 400px;
+  width: 280px;
+  color: #2B2B2B;
 }
 
   /**
    * Tab Groups section
    */
   .popup--tab-groups {
-    text-align: center;
-    margin-top: 10vh;
+    text-align: left;
+    margin-top: 20px;
+    height: 333px;
+    overflow: auto;
   }
 
 /**
- * Clock component
+ * Sleep Window Button Component
  */
-.clock {}
-
-  .clock--time {
-    display: block;
-
-    font-size: 72px;
-    font-weight: 300;
-  }
-
-  .clock--date {
-    display: block;
-
-    font-size: 16px;
-  }
-
-/**
- * TopSite component
- */
-.top-site {
-  display: inline-block;
-
-  width: 180px;
+.sleep-window-button {
+  margin: 10px;
+  margin-top: 15px;
+  width: 260px;
   height: 48px;
+  display: block;
+  cursor: pointer;
+  background: #2196F3;
+  border: none;
+  border-radius: 2px;
+  color: white;
 
-  background: #5E5E5E;
-
-  margin: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.2s ease-in-out;
 }
 
-  .top-site--favicon-container {
-    vertical-align: top;
-    display: inline-block;
+.sleep-window-button:hover {
+  background: #319EF5;
 
-    width: 48px;
-    height: 48px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
 
-    background: rgba(256, 256, 256, 0.7);
+  .sleep-window-button span {
+    line-height: 18px;
+    font-size: 14px;
   }
 
-    .top-site--favicon {
-      margin: 16px; /* 16px size + 2*16px margin = 48px */
-
-      width:  16px;
-      height: 16px;
+    .sleep-window-button .icon {
+      margin-right: 0.3rem;
     }
 
-  .top-site--title {
-    vertical-align: top;
-    display: inline-block;
+    .sleep-window-button * {
+      vertical-align: middle;
+    }
 
-    width: 110px;
-    height: 48px;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: clip;
-
-    font-size: 13px;
-    text-align: left;
-    margin: 0 6px 0 16px;
-    line-height: 48px;
-
-    color: rgba(256, 256, 256, 0.9);
-  }
 
 /**
  * TabGroup component
  */
 .tab-group {
+  margin: 10px;
+  width: 260px;
   display: block;
-  width: 40vw;
-  min-width: 400px;
-  margin: 1rem auto;
 
-  background: #5E5E5E;
+  border: none;
+  border-radius: 2px;
+  background: white;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.2s ease-in-out;
+
+  font-size: 15px;
 }
 
   .tab-group--title-action-container {
     display: flex;
     flex-direction: row;
 
-    padding: 1rem;
+    padding: 0.75rem;
   }
 
     .tab-group--title {
@@ -117,43 +100,57 @@ html, body {
       flex: 1;
 
       text-align: left;
-      font-weight: 500;
+      font-weight: 400;
 
-      color: rgba(256, 256, 256, 0.9);
+      font-size: 12px;
+      color: #777777;
     }
 
     .tab-group--actions {
       display: inline-block;
-
-      color: rgba(256, 256, 256, 0.6);
     }
 
       .tab-group--actions a:hover {
         cursor: pointer;
-        color: rgba(256, 256, 256, 0.9);
       }
 
       .tab-group--actions>li {
         display: inline-block;
 
-        margin: 0 0.5rem;
+        margin: 0;
+        margin-left: 0.25rem;
       }
 
 
-  .tab-group--urls {}
+  .tab-group--urls {
+    padding: 0.75rem;
+    padding-top: 0;
+  }
 
     .tab-group--urls li {
-      font-size: 13px;
-      padding: 0.5rem;
+      margin-top: 0.5rem;
     }
 
     .tab-group--urls a {
-      color: rgba(256, 256, 256, 0.6);
       text-decoration: none;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #2B2B2B;
     }
 
     .tab-group--urls a:hover {
-      color: rgba(256, 256, 256, 0.9);
       text-decoration: underline;
+      color: #2B2B2B;
     }
+
+  .tab-group--expand {
+    padding: 0.75rem;
+    padding-top: 0;
+    font-size: 12px;
+    text-align: right;
+    color: #1976D2;
+    cursor: pointer;
+  }
 

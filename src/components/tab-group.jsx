@@ -2,6 +2,9 @@ import React from 'react';
 
 import { TabGroupActions } from '../actions';
 import constants from '../constants';
+import Icon from '../icons';
+
+const SHOW_N_TABS = 3;
 
 export class TabGroup extends React.Component {
 
@@ -56,6 +59,15 @@ export class TabGroup extends React.Component {
     }
   }
 
+  /**
+   * Expands the tab group to show all tabs in the card
+   */
+  onExpandClicked(evt) {
+    evt.preventDefault();
+
+    this.setState({ expanded: true });
+  }
+
   render() {
     let pluralization = (this.state.tabs.length === 0) ? '' : 's';
     let { group, className, ...attrs } = this.props;
@@ -69,16 +81,39 @@ export class TabGroup extends React.Component {
         </span>
 
         <ul className='tab-group--actions'>
-          <li><a onClick={this.onWakeClicked.bind(this)}>Wake</a></li>
-          <li><a onClick={this.onRenameClicked.bind(this)}>Rename</a></li>
-          <li><a onClick={this.onDeleteClicked.bind(this)}>Delete</a></li>
+          <li>
+            <a onClick={this.onWakeClicked.bind(this)}>
+              <Icon.Wake color='#0C74D5' width='18px' height='18px' />
+            </a>
+          </li>
+          <li>
+            <a onClick={this.onRenameClicked.bind(this)}>
+              <Icon.Edit color='#0C74D5' width='18px' height='18px' />
+            </a>
+          </li>
+          <li>
+            <a onClick={this.onDeleteClicked.bind(this)}>
+              <Icon.Destroy color='#0C74D5' width='18px' height='18px' />
+            </a>
+          </li>
         </ul>
       </div>
 
       <ul className='tab-group--urls'>
-        {this.state.tabs
-          .map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>)}
+        {(this.state.expanded)
+          ? this.state.tabs.map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>)
+          : this.state.tabs.slice(0,SHOW_N_TABS).
+              map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>)
+        }
       </ul>
+
+      {(!this.state.expanded && this.state.tabs.length > SHOW_N_TABS) ?
+        <div className='tab-group--expand'>
+          <a onClick={this.onExpandClicked.bind(this)}>
+            +{this.state.tabs.slice(SHOW_N_TABS).length} more
+          </a>
+        </div> : null
+      }
     </div>;
   }
 }

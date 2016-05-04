@@ -19732,7 +19732,7 @@
 
 	var _tabGroup = __webpack_require__(190);
 
-	var _sleepWindowButton = __webpack_require__(199);
+	var _sleepWindowButton = __webpack_require__(204);
 
 	var _sleepWindowButton2 = _interopRequireDefault(_sleepWindowButton);
 
@@ -28025,6 +28025,10 @@
 
 	var _constants2 = _interopRequireDefault(_constants);
 
+	var _icons = __webpack_require__(199);
+
+	var _icons2 = _interopRequireDefault(_icons);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -28034,6 +28038,8 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SHOW_N_TABS = 3;
 
 	var TabGroup = exports.TabGroup = function (_React$Component) {
 	  _inherits(TabGroup, _React$Component);
@@ -28104,6 +28110,18 @@
 	        this.group.destroy();
 	      }
 	    }
+
+	    /**
+	     * Expands the tab group to show all tabs in the card
+	     */
+
+	  }, {
+	    key: 'onExpandClicked',
+	    value: function onExpandClicked(evt) {
+	      evt.preventDefault();
+
+	      this.setState({ expanded: true });
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -28138,7 +28156,7 @@
 	              _react2.default.createElement(
 	                'a',
 	                { onClick: this.onWakeClicked.bind(this) },
-	                'Wake'
+	                _react2.default.createElement(_icons2.default.Wake, { color: '#0C74D5', width: '18px', height: '18px' })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -28147,7 +28165,7 @@
 	              _react2.default.createElement(
 	                'a',
 	                { onClick: this.onRenameClicked.bind(this) },
-	                'Rename'
+	                _react2.default.createElement(_icons2.default.Edit, { color: '#0C74D5', width: '18px', height: '18px' })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -28156,7 +28174,7 @@
 	              _react2.default.createElement(
 	                'a',
 	                { onClick: this.onDeleteClicked.bind(this) },
-	                'Delete'
+	                _react2.default.createElement(_icons2.default.Destroy, { color: '#0C74D5', width: '18px', height: '18px' })
 	              )
 	            )
 	          )
@@ -28164,7 +28182,17 @@
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'tab-group--urls' },
-	          this.state.tabs.map(function (t) {
+	          this.state.expanded ? this.state.tabs.map(function (t) {
+	            return _react2.default.createElement(
+	              'li',
+	              { key: t.id },
+	              _react2.default.createElement(
+	                'a',
+	                { href: t.url },
+	                t.title
+	              )
+	            );
+	          }) : this.state.tabs.slice(0, SHOW_N_TABS).map(function (t) {
 	            return _react2.default.createElement(
 	              'li',
 	              { key: t.id },
@@ -28175,7 +28203,18 @@
 	              )
 	            );
 	          })
-	        )
+	        ),
+	        !this.state.expanded && this.state.tabs.length > SHOW_N_TABS ? _react2.default.createElement(
+	          'div',
+	          { className: 'tab-group--expand' },
+	          _react2.default.createElement(
+	            'a',
+	            { onClick: this.onExpandClicked.bind(this) },
+	            '+',
+	            this.state.tabs.slice(SHOW_N_TABS).length,
+	            ' more'
+	          )
+	        ) : null
 	      );
 	    }
 	  }]);
@@ -28580,6 +28619,248 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Destroy = exports.Edit = exports.Wake = exports.Sleep = undefined;
+
+	var _sleep = __webpack_require__(200);
+
+	var _sleep2 = _interopRequireDefault(_sleep);
+
+	var _wake = __webpack_require__(201);
+
+	var _wake2 = _interopRequireDefault(_wake);
+
+	var _edit = __webpack_require__(202);
+
+	var _edit2 = _interopRequireDefault(_edit);
+
+	var _destroy = __webpack_require__(203);
+
+	var _destroy2 = _interopRequireDefault(_destroy);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.Sleep = _sleep2.default;
+	exports.Wake = _wake2.default;
+	exports.Edit = _edit2.default;
+	exports.Destroy = _destroy2.default;
+	exports.default = { Sleep: _sleep2.default, Wake: _wake2.default, Edit: _edit2.default, Destroy: _destroy2.default };
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Sleep = function (_React$Component) {
+	    _inherits(Sleep, _React$Component);
+
+	    function Sleep() {
+	        _classCallCheck(this, Sleep);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Sleep).apply(this, arguments));
+	    }
+
+	    _createClass(Sleep, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "svg",
+	                { className: "icon icon--sleep", width: this.props.width || "24px", height: this.props.height || "24px", viewBox: "0 0 24 24", version: "1.1", xmlns: "http://www.w3.org/2000/svg" },
+	                _react2.default.createElement(
+	                    "g",
+	                    { stroke: "none", strokeWidth: "1", fill: "none", fillRule: "evenodd", strokeLinecap: "round", strokeLinejoin: "round" },
+	                    _react2.default.createElement(
+	                        "g",
+	                        { stroke: this.props.color || '#000000', strokeWidth: "2" },
+	                        _react2.default.createElement("path", { d: "M22.5,12.1093468 C22.4401972,17.8578494 17.7621915,22.4996804 12.0002975,22.4996804 C6.20121277,22.4996804 1.5,17.7980374 1.5,11.9977572 C1.5,6.29359291 6.04768921,1.65116675 11.7146723,1.5 C11.7146723,1.5 6.60733615,2.68642094 6.60733615,8.91044412 C6.60733615,14.5893148 11.6405883,17.3168629 15.0746366,17.3168629 C21.4589555,17.3168629 22.5,12.1093468 22.5,12.1093468 L22.5,12.1093468 Z" })
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Sleep;
+	}(_react2.default.Component);
+
+	exports.default = Sleep;
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Wake = function (_React$Component) {
+	  _inherits(Wake, _React$Component);
+
+	  function Wake() {
+	    _classCallCheck(this, Wake);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Wake).apply(this, arguments));
+	  }
+
+	  _createClass(Wake, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'svg',
+	        { className: 'icon icon--wake', fill: this.props.color || '#000000', width: this.props.width || "24px", height: this.props.height || "24px", viewBox: '0 0 24 24', version: '1.1', xmlns: 'http://www.w3.org/2000/svg' },
+	        _react2.default.createElement('path', { d: 'M0 0h24v24H0z', fill: 'none' }),
+	        _react2.default.createElement('path', { d: 'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z' })
+	      );
+	    }
+	  }]);
+
+	  return Wake;
+	}(_react2.default.Component);
+
+	exports.default = Wake;
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Edit = function (_React$Component) {
+	  _inherits(Edit, _React$Component);
+
+	  function Edit() {
+	    _classCallCheck(this, Edit);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Edit).apply(this, arguments));
+	  }
+
+	  _createClass(Edit, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'svg',
+	        { className: 'icon icon--edit', fill: this.props.color || '#000000', width: this.props.width || "24px", height: this.props.height || "24px", viewBox: '0 0 24 24', version: '1.1', xmlns: 'http://www.w3.org/2000/svg' },
+	        _react2.default.createElement('path', { d: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z' }),
+	        _react2.default.createElement('path', { d: 'M0 0h24v24H0z', fill: 'none' })
+	      );
+	    }
+	  }]);
+
+	  return Edit;
+	}(_react2.default.Component);
+
+	exports.default = Edit;
+
+/***/ },
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Destroy = function (_React$Component) {
+	  _inherits(Destroy, _React$Component);
+
+	  function Destroy() {
+	    _classCallCheck(this, Destroy);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Destroy).apply(this, arguments));
+	  }
+
+	  _createClass(Destroy, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'svg',
+	        { className: 'icon icon--destroy', fill: this.props.color || '#000000', width: this.props.width || "24px", height: this.props.height || "24px", viewBox: '0 0 24 24', version: '1.1', xmlns: 'http://www.w3.org/2000/svg' },
+	        _react2.default.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' }),
+	        _react2.default.createElement('path', { d: 'M0 0h24v24H0z', fill: 'none' })
+	      );
+	    }
+	  }]);
+
+	  return Destroy;
+	}(_react2.default.Component);
+
+	exports.default = Destroy;
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.SleepWindowButton = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -28591,6 +28872,10 @@
 	var _services = __webpack_require__(193);
 
 	var _actions = __webpack_require__(191);
+
+	var _icons = __webpack_require__(199);
+
+	var _icons2 = _interopRequireDefault(_icons);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28622,7 +28907,12 @@
 	      return _react2.default.createElement(
 	        'button',
 	        { className: 'sleep-window-button', onClick: this.onClick.bind(this) },
-	        'Sleep this Window'
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          _react2.default.createElement(_icons2.default.Sleep, { color: 'white', width: '18px', height: '18px' }),
+	          ' Sleep this Window'
+	        )
 	      );
 	    }
 	  }]);

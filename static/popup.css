@@ -151,6 +151,9 @@ html, body {
     font-size: 12px;
     text-align: right;
     color: #1976D2;
-    cursor: pointer;
   }
 
+  .tab-group--expand a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }

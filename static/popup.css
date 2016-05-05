@@ -7,7 +7,7 @@
 
 html, body {
   font-family: Roboto, sans-serif;
-  height: 400px;
+  height: 420px;
 
   background: #F8F8F8;
 }
@@ -16,8 +16,8 @@ html, body {
  * Higher level layout and aesthetic rules for NewTab
  */
 .popup {
-  height: 400px;
-  width: 280px;
+  height: 420px;
+  width: 300px;
   color: #2B2B2B;
 }
 
@@ -36,8 +36,8 @@ html, body {
  */
 .sleep-window-button {
   margin: 10px;
-  margin-top: 15px;
-  width: 260px;
+  margin-top: 20px;
+  width: 280px;
   height: 48px;
   display: block;
   cursor: pointer;
@@ -45,6 +45,7 @@ html, body {
   border: none;
   border-radius: 2px;
   color: white;
+  font-family: Roboto,sans-serif;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.2s ease-in-out;
@@ -57,8 +58,9 @@ html, body {
 }
 
   .sleep-window-button span {
-    line-height: 18px;
-    font-size: 14px;
+    line-height: 24px;
+    font-size: 16px;
+    text-transform: capitalize;
   }
 
     .sleep-window-button .icon {
@@ -74,8 +76,8 @@ html, body {
  * TabGroup component
  */
 .tab-group {
-  margin: 10px;
-  width: 260px;
+  margin: 0 10px 10px 10px;
+  width: 280px;
   display: block;
 
   border: none;
@@ -112,6 +114,8 @@ html, body {
 
       .tab-group--actions a:hover {
         cursor: pointer;
+        opacity: 0.6;
+        transition: 100ms;
       }
 
       .tab-group--actions>li {
@@ -141,8 +145,9 @@ html, body {
     }
 
     .tab-group--urls a:hover {
-      text-decoration: underline;
-      color: #2B2B2B;
+      /*text-decoration: underline;
+      color: #2B2B2B;*/
+      cursor: default;
     }
 
   .tab-group--expand {

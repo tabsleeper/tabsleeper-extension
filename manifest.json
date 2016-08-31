@@ -1,6 +1,6 @@
 {
   "name": "tab-sleeper",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Sleep and wake windows",
   "manifest_version": 2,
   "permissions": [

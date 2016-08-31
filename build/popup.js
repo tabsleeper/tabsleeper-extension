@@ -28092,11 +28092,7 @@
 	    key: 'onDeleteClicked',
 	    value: function onDeleteClicked(evt) {
 	      evt.preventDefault();
-	      var pluralization = this.state.tabs.length === 0 ? '' : 's';
-
-	      if (window.confirm('Delete ' + this.state.tabs.length + ' tab' + pluralization + '?')) {
-	        this.group.destroy();
-	      }
+	      this.group.destroy();
 	    }
 
 	    /**

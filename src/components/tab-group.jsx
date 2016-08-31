@@ -43,11 +43,7 @@ export class TabGroup extends React.Component {
    */
   onDeleteClicked(evt) {
     evt.preventDefault();
-    let pluralization = (this.state.tabs.length === 0) ? '' : 's';
-
-    if (window.confirm(`Delete ${this.state.tabs.length} tab${pluralization}?`)) {
-      this.group.destroy();
-    }
+    this.group.destroy();
   }
 
   /**

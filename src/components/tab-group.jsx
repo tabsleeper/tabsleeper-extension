@@ -30,15 +30,6 @@ export class TabGroup extends React.Component {
   }
 
   /**
-   * Show the UI for renaming the tab group
-   */
-  onRenameClicked(evt) {
-    evt.preventDefault();
-
-    alert('TBD');
-  }
-
-  /**
    * Save any changes made to the tab group
    */
   onSaveClicked(evt) {
@@ -84,11 +75,6 @@ export class TabGroup extends React.Component {
           <li>
             <a onClick={this.onWakeClicked.bind(this)}>
               <Icon.Wake color='#0C74D5' width='18px' height='18px' />
-            </a>
-          </li>
-          <li>
-            <a onClick={this.onRenameClicked.bind(this)}>
-              <Icon.Edit color='#0C74D5' width='18px' height='18px' />
             </a>
           </li>
           <li>

@@ -28073,18 +28073,6 @@
 	    }
 
 	    /**
-	     * Show the UI for renaming the tab group
-	     */
-
-	  }, {
-	    key: 'onRenameClicked',
-	    value: function onRenameClicked(evt) {
-	      evt.preventDefault();
-
-	      alert('TBD');
-	    }
-
-	    /**
 	     * Save any changes made to the tab group
 	     */
 
@@ -28157,15 +28145,6 @@
 	                'a',
 	                { onClick: this.onWakeClicked.bind(this) },
 	                _react2.default.createElement(_icons2.default.Wake, { color: '#0C74D5', width: '18px', height: '18px' })
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              null,
-	              _react2.default.createElement(
-	                'a',
-	                { onClick: this.onRenameClicked.bind(this) },
-	                _react2.default.createElement(_icons2.default.Edit, { color: '#0C74D5', width: '18px', height: '18px' })
 	              )
 	            ),
 	            _react2.default.createElement(

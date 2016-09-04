@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { WindowService, TabService } from '../../services';
 import { TabGroup } from '../../models';
 import Database from '../../database';
 
@@ -12,9 +13,12 @@ export class Popup extends React.Component {
     super(props);
 
     this.state = {
+      selectedTabs: 1,
       tabGroups: [],
       topSites: []
     }
+
+    this.updateSelectedCount();
 
     this.db = new Database();
     this.db.open();
@@ -32,6 +36,7 @@ export class Popup extends React.Component {
    */
   componentDidMount() {
     chrome.runtime.onMessage.addListener(this.refreshTabGroups.bind(this));
+    chrome.tabs.onHighlighted.addListener(this.updateSelectedCount.bind(this));
 
     chrome.topSites.get((topSites) => {
       topSites = topSites.splice(0,4);
@@ -50,9 +55,18 @@ export class Popup extends React.Component {
     });
   }
 
+  /**
+   * Updates the selected tab count to display on the sleep button
+   */
+  updateSelectedCount() {
+    WindowService.getCurrentWindow().
+      then(win => TabService.getSelectedTabs(win.id)).
+      then(tabs => this.setState({ selectedTabs: tabs.length }));
+  }
+
   render() {
     return <div className='popup'>
-      <SleepWindowButton />
+      <SleepWindowButton selectedCount={this.state.selectedTabs} />
       <ul className='popup--tab-groups'>
         {this.state.tabGroups.map(g => {
           return <li key={g.uuid}><TabGroupComponent group={g} /></li>;

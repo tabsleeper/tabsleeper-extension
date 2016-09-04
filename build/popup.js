@@ -19724,13 +19724,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _models = __webpack_require__(161);
+	var _services = __webpack_require__(161);
 
-	var _database = __webpack_require__(187);
+	var _models = __webpack_require__(165);
+
+	var _database = __webpack_require__(191);
 
 	var _database2 = _interopRequireDefault(_database);
 
-	var _tabGroup = __webpack_require__(190);
+	var _tabGroup = __webpack_require__(194);
 
 	var _sleepWindowButton = __webpack_require__(204);
 
@@ -19753,9 +19755,12 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Popup).call(this, props));
 
 	    _this.state = {
+	      selectedTabs: 1,
 	      tabGroups: [],
 	      topSites: []
 	    };
+
+	    _this.updateSelectedCount();
 
 	    _this.db = new _database2.default();
 	    _this.db.open();
@@ -19783,6 +19788,7 @@
 	      var _this2 = this;
 
 	      chrome.runtime.onMessage.addListener(this.refreshTabGroups.bind(this));
+	      chrome.tabs.onHighlighted.addListener(this.updateSelectedCount.bind(this));
 
 	      chrome.topSites.get(function (topSites) {
 	        topSites = topSites.splice(0, 4);
@@ -19807,13 +19813,29 @@
 	        });
 	      });
 	    }
+
+	    /**
+	     * Updates the selected tab count to display on the sleep button
+	     */
+
+	  }, {
+	    key: 'updateSelectedCount',
+	    value: function updateSelectedCount() {
+	      var _this4 = this;
+
+	      _services.WindowService.getCurrentWindow().then(function (win) {
+	        return _services.TabService.getSelectedTabs(win.id);
+	      }).then(function (tabs) {
+	        return _this4.setState({ selectedTabs: tabs.length });
+	      });
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'popup' },
-	        _react2.default.createElement(_sleepWindowButton2.default, null),
+	        _react2.default.createElement(_sleepWindowButton2.default, { selectedCount: this.state.selectedTabs }),
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'popup--tab-groups' },
@@ -19843,15 +19865,259 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.TabGroupService = exports.WindowService = exports.TabService = undefined;
+
+	var _tabService = __webpack_require__(162);
+
+	var _windowService = __webpack_require__(163);
+
+	var _tabGroupService = __webpack_require__(164);
+
+	exports.TabService = _tabService.TabService;
+	exports.WindowService = _windowService.WindowService;
+	exports.TabGroupService = _tabGroupService.TabGroupService;
+	exports.default = { TabService: _tabService.TabService, WindowService: _windowService.WindowService, TabGroupService: _tabGroupService.TabGroupService };
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.TabService = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _services = __webpack_require__(161);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var TabService = function () {
+	  function TabService() {
+	    _classCallCheck(this, TabService);
+	  }
+
+	  _createClass(TabService, null, [{
+	    key: 'getCurrentTab',
+
+	    /**
+	     * Return the currently focused tab
+	     */
+	    value: function getCurrentTab() {
+	      return new Promise(function (resolve, reject) {
+	        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve(tabs[0]);
+	          }
+	        });
+	      });
+	    }
+
+	    /**
+	     * Get all selected tabs in a given window
+	     */
+
+	  }, {
+	    key: 'getSelectedTabs',
+	    value: function getSelectedTabs(windowId) {
+	      return new Promise(function (resolve, reject) {
+	        chrome.tabs.query({ windowId: windowId, highlighted: true }, function (tabs) {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve(tabs);
+	          }
+	        });
+	      });
+	    }
+
+	    /**
+	     * Get all tabs in a given window
+	     */
+
+	  }, {
+	    key: 'getTabsInWindow',
+	    value: function getTabsInWindow(windowId) {
+	      return new Promise(function (resolve, reject) {
+	        chrome.tabs.query({ windowId: windowId }, function (tabs) {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve(tabs);
+	          }
+	        });
+	      });
+	    }
+
+	    /**
+	     * Close a single tab
+	     */
+
+	  }, {
+	    key: 'closeTab',
+	    value: function closeTab(tab) {
+	      return new Promise(function (resolve, reject) {
+	        TabService.closeTabs([tab]).then(function () {
+	          resolve(tab);
+	        }).catch(reject);
+	      });
+	    }
+
+	    /**
+	     * Close all supplied tabs
+	     */
+
+	  }, {
+	    key: 'closeTabs',
+	    value: function closeTabs(tabs) {
+	      return new Promise(function (resolve, reject) {
+	        chrome.tabs.remove(tabs.map(function (t) {
+	          return t.id;
+	        }), function () {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve(tabs);
+	          }
+	        });
+	      });
+	    }
+	  }]);
+
+	  return TabService;
+	}();
+
+	exports.TabService = TabService;
+	exports.default = TabService;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var WindowService = function () {
+	  function WindowService() {
+	    _classCallCheck(this, WindowService);
+	  }
+
+	  _createClass(WindowService, null, [{
+	    key: "getCurrentWindow",
+
+	    /**
+	     * Get the currently focused window
+	     */
+	    value: function getCurrentWindow() {
+	      return new Promise(function (resolve, reject) {
+	        chrome.windows.getCurrent({ populate: true }, function (win) {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve(win);
+	          }
+	        });
+	      });
+	    }
+
+	    /**
+	     * Create a new window with tabs for the specified list of urls
+	     */
+
+	  }, {
+	    key: "createWindow",
+	    value: function createWindow(urls) {
+	      return new Promise(function (resolve, reject) {
+	        chrome.windows.create({ url: urls, focused: true }, function (win) {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve(win);
+	          }
+	        });
+	      });
+	    }
+	  }]);
+
+	  return WindowService;
+	}();
+
+	exports.WindowService = WindowService;
+	exports.default = WindowService;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.TabGroupService = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _models = __webpack_require__(165);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var TabGroupService = function () {
+	  function TabGroupService() {
+	    _classCallCheck(this, TabGroupService);
+	  }
+
+	  _createClass(TabGroupService, null, [{
+	    key: 'saveTabs',
+
+	    /**
+	     * Save a set of tabs into a new TabGroup
+	     */
+	    value: function saveTabs(tabs) {
+	      return new Promise(function (resolve, reject) {
+	        var group = new _models.TabGroup({ tabs: tabs });
+
+	        group.save().then(resolve).catch(reject);
+	      });
+	    }
+	  }]);
+
+	  return TabGroupService;
+	}();
+
+	exports.TabGroupService = TabGroupService;
+	exports.default = TabGroupService;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.TabGroup = undefined;
 
-	var _tabGroup = __webpack_require__(162);
+	var _tabGroup = __webpack_require__(166);
 
 	exports.TabGroup = _tabGroup.TabGroup;
 	exports.default = { TabGroup: _tabGroup.TabGroup };
 
 /***/ },
-/* 162 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19863,15 +20129,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _nodeUuid = __webpack_require__(163);
+	var _nodeUuid = __webpack_require__(167);
 
 	var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
 
-	var _constants = __webpack_require__(186);
+	var _constants = __webpack_require__(190);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _database = __webpack_require__(187);
+	var _database = __webpack_require__(191);
 
 	var _database2 = _interopRequireDefault(_database);
 
@@ -19965,7 +20231,7 @@
 	exports.default = TabGroup;
 
 /***/ },
-/* 163 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(Buffer) {//     uuid.js
@@ -20026,7 +20292,7 @@
 	    // Moderately fast, high quality
 	    if (true) {
 	      try {
-	        var _rb = __webpack_require__(168).randomBytes;
+	        var _rb = __webpack_require__(172).randomBytes;
 	        _nodeRNG = _rng = _rb && function() {return _rb(16);};
 	        _rng();
 	      } catch(e) {}
@@ -20241,10 +20507,10 @@
 	  }
 	})('undefined' !== typeof window ? window : null);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer))
 
 /***/ },
-/* 164 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -20257,9 +20523,9 @@
 
 	'use strict'
 
-	var base64 = __webpack_require__(165)
-	var ieee754 = __webpack_require__(166)
-	var isArray = __webpack_require__(167)
+	var base64 = __webpack_require__(169)
+	var ieee754 = __webpack_require__(170)
+	var isArray = __webpack_require__(171)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -21796,10 +22062,10 @@
 	  return i
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 165 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -21929,7 +22195,7 @@
 
 
 /***/ },
-/* 166 */
+/* 170 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -22019,7 +22285,7 @@
 
 
 /***/ },
-/* 167 */
+/* 171 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -22030,10 +22296,10 @@
 
 
 /***/ },
-/* 168 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(169)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(173)
 
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -22044,9 +22310,9 @@
 	    ].join('\n'))
 	}
 
-	exports.createHash = __webpack_require__(171)
+	exports.createHash = __webpack_require__(175)
 
-	exports.createHmac = __webpack_require__(183)
+	exports.createHmac = __webpack_require__(187)
 
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -22067,7 +22333,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 
-	var p = __webpack_require__(184)(exports)
+	var p = __webpack_require__(188)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 
@@ -22087,16 +22353,16 @@
 	  }
 	})
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer))
 
 /***/ },
-/* 169 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(170)
+	    g.crypto || g.msCrypto || __webpack_require__(174)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -22120,22 +22386,22 @@
 	  }
 	}())
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(168).Buffer))
 
 /***/ },
-/* 170 */
+/* 174 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 171 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(172)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(176)
 
-	var md5 = toConstructor(__webpack_require__(180))
-	var rmd160 = toConstructor(__webpack_require__(182))
+	var md5 = toConstructor(__webpack_require__(184))
+	var rmd160 = toConstructor(__webpack_require__(186))
 
 	function toConstructor (fn) {
 	  return function () {
@@ -22163,10 +22429,10 @@
 	  return createHash(alg)
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer))
 
 /***/ },
-/* 172 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = function (alg) {
@@ -22175,16 +22441,16 @@
 	  return new Alg()
 	}
 
-	var Buffer = __webpack_require__(164).Buffer
-	var Hash   = __webpack_require__(173)(Buffer)
+	var Buffer = __webpack_require__(168).Buffer
+	var Hash   = __webpack_require__(177)(Buffer)
 
-	exports.sha1 = __webpack_require__(174)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(178)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(179)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(178)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(182)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(183)(Buffer, Hash)
 
 
 /***/ },
-/* 173 */
+/* 177 */
 /***/ function(module, exports) {
 
 	module.exports = function (Buffer) {
@@ -22267,7 +22533,7 @@
 
 
 /***/ },
-/* 174 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -22279,7 +22545,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 
-	var inherits = __webpack_require__(175).inherits
+	var inherits = __webpack_require__(179).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -22411,7 +22677,7 @@
 
 
 /***/ },
-/* 175 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -22939,7 +23205,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(176);
+	exports.isBuffer = __webpack_require__(180);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -22983,7 +23249,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(177);
+	exports.inherits = __webpack_require__(181);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -23004,7 +23270,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(5)))
 
 /***/ },
-/* 176 */
+/* 180 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -23015,7 +23281,7 @@
 	}
 
 /***/ },
-/* 177 */
+/* 181 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -23044,7 +23310,7 @@
 
 
 /***/ },
-/* 178 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -23056,7 +23322,7 @@
 	 *
 	 */
 
-	var inherits = __webpack_require__(175).inherits
+	var inherits = __webpack_require__(179).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -23197,10 +23463,10 @@
 
 
 /***/ },
-/* 179 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(175).inherits
+	var inherits = __webpack_require__(179).inherits
 
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -23447,7 +23713,7 @@
 
 
 /***/ },
-/* 180 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -23459,7 +23725,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 
-	var helpers = __webpack_require__(181);
+	var helpers = __webpack_require__(185);
 
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -23608,7 +23874,7 @@
 
 
 /***/ },
-/* 181 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var intSize = 4;
@@ -23646,10 +23912,10 @@
 
 	module.exports = { hash: hash };
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer))
 
 /***/ },
-/* 182 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -23858,13 +24124,13 @@
 
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer))
 
 /***/ },
-/* 183 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(171)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(175)
 
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -23908,13 +24174,13 @@
 	}
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer))
 
 /***/ },
-/* 184 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(185)
+	var pbkdf2Export = __webpack_require__(189)
 
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -23929,7 +24195,7 @@
 
 
 /***/ },
-/* 185 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {module.exports = function(crypto) {
@@ -24017,10 +24283,10 @@
 	  }
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(164).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(168).Buffer))
 
 /***/ },
-/* 186 */
+/* 190 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24033,7 +24299,7 @@
 	};
 
 /***/ },
-/* 187 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24043,7 +24309,7 @@
 	});
 	exports.Database = undefined;
 
-	var _dexie = __webpack_require__(188);
+	var _dexie = __webpack_require__(192);
 
 	var _dexie2 = _interopRequireDefault(_dexie);
 
@@ -24076,7 +24342,7 @@
 	exports.default = Database;
 
 /***/ },
-/* 188 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, setImmediate) {(function (global, factory) {
@@ -27916,10 +28182,10 @@
 
 	}));
 	//# sourceMappingURL=dexie.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(189).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(193).setImmediate))
 
 /***/ },
-/* 189 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(5).nextTick;
@@ -27998,10 +28264,10 @@
 	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
 	  delete immediateIds[id];
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(189).setImmediate, __webpack_require__(189).clearImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(193).setImmediate, __webpack_require__(193).clearImmediate))
 
 /***/ },
-/* 190 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28019,9 +28285,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _actions = __webpack_require__(191);
+	var _actions = __webpack_require__(195);
 
-	var _constants = __webpack_require__(186);
+	var _constants = __webpack_require__(190);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
@@ -28200,7 +28466,7 @@
 	exports.default = TabGroup;
 
 /***/ },
-/* 191 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28210,7 +28476,7 @@
 	});
 	exports.TabGroupActions = exports.WindowActions = exports.TabActions = undefined;
 
-	var _tabActions = __webpack_require__(192);
+	var _tabActions = __webpack_require__(196);
 
 	var _tabActions2 = _interopRequireDefault(_tabActions);
 
@@ -28230,7 +28496,7 @@
 	exports.default = { TabActions: _tabActions2.default, WindowActions: _windowActions2.default, TabGroupActions: _tabGroupActions2.default };
 
 /***/ },
-/* 192 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28241,7 +28507,7 @@
 	exports.saveTabs = saveTabs;
 	exports.sleepTabs = sleepTabs;
 
-	var _services = __webpack_require__(193);
+	var _services = __webpack_require__(161);
 
 	/**
 	 * Save the specified tabs
@@ -28268,250 +28534,6 @@
 	exports.default = { saveTabs: saveTabs, sleepTabs: sleepTabs };
 
 /***/ },
-/* 193 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.TabGroupService = exports.WindowService = exports.TabService = undefined;
-
-	var _tabService = __webpack_require__(194);
-
-	var _windowService = __webpack_require__(195);
-
-	var _tabGroupService = __webpack_require__(196);
-
-	exports.TabService = _tabService.TabService;
-	exports.WindowService = _windowService.WindowService;
-	exports.TabGroupService = _tabGroupService.TabGroupService;
-	exports.default = { TabService: _tabService.TabService, WindowService: _windowService.WindowService, TabGroupService: _tabGroupService.TabGroupService };
-
-/***/ },
-/* 194 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.TabService = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _services = __webpack_require__(193);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var TabService = function () {
-	  function TabService() {
-	    _classCallCheck(this, TabService);
-	  }
-
-	  _createClass(TabService, null, [{
-	    key: 'getCurrentTab',
-
-	    /**
-	     * Return the currently focused tab
-	     */
-	    value: function getCurrentTab() {
-	      return new Promise(function (resolve, reject) {
-	        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-	          if (chrome.runtime.lastError) {
-	            reject(chrome.runtime.lastError);
-	          } else {
-	            resolve(tabs[0]);
-	          }
-	        });
-	      });
-	    }
-
-	    /**
-	     * Get all selected tabs in a given window
-	     */
-
-	  }, {
-	    key: 'getSelectedTabs',
-	    value: function getSelectedTabs(windowId) {
-	      return new Promise(function (resolve, reject) {
-	        chrome.tabs.query({ windowId: windowId, highlighted: true }, function (tabs) {
-	          if (chrome.runtime.lastError) {
-	            reject(chrome.runtime.lastError);
-	          } else {
-	            resolve(tabs);
-	          }
-	        });
-	      });
-	    }
-
-	    /**
-	     * Get all tabs in a given window
-	     */
-
-	  }, {
-	    key: 'getTabsInWindow',
-	    value: function getTabsInWindow(windowId) {
-	      return new Promise(function (resolve, reject) {
-	        chrome.tabs.query({ windowId: windowId }, function (tabs) {
-	          if (chrome.runtime.lastError) {
-	            reject(chrome.runtime.lastError);
-	          } else {
-	            resolve(tabs);
-	          }
-	        });
-	      });
-	    }
-
-	    /**
-	     * Close a single tab
-	     */
-
-	  }, {
-	    key: 'closeTab',
-	    value: function closeTab(tab) {
-	      return new Promise(function (resolve, reject) {
-	        TabService.closeTabs([tab]).then(function () {
-	          resolve(tab);
-	        }).catch(reject);
-	      });
-	    }
-
-	    /**
-	     * Close all supplied tabs
-	     */
-
-	  }, {
-	    key: 'closeTabs',
-	    value: function closeTabs(tabs) {
-	      return new Promise(function (resolve, reject) {
-	        chrome.tabs.remove(tabs.map(function (t) {
-	          return t.id;
-	        }), function () {
-	          if (chrome.runtime.lastError) {
-	            reject(chrome.runtime.lastError);
-	          } else {
-	            resolve(tabs);
-	          }
-	        });
-	      });
-	    }
-	  }]);
-
-	  return TabService;
-	}();
-
-	exports.TabService = TabService;
-	exports.default = TabService;
-
-/***/ },
-/* 195 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var WindowService = function () {
-	  function WindowService() {
-	    _classCallCheck(this, WindowService);
-	  }
-
-	  _createClass(WindowService, null, [{
-	    key: "getCurrentWindow",
-
-	    /**
-	     * Get the currently focused window
-	     */
-	    value: function getCurrentWindow() {
-	      return new Promise(function (resolve, reject) {
-	        chrome.windows.getCurrent({ populate: true }, function (win) {
-	          if (chrome.runtime.lastError) {
-	            reject(chrome.runtime.lastError);
-	          } else {
-	            resolve(win);
-	          }
-	        });
-	      });
-	    }
-
-	    /**
-	     * Create a new window with tabs for the specified list of urls
-	     */
-
-	  }, {
-	    key: "createWindow",
-	    value: function createWindow(urls) {
-	      return new Promise(function (resolve, reject) {
-	        chrome.windows.create({ url: urls, focused: true }, function (win) {
-	          if (chrome.runtime.lastError) {
-	            reject(chrome.runtime.lastError);
-	          } else {
-	            resolve(win);
-	          }
-	        });
-	      });
-	    }
-	  }]);
-
-	  return WindowService;
-	}();
-
-	exports.WindowService = WindowService;
-	exports.default = WindowService;
-
-/***/ },
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.TabGroupService = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _models = __webpack_require__(161);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var TabGroupService = function () {
-	  function TabGroupService() {
-	    _classCallCheck(this, TabGroupService);
-	  }
-
-	  _createClass(TabGroupService, null, [{
-	    key: 'saveTabs',
-
-	    /**
-	     * Save a set of tabs into a new TabGroup
-	     */
-	    value: function saveTabs(tabs) {
-	      return new Promise(function (resolve, reject) {
-	        var group = new _models.TabGroup({ tabs: tabs });
-
-	        group.save().then(resolve).catch(reject);
-	      });
-	    }
-	  }]);
-
-	  return TabGroupService;
-	}();
-
-	exports.TabGroupService = TabGroupService;
-	exports.default = TabGroupService;
-
-/***/ },
 /* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -28523,9 +28545,9 @@
 	exports.saveWindow = saveWindow;
 	exports.sleepWindow = sleepWindow;
 
-	var _services = __webpack_require__(193);
+	var _services = __webpack_require__(161);
 
-	var _actions = __webpack_require__(191);
+	var _actions = __webpack_require__(195);
 
 	/**
 	 * Save all tabs in the specified window
@@ -28564,7 +28586,7 @@
 	});
 	exports.wakeGroup = wakeGroup;
 
-	var _services = __webpack_require__(193);
+	var _services = __webpack_require__(161);
 
 	/**
 	 * Creates a new window from the group's tab URLs, and then destroys the group
@@ -28844,9 +28866,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _services = __webpack_require__(193);
+	var _services = __webpack_require__(161);
 
-	var _actions = __webpack_require__(191);
+	var _actions = __webpack_require__(195);
 
 	var _icons = __webpack_require__(199);
 
@@ -28860,6 +28882,14 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	function buttonText(count) {
+	  if (count > 2) {
+	    return 'Sleep ' + count + ' Selected Tabs';
+	  } else {
+	    return "Sleep this Window";
+	  }
+	}
+
 	var SleepWindowButton = function (_React$Component) {
 	  _inherits(SleepWindowButton, _React$Component);
 
@@ -28872,9 +28902,15 @@
 	  _createClass(SleepWindowButton, [{
 	    key: 'onClick',
 	    value: function onClick(evt) {
-	      _services.WindowService.getCurrentWindow().then(function (win) {
-	        return _actions.WindowActions.sleepWindow(win.id);
-	      });
+	      if (this.props.selectedCount >= 2) {
+	        _services.WindowService.getCurrentWindow().then(function (win) {
+	          return _services.TabService.getSelectedTabs(win.id);
+	        }).then(_actions.TabActions.sleepTabs);
+	      } else {
+	        _services.WindowService.getCurrentWindow().then(function (win) {
+	          return _actions.WindowActions.sleepWindow(win.id);
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -28886,7 +28922,8 @@
 	          'span',
 	          null,
 	          _react2.default.createElement(_icons2.default.Sleep, { color: 'white', width: '18px', height: '18px' }),
-	          ' Sleep this Window'
+	          ' ',
+	          buttonText(this.props.selectedCount)
 	        )
 	      );
 	    }
@@ -28894,6 +28931,10 @@
 
 	  return SleepWindowButton;
 	}(_react2.default.Component);
+
+	SleepWindowButton.propTypes = {
+	  selectedCount: _react2.default.PropTypes.number.isRequired
+	};
 
 	exports.SleepWindowButton = SleepWindowButton;
 	exports.default = SleepWindowButton;

@@ -19799,12 +19799,12 @@
 	    value: function refreshTabGroups() {
 	      var _this3 = this;
 
-	      this.db.groups.toArray(function (tabGroups) {
-	        _this3.setState({
-	          tabGroups: tabGroups.map(function (g) {
-	            return new _models.TabGroup(g);
-	          })
+	      this.db.groups.orderBy('createdAt').reverse().toArray(function (tabGroups) {
+	        tabGroups = tabGroups.map(function (g) {
+	          return new _models.TabGroup(g);
 	        });
+
+	        _this3.setState({ tabGroups: tabGroups });
 	      });
 	    }
 	  }, {

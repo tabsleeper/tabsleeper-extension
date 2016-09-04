@@ -19889,12 +19889,16 @@
 	    var uuid = _ref$uuid === undefined ? _nodeUuid2.default.v4() : _ref$uuid;
 	    var name = _ref.name;
 	    var tabs = _ref.tabs;
+	    var createdAt = _ref.createdAt;
+	    var updatedAt = _ref.updatedAt;
 
 	    _classCallCheck(this, TabGroup);
 
 	    this.uuid = uuid;
 	    this.name = name;
 	    this.tabs = tabs;
+	    this.createdAt = createdAt ? Date.parse(createdAt) : new Date();
+	    this.updatedAt = updatedAt ? Date.parse(updatedAt) : new Date();
 	  }
 
 	  /**
@@ -19925,7 +19929,9 @@
 	        db.groups.add({
 	          uuid: _this.uuid,
 	          name: _this.name,
-	          tabs: _this.tabs
+	          tabs: _this.tabs,
+	          createdAt: _this.createdAt,
+	          updatedAt: new Date()
 	        }).then(function () {
 	          chrome.runtime.sendMessage(_constants2.default.CHANGE);
 	          resolve(_this);
@@ -24065,6 +24071,18 @@
 
 	    _this.version(1).stores({
 	      groups: 'uuid' // indexed primary key
+	    });
+
+	    _this.version(2).stores({
+	      groups: 'uuid,createdAt' // indexed primary key
+	    }).upgrade(function (tx) {
+	      // Add a default date - we don't know when original groups were created
+	      tx.table('groups').toCollection().modify(function (g) {
+	        return g.createdAt = new Date();
+	      });
+	      tx.table('groups').toCollection().modify(function (g) {
+	        return g.updatedAt = new Date();
+	      });
 	    });
 	    return _this;
 	  }

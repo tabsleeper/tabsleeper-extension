@@ -12,10 +12,12 @@ export class TabGroup {
 
   tabs;
 
-  constructor({ uuid = UUID.v4(), name, tabs }) {
+  constructor({ uuid = UUID.v4(), name, tabs, createdAt, updatedAt }) {
     this.uuid = uuid;
     this.name = name;
     this.tabs = tabs;
+    this.createdAt = (createdAt) ? Date.parse(createdAt) : new Date();
+    this.updatedAt = (updatedAt) ? Date.parse(updatedAt) : new Date();
   }
 
   /**
@@ -37,7 +39,9 @@ export class TabGroup {
       db.groups.add({
         uuid: this.uuid,
         name: this.name,
-        tabs: this.tabs
+        tabs: this.tabs,
+        createdAt: this.createdAt,
+        updatedAt: new Date()
       })
         .then(() => {
           chrome.runtime.sendMessage(constants.CHANGE);

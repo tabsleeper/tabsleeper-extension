@@ -43,6 +43,21 @@ class WindowService {
       });
     });
   }
+
+  /**
+   * Close the specified window
+   */
+  static closeWindow(id) {
+    return new Promise((resolve, reject) => {
+      chrome.windows.remove(id, () => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
 }
 
 export { WindowService };

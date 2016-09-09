@@ -23,7 +23,7 @@ export function sleepWindow(windowId) {
       .then((group) => {
         WindowService.getAllWindows().then(windows => {
           if (windows.length === 1) WindowService.createWindow();
-          chrome.windows.remove(windowId, () => { resolve(group) });
+          WindowService.closeWindow(windowId).then(() => resolve(group));
         });
       });
   });

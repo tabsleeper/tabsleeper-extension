@@ -20067,6 +20067,24 @@
 	        });
 	      });
 	    }
+
+	    /**
+	     * Close the specified window
+	     */
+
+	  }, {
+	    key: 'closeWindow',
+	    value: function closeWindow(id) {
+	      return new Promise(function (resolve, reject) {
+	        chrome.windows.remove(id, function () {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve();
+	          }
+	        });
+	      });
+	    }
 	  }]);
 
 	  return WindowService;
@@ -28611,8 +28629,8 @@
 	    saveWindow(windowId).then(function (group) {
 	      _services.WindowService.getAllWindows().then(function (windows) {
 	        if (windows.length === 1) _services.WindowService.createWindow();
-	        chrome.windows.remove(windowId, function () {
-	          resolve(group);
+	        _services.WindowService.closeWindow(windowId).then(function () {
+	          return resolve(group);
 	        });
 	      });
 	    });

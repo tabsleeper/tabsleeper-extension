@@ -19999,7 +19999,7 @@
 /* 163 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -20015,11 +20015,29 @@
 	  }
 
 	  _createClass(WindowService, null, [{
-	    key: "getCurrentWindow",
+	    key: 'getAllWindows',
+
+	    /**
+	     * Get a list of all currently open, regular windows
+	     */
+	    value: function getAllWindows() {
+	      return new Promise(function (resolve, reject) {
+	        chrome.windows.getAll({ windowTypes: ['normal'] }, function (windows) {
+	          if (chrome.runtime.lastError) {
+	            reject(chrome.runtime.lastError);
+	          } else {
+	            resolve(windows);
+	          }
+	        });
+	      });
+	    }
 
 	    /**
 	     * Get the currently focused window
 	     */
+
+	  }, {
+	    key: 'getCurrentWindow',
 	    value: function getCurrentWindow() {
 	      return new Promise(function (resolve, reject) {
 	        chrome.windows.getCurrent({ populate: true }, function (win) {
@@ -20037,7 +20055,7 @@
 	     */
 
 	  }, {
-	    key: "createWindow",
+	    key: 'createWindow',
 	    value: function createWindow(urls) {
 	      return new Promise(function (resolve, reject) {
 	        chrome.windows.create({ url: urls, focused: true }, function (win) {
@@ -28591,8 +28609,11 @@
 	function sleepWindow(windowId) {
 	  return new Promise(function (resolve, reject) {
 	    saveWindow(windowId).then(function (group) {
-	      chrome.windows.remove(windowId, function () {
-	        resolve(group);
+	      _services.WindowService.getAllWindows().then(function (windows) {
+	        if (windows.length === 1) _services.WindowService.createWindow();
+	        chrome.windows.remove(windowId, function () {
+	          resolve(group);
+	        });
 	      });
 	    });
 	  });

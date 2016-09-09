@@ -1,4 +1,4 @@
-import { TabService } from '../services';
+import { WindowService, TabService } from '../services';
 import { TabActions } from '../actions';
 
 /**
@@ -21,7 +21,10 @@ export function sleepWindow(windowId) {
   return new Promise((resolve, reject) => {
     saveWindow(windowId)
       .then((group) => {
-        chrome.windows.remove(windowId, () => { resolve(group) });
+        WindowService.getAllWindows().then(windows => {
+          if (windows.length === 1) WindowService.createWindow();
+          chrome.windows.remove(windowId, () => { resolve(group) });
+        });
       });
   });
 }

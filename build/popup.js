@@ -20163,8 +20163,8 @@
 	    this.uuid = uuid;
 	    this.name = name;
 	    this.tabs = tabs;
-	    this.createdAt = createdAt ? Date.parse(createdAt) : new Date();
-	    this.updatedAt = updatedAt ? Date.parse(updatedAt) : new Date();
+	    this.createdAt = createdAt ? new Date(createdAt) : new Date();
+	    this.updatedAt = updatedAt ? new Date(updatedAt) : new Date();
 	  }
 
 	  /**
@@ -20196,8 +20196,8 @@
 	          uuid: _this.uuid,
 	          name: _this.name,
 	          tabs: _this.tabs,
-	          createdAt: _this.createdAt,
-	          updatedAt: new Date()
+	          createdAt: _this.createdAt.toJSON(),
+	          updatedAt: new Date().toJSON()
 	        }).then(function () {
 	          chrome.runtime.sendMessage(_constants2.default.CHANGE);
 	          resolve(_this);
@@ -24346,6 +24346,15 @@
 	      tx.table('groups').toCollection().modify(function (groups) {
 	        groups.createdAt = new Date();
 	        groups.updatedAt = new Date();
+	      });
+	    });
+
+	    _this.version(3).upgrade(function (tx) {
+	      // Turns out dates need to be serialized manually. Let's obliterate all
+	      // of those objects that were saved from dates.
+	      tx.table('groups').toCollection().modify(function (groups) {
+	        groups.createdAt = new Date().toJSON();
+	        groups.updatedAt = new Date().toJSON();
 	      });
 	    });
 	    return _this;

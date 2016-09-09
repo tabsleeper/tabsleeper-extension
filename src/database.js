@@ -22,6 +22,16 @@ export class Database extends Dexie {
           groups.updatedAt = new Date();
         });
       });
+
+    this.version(3)
+      .upgrade(tx => {
+        // Turns out dates need to be serialized manually. Let's obliterate all
+        // of those objects that were saved from dates.
+        tx.table('groups').toCollection().modify(groups => {
+          groups.createdAt = new Date().toJSON();
+          groups.updatedAt = new Date().toJSON();
+        });
+      });
   }
 
 }

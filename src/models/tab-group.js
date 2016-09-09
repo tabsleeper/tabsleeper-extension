@@ -16,8 +16,8 @@ export class TabGroup {
     this.uuid = uuid;
     this.name = name;
     this.tabs = tabs;
-    this.createdAt = (createdAt) ? Date.parse(createdAt) : new Date();
-    this.updatedAt = (updatedAt) ? Date.parse(updatedAt) : new Date();
+    this.createdAt = (createdAt) ? new Date(createdAt) : new Date();
+    this.updatedAt = (updatedAt) ? new Date(updatedAt) : new Date();
   }
 
   /**
@@ -40,8 +40,8 @@ export class TabGroup {
         uuid: this.uuid,
         name: this.name,
         tabs: this.tabs,
-        createdAt: this.createdAt,
-        updatedAt: new Date()
+        createdAt: this.createdAt.toJSON(),
+        updatedAt: new Date().toJSON(),
       })
         .then(() => {
           chrome.runtime.sendMessage(constants.CHANGE);

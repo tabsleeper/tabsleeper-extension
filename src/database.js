@@ -17,8 +17,10 @@ export class Database extends Dexie {
         groups: 'uuid,createdAt' // indexed primary key
       }).upgrade(tx => {
         // Add a default date - we don't know when original groups were created
-        tx.table('groups').toCollection().modify(g => g.createdAt = new Date());
-        tx.table('groups').toCollection().modify(g => g.updatedAt = new Date());
+        tx.table('groups').toCollection().modify(groups => {
+          groups.createdAt = new Date();
+          groups.updatedAt = new Date();
+        });
       });
   }
 

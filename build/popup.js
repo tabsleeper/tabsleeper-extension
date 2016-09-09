@@ -24077,11 +24077,9 @@
 	      groups: 'uuid,createdAt' // indexed primary key
 	    }).upgrade(function (tx) {
 	      // Add a default date - we don't know when original groups were created
-	      tx.table('groups').toCollection().modify(function (g) {
-	        return g.createdAt = new Date();
-	      });
-	      tx.table('groups').toCollection().modify(function (g) {
-	        return g.updatedAt = new Date();
+	      tx.table('groups').toCollection().modify(function (groups) {
+	        groups.createdAt = new Date();
+	        groups.updatedAt = new Date();
 	      });
 	    });
 	    return _this;

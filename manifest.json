@@ -1,7 +1,7 @@
 {
   "name": "tabsleeper",
   "version": "0.0.2",
-  "description": "Sleep and wake windows",
+  "description": "Lightweight tab management",
   "manifest_version": 2,
   "permissions": [
     "chrome://favicon/",

@@ -51,12 +51,11 @@ export class TabGroup extends React.Component {
    */
   onExpandClicked(evt) {
     evt.preventDefault();
-
     this.setState({ expanded: true });
   }
 
   render() {
-    let pluralization = (this.state.tabs.length === 0) ? '' : 's';
+    let pluralization = (this.state.tabs.length === 1) ? '' : 's';
     let { group, className, ...attrs } = this.props;
 
     let title = `${this.state.tabs.length} Tab${pluralization}`;

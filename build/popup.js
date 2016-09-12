@@ -29447,13 +29447,12 @@
 	    key: 'onExpandClicked',
 	    value: function onExpandClicked(evt) {
 	      evt.preventDefault();
-
 	      this.setState({ expanded: true });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var pluralization = this.state.tabs.length === 0 ? '' : 's';
+	      var pluralization = this.state.tabs.length === 1 ? '' : 's';
 	      var _props = this.props;
 	      var group = _props.group;
 	      var className = _props.className;

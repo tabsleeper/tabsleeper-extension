@@ -29385,6 +29385,43 @@
 
 	var SHOW_N_TABS = 3;
 
+	function groupTitleText(tabs) {
+	  var pluralization = tabs.length === 1 ? '' : 's';
+	  return tabs.length + ' Tab' + pluralization;
+	}
+
+	function renderTabList(tabs, expanded) {
+	  if (!expanded) tabs = tabs.slice(0, SHOW_N_TABS);
+
+	  return tabs.map(function (t) {
+	    return _react2.default.createElement(
+	      'li',
+	      { key: t.id },
+	      _react2.default.createElement(
+	        'a',
+	        { href: t.url },
+	        t.title
+	      )
+	    );
+	  });
+	}
+
+	function renderExpandAction(tabs, expanded, clickHandler) {
+	  if (!expanded && tabs.length > SHOW_N_TABS) {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'tab-group--expand' },
+	      _react2.default.createElement(
+	        'a',
+	        { onClick: clickHandler },
+	        '+',
+	        tabs.slice(SHOW_N_TABS).length,
+	        ' more'
+	      )
+	    );
+	  }
+	}
+
 	var TabGroup = exports.TabGroup = function (_React$Component) {
 	  _inherits(TabGroup, _React$Component);
 
@@ -29398,6 +29435,11 @@
 	    _this.state = {
 	      tabs: _this.group.getTabs()
 	    };
+
+	    _this.onWakeClicked = _this.onWakeClicked.bind(_this);
+	    _this.onSaveClicked = _this.onSaveClicked.bind(_this);
+	    _this.onDeleteClicked = _this.onDeleteClicked.bind(_this);
+	    _this.onExpandClicked = _this.onExpandClicked.bind(_this);
 	    return _this;
 	  }
 
@@ -29412,7 +29454,6 @@
 	    key: 'onWakeClicked',
 	    value: function onWakeClicked(evt) {
 	      evt.preventDefault();
-
 	      _actions.TabGroupActions.wakeGroup(this.props.group);
 	    }
 
@@ -29424,7 +29465,6 @@
 	    key: 'onSaveClicked',
 	    value: function onSaveClicked(evt) {
 	      evt.preventDefault();
-
 	      this.group.save();
 	    }
 
@@ -29452,14 +29492,11 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var pluralization = this.state.tabs.length === 1 ? '' : 's';
 	      var _props = this.props;
 	      var group = _props.group;
 	      var className = _props.className;
 
 	      var attrs = _objectWithoutProperties(_props, ['group', 'className']);
-
-	      var title = this.state.tabs.length + ' Tab' + pluralization;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -29470,9 +29507,7 @@
 	          _react2.default.createElement(
 	            'span',
 	            { className: 'tab-group--title' },
-	            this.state.tabs.length,
-	            ' Tab',
-	            pluralization
+	            groupTitleText(this.state.tabs)
 	          ),
 	          _react2.default.createElement(
 	            'ul',
@@ -29482,7 +29517,7 @@
 	              null,
 	              _react2.default.createElement(
 	                'a',
-	                { onClick: this.onWakeClicked.bind(this) },
+	                { onClick: this.onWakeClicked },
 	                _react2.default.createElement(_icons2.default.Wake, { color: '#0C74D5', width: '18px', height: '18px' })
 	              )
 	            ),
@@ -29491,7 +29526,7 @@
 	              null,
 	              _react2.default.createElement(
 	                'a',
-	                { onClick: this.onDeleteClicked.bind(this) },
+	                { onClick: this.onDeleteClicked },
 	                _react2.default.createElement(_icons2.default.Destroy, { color: '#0C74D5', width: '18px', height: '18px' })
 	              )
 	            )
@@ -29500,39 +29535,9 @@
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'tab-group--urls' },
-	          this.state.expanded ? this.state.tabs.map(function (t) {
-	            return _react2.default.createElement(
-	              'li',
-	              { key: t.id },
-	              _react2.default.createElement(
-	                'a',
-	                { href: t.url },
-	                t.title
-	              )
-	            );
-	          }) : this.state.tabs.slice(0, SHOW_N_TABS).map(function (t) {
-	            return _react2.default.createElement(
-	              'li',
-	              { key: t.id },
-	              _react2.default.createElement(
-	                'a',
-	                { href: t.url },
-	                t.title
-	              )
-	            );
-	          })
+	          renderTabList(this.state.tabs, this.state.expanded)
 	        ),
-	        !this.state.expanded && this.state.tabs.length > SHOW_N_TABS ? _react2.default.createElement(
-	          'div',
-	          { className: 'tab-group--expand' },
-	          _react2.default.createElement(
-	            'a',
-	            { onClick: this.onExpandClicked.bind(this) },
-	            '+',
-	            this.state.tabs.slice(SHOW_N_TABS).length,
-	            ' more'
-	          )
-	        ) : null
+	        renderExpandAction(this.state.tabs, this.state.expanded, this.onExpandClicked)
 	      );
 	    }
 	  }]);
@@ -29969,10 +29974,13 @@
 	var SleepWindowButton = function (_React$Component) {
 	  _inherits(SleepWindowButton, _React$Component);
 
-	  function SleepWindowButton() {
+	  function SleepWindowButton(props) {
 	    _classCallCheck(this, SleepWindowButton);
 
-	    return _possibleConstructorReturn(this, (SleepWindowButton.__proto__ || Object.getPrototypeOf(SleepWindowButton)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (SleepWindowButton.__proto__ || Object.getPrototypeOf(SleepWindowButton)).call(this, props));
+
+	    _this.onClick = _this.onClick.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(SleepWindowButton, [{
@@ -29993,7 +30001,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'button',
-	        { className: 'sleep-window-button', onClick: this.onClick.bind(this) },
+	        { className: 'sleep-window-button', onClick: this.onClick },
 	        _react2.default.createElement(
 	          'span',
 	          null,

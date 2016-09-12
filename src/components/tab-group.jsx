@@ -6,8 +6,28 @@ import Icon from '../icons';
 
 const SHOW_N_TABS = 3;
 
-export class TabGroup extends React.Component {
+function groupTitleText(tabs) {
+  let pluralization = (tabs.length === 1) ? '' : 's';
+  return `${tabs.length} Tab${pluralization}`;
+}
 
+function renderTabList(tabs, expanded) {
+  if (!expanded) tabs = tabs.slice(0, SHOW_N_TABS);
+
+  return tabs.map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>);
+}
+
+function renderExpandAction(tabs, expanded, clickHandler) {
+  if (!expanded && tabs.length > SHOW_N_TABS) {
+    return (<div className='tab-group--expand'>
+      <a onClick={clickHandler}>
+        +{tabs.slice(SHOW_N_TABS).length} more
+      </a>
+    </div>);
+  }
+}
+
+export class TabGroup extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,6 +36,11 @@ export class TabGroup extends React.Component {
     this.state = {
       tabs: this.group.getTabs()
     };
+
+    this.onWakeClicked   = this.onWakeClicked.bind(this);
+    this.onSaveClicked   = this.onSaveClicked.bind(this);
+    this.onDeleteClicked = this.onDeleteClicked.bind(this);
+    this.onExpandClicked = this.onExpandClicked.bind(this);
   }
 
   /**
@@ -25,7 +50,6 @@ export class TabGroup extends React.Component {
    */
   onWakeClicked(evt) {
     evt.preventDefault();
-
     TabGroupActions.wakeGroup(this.props.group);
   }
 
@@ -34,7 +58,6 @@ export class TabGroup extends React.Component {
    */
   onSaveClicked(evt) {
     evt.preventDefault();
-
     this.group.save();
   }
 
@@ -55,25 +78,22 @@ export class TabGroup extends React.Component {
   }
 
   render() {
-    let pluralization = (this.state.tabs.length === 1) ? '' : 's';
     let { group, className, ...attrs } = this.props;
-
-    let title = `${this.state.tabs.length} Tab${pluralization}`;
 
     return <div {...attrs} className={`tab-group ${className || ''}`}>
       <div className='tab-group--title-action-container'>
         <span className='tab-group--title'>
-          {this.state.tabs.length} Tab{pluralization}
+          {groupTitleText(this.state.tabs)}
         </span>
 
         <ul className='tab-group--actions'>
           <li>
-            <a onClick={this.onWakeClicked.bind(this)}>
+            <a onClick={this.onWakeClicked}>
               <Icon.Wake color='#0C74D5' width='18px' height='18px' />
             </a>
           </li>
           <li>
-            <a onClick={this.onDeleteClicked.bind(this)}>
+            <a onClick={this.onDeleteClicked}>
               <Icon.Destroy color='#0C74D5' width='18px' height='18px' />
             </a>
           </li>
@@ -81,20 +101,10 @@ export class TabGroup extends React.Component {
       </div>
 
       <ul className='tab-group--urls'>
-        {(this.state.expanded)
-          ? this.state.tabs.map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>)
-          : this.state.tabs.slice(0,SHOW_N_TABS).
-              map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>)
-        }
+        {renderTabList(this.state.tabs, this.state.expanded)}
       </ul>
 
-      {(!this.state.expanded && this.state.tabs.length > SHOW_N_TABS) ?
-        <div className='tab-group--expand'>
-          <a onClick={this.onExpandClicked.bind(this)}>
-            +{this.state.tabs.slice(SHOW_N_TABS).length} more
-          </a>
-        </div> : null
-      }
+      {renderExpandAction(this.state.tabs, this.state.expanded, this.onExpandClicked)}
     </div>;
   }
 }

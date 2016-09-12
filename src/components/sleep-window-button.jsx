@@ -12,6 +12,12 @@ function buttonText(count) {
 }
 
 class SleepWindowButton extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.onClick = this.onClick.bind(this);
+  }
+
   onClick(evt) {
     if (this.props.selectedCount >= 2) {
       WindowService.getCurrentWindow().
@@ -23,7 +29,7 @@ class SleepWindowButton extends React.Component {
   }
 
   render() {
-    return <button className='sleep-window-button' onClick={this.onClick.bind(this)}>
+    return <button className='sleep-window-button' onClick={this.onClick}>
       <span>
         {buttonText(this.props.selectedCount)}
       </span>

@@ -29951,10 +29951,6 @@
 
 	var _actions = __webpack_require__(195);
 
-	var _icons = __webpack_require__(199);
-
-	var _icons2 = _interopRequireDefault(_icons);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29967,7 +29963,7 @@
 	  if (count > 2) {
 	    return 'Sleep ' + count + ' Selected Tabs';
 	  } else {
-	    return "Sleep this Window";
+	    return "Sleep this window";
 	  }
 	}
 
@@ -30002,8 +29998,6 @@
 	        _react2.default.createElement(
 	          'span',
 	          null,
-	          _react2.default.createElement(_icons2.default.Sleep, { color: 'white', width: '18px', height: '18px' }),
-	          ' ',
 	          buttonText(this.props.selectedCount)
 	        )
 	      );

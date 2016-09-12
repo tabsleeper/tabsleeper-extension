@@ -6,7 +6,7 @@
 * { box-sizing: border-box }
 
 html, body {
-  font-family: Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   height: 420px;
 
   background: #F8F8F8;
@@ -45,7 +45,7 @@ html, body {
   border: none;
   border-radius: 2px;
   color: white;
-  font-family: Roboto,sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.2s ease-in-out;

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { TabGroup } from '../../../models';
 import Icon from '../../../icons';
@@ -40,6 +41,8 @@ class Edit extends React.Component {
   loadGroup(uuid) {
     TabGroup.read(uuid).then(group => {
       this.setState({ group, groupName: (group.name || "") });
+      const domNode = ReactDOM.findDOMNode(this.refs.txtName);
+      if (domNode) domNode.focus();
     })
     .catch(error => {
       if (error) console.error("An error occurred ", error);
@@ -84,6 +87,7 @@ class Edit extends React.Component {
               type='text'
               id='name'
               name='name'
+              ref='txtName'
               value={this.state.groupName}
               onChange={this.onGroupNameChanged}
               placeholder="Untitled" />

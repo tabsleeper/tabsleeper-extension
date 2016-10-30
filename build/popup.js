@@ -32220,6 +32220,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(35);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _models = __webpack_require__(181);
 
 	var _icons = __webpack_require__(215);
@@ -32286,6 +32290,8 @@
 
 	      _models.TabGroup.read(uuid).then(function (group) {
 	        _this2.setState({ group: group, groupName: group.name || "" });
+	        var domNode = _reactDom2.default.findDOMNode(_this2.refs.txtName);
+	        if (domNode) domNode.focus();
 	      }).catch(function (error) {
 	        if (error) console.error("An error occurred ", error);
 	      });
@@ -32354,6 +32360,7 @@
 	                type: 'text',
 	                id: 'name',
 	                name: 'name',
+	                ref: 'txtName',
 	                value: this.state.groupName,
 	                onChange: this.onGroupNameChanged,
 	                placeholder: 'Untitled' })

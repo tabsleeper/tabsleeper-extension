@@ -13,6 +13,7 @@ class Edit extends React.Component {
     };
 
     this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -56,6 +57,16 @@ class Edit extends React.Component {
     group.save();
   }
 
+  /**
+   * Handler for when the form is submitted
+   *
+   * This should not make any writes - things are saved as they're edited
+   */
+  onSubmit(evt) {
+    evt.preventDefault();
+    window.location.hash = `#${this.props.router.generate('groups')}`;
+  }
+
   render() {
     if (this.state.group) {
       return <div className='popup edit-group'>
@@ -66,15 +77,17 @@ class Edit extends React.Component {
           </a>
         </div>
 
-        <div className='edit-group--input-group'>
-          <label for='name'>Name</label><br />
-          <input
-            type='text'
-            name='name'
-            value={this.state.groupName}
-            onChange={this.onGroupNameChanged}
-            placeholder="Untitled" />
-        </div>
+        <form onSubmit={this.onSubmit}>
+          <div className='edit-group--input-group'>
+            <label for='name'>Name</label><br />
+            <input
+              type='text'
+              name='name'
+              value={this.state.groupName}
+              onChange={this.onGroupNameChanged}
+              placeholder="Untitled" />
+          </div>
+        </form>
       </div>;
     } else {
       return <div className='popup'>

@@ -32248,6 +32248,7 @@
 	    };
 
 	    _this.onGroupNameChanged = _this.onGroupNameChanged.bind(_this);
+	    _this.onSubmit = _this.onSubmit.bind(_this);
 	    return _this;
 	  }
 
@@ -32303,6 +32304,19 @@
 	      group.name = evt.target.value;
 	      group.save();
 	    }
+
+	    /**
+	     * Handler for when the form is submitted
+	     *
+	     * This should not make any writes - things are saved as they're edited
+	     */
+
+	  }, {
+	    key: 'onSubmit',
+	    value: function onSubmit(evt) {
+	      evt.preventDefault();
+	      window.location.hash = '#' + this.props.router.generate('groups');
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -32325,20 +32339,24 @@
 	            )
 	          ),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'edit-group--input-group' },
+	            'form',
+	            { onSubmit: this.onSubmit },
 	            _react2.default.createElement(
-	              'label',
-	              { 'for': 'name' },
-	              'Name'
-	            ),
-	            _react2.default.createElement('br', null),
-	            _react2.default.createElement('input', {
-	              type: 'text',
-	              name: 'name',
-	              value: this.state.groupName,
-	              onChange: this.onGroupNameChanged,
-	              placeholder: 'Untitled' })
+	              'div',
+	              { className: 'edit-group--input-group' },
+	              _react2.default.createElement(
+	                'label',
+	                { 'for': 'name' },
+	                'Name'
+	              ),
+	              _react2.default.createElement('br', null),
+	              _react2.default.createElement('input', {
+	                type: 'text',
+	                name: 'name',
+	                value: this.state.groupName,
+	                onChange: this.onGroupNameChanged,
+	                placeholder: 'Untitled' })
+	            )
 	          )
 	        );
 	      } else {

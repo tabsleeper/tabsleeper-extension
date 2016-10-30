@@ -79,9 +79,10 @@ class Edit extends React.Component {
 
         <form onSubmit={this.onSubmit}>
           <div className='edit-group--input-group'>
-            <label for='name'>Name</label><br />
+            <label htmlFor='name'>Name</label><br />
             <input
               type='text'
+              id='name'
               name='name'
               value={this.state.groupName}
               onChange={this.onGroupNameChanged}

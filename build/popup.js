@@ -32346,12 +32346,13 @@
 	              { className: 'edit-group--input-group' },
 	              _react2.default.createElement(
 	                'label',
-	                { 'for': 'name' },
+	                { htmlFor: 'name' },
 	                'Name'
 	              ),
 	              _react2.default.createElement('br', null),
 	              _react2.default.createElement('input', {
 	                type: 'text',
+	                id: 'name',
 	                name: 'name',
 	                value: this.state.groupName,
 	                onChange: this.onGroupNameChanged,

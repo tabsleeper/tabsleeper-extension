@@ -7,7 +7,7 @@ function setSelectedCount(count) {
 }
 
 function handleOnHighlighted(highlightInfo) {
-  setSelectedCount(highlightInfo.tabIds.length)
+  setSelectedCount(highlightInfo.tabIds.length);
 }
 
 chrome.tabs.onHighlighted.addListener(handleOnHighlighted);

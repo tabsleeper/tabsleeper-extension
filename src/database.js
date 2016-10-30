@@ -32,6 +32,11 @@ export class Database extends Dexie {
           groups.updatedAt = new Date().toJSON();
         });
       });
+
+    this.version(4)
+      .stores({
+        groups: 'uuid,createdAt,updatedAt' // indexed primary key
+      });
   }
 
 }

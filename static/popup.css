@@ -13,6 +13,10 @@ html, body {
   background: #F8F8F8;
 }
 
+.icon {
+  vertical-align: middle;
+}
+
 /**
  * Higher level layout and aesthetic rules for NewTab
  */
@@ -30,6 +34,24 @@ html, body {
     margin-top: 20px;
     height: 20rem;
     overflow: auto;
+  }
+
+/**
+ * Navigate-back action
+ */
+.back-action {}
+  .back-action a {
+    text-decoration: none;
+    color: #484848;
+    font-size: 1.3rem;
+  }
+
+  .back-action .icon {
+    margin: 16px 12px;
+  }
+
+  .back-action .back-action--text {
+    vertical-align: text-bottom;
   }
 
 /**
@@ -108,6 +130,9 @@ html, body {
 
       font-size: 0.75rem;
       text-transform: uppercase;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
       letter-spacing: 0.1em;
       color: #777777;
     }
@@ -126,7 +151,7 @@ html, body {
         display: inline-block;
 
         margin: 0;
-        margin-left: 0.25rem;
+        margin-left: 0.5rem;
       }
 
 
@@ -167,4 +192,33 @@ html, body {
   .tab-group--expand a:hover {
     text-decoration: underline;
     cursor: pointer;
+  }
+
+.edit-group {}
+
+  .edit-group--input-group {
+    margin: 0.5rem;
+  }
+
+  .edit-group--input-group label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+
+    text-align: left;
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: #777777;
+  }
+
+  .edit-group--input-group input[type=text] {
+    background: none;
+    border: none;
+    border-bottom: 2px solid #484848;
+    color: #484848;
+
+    margin-top: 0.4rem;
+    width: 100%;
+
+    font-size: 1.4rem;
+    line-height: 2rem;
   }

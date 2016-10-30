@@ -12,6 +12,26 @@ export class TabGroup {
 
   tabs;
 
+  /**
+   * Attempts to read a specific tab group from the database by UUID
+   */
+  static read(uuid) {
+    const db = new Database();
+    db.open();
+
+    return new Promise((resolve, reject) => {
+      db.groups.get(uuid)
+        .then(record => {
+          if (record) {
+            resolve(new TabGroup(record));
+          } else {
+            reject(null);
+          }
+        })
+        .catch(reject);
+    });
+  }
+
   constructor({ uuid = UUID.v4(), name, tabs, createdAt, updatedAt }) {
     this.uuid = uuid;
     this.name = name;
@@ -32,11 +52,11 @@ export class TabGroup {
    * If successful, broadcasts a change event.
    */
   save() {
-    let db = new Database();
+    const db = new Database();
     db.open();
 
     return new Promise((resolve, reject) => {
-      db.groups.add({
+      db.groups.put({
         uuid: this.uuid,
         name: this.name,
         tabs: this.tabs,
@@ -56,7 +76,7 @@ export class TabGroup {
    * If successful, broadcasts a change event.
    */
   destroy() {
-    let db = new Database();
+    const db = new Database();
     db.open();
 
     return new Promise((resolve, reject) => {
@@ -68,7 +88,6 @@ export class TabGroup {
         .catch(err => reject(err));
     });
   }
-
 }
 
 export default TabGroup;

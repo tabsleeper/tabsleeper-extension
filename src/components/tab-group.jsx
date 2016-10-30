@@ -40,6 +40,7 @@ export class TabGroup extends React.Component {
     this.onWakeClicked   = this.onWakeClicked.bind(this);
     this.onSaveClicked   = this.onSaveClicked.bind(this);
     this.onDeleteClicked = this.onDeleteClicked.bind(this);
+    this.onEditClicked = this.onEditClicked.bind(this);
     this.onExpandClicked = this.onExpandClicked.bind(this);
   }
 
@@ -70,6 +71,15 @@ export class TabGroup extends React.Component {
   }
 
   /**
+   * Navigate to the edit dialog
+   */
+  onEditClicked(evt) {
+    evt.preventDefault();
+    const path = this.props.router.generate('editGroup', { uuid: this.group.uuid });
+    window.location.hash = `#${path}`;
+  }
+
+  /**
    * Expands the tab group to show all tabs in the card
    */
   onExpandClicked(evt) {
@@ -78,18 +88,23 @@ export class TabGroup extends React.Component {
   }
 
   render() {
-    let { group, className, ...attrs } = this.props;
+    let { group, className, router, ...attrs } = this.props;
 
     return <div {...attrs} className={`tab-group ${className || ''}`}>
       <div className='tab-group--title-action-container'>
         <span className='tab-group--title'>
-          {groupTitleText(this.state.tabs)}
+          {(group.name) ? `${group.name} (${this.state.tabs.length})` : groupTitleText(this.state.tabs)}
         </span>
 
         <ul className='tab-group--actions'>
           <li>
             <a onClick={this.onWakeClicked}>
               <Icon.Wake color='#0C74D5' width='18px' height='18px' />
+            </a>
+          </li>
+          <li>
+            <a onClick={this.onEditClicked}>
+              <Icon.Edit color='#0C74D5' width='18px' height='18px' />
             </a>
           </li>
           <li>
@@ -108,5 +123,10 @@ export class TabGroup extends React.Component {
     </div>;
   }
 }
+
+TabGroup.propTypes = {
+  group: React.PropTypes.object.isRequired,
+  router: React.PropTypes.object.isRequired,
+};
 
 export default TabGroup;

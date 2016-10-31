@@ -43,7 +43,7 @@ class Index extends React.Component {
    * Fetch tabGroups from storage and update component state
    */
   refreshTabGroups() {
-    this.db.groups.orderBy('updatedAt').reverse().toArray((tabGroups) => {
+    this.db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
       tabGroups = tabGroups.map(g => new TabGroup(g));
 
       this.setState({ tabGroups })

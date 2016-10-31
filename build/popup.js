@@ -21940,7 +21940,7 @@
 	    value: function refreshTabGroups() {
 	      var _this2 = this;
 
-	      this.db.groups.orderBy('updatedAt').reverse().toArray(function (tabGroups) {
+	      this.db.groups.orderBy('createdAt').reverse().toArray(function (tabGroups) {
 	        tabGroups = tabGroups.map(function (g) {
 	          return new _models.TabGroup(g);
 	        });

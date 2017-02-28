@@ -15,8 +15,7 @@ in mind.
 
 # Upcoming features
 
-- Renaming a group of sleeping tabs
-- Pinning a group so that it does not clear when woken
+- Re-ordering groups
 
 ## Maybe
 

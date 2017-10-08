@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { TabGroupActions } from '../actions';
 import constants from '../constants';
@@ -125,9 +126,9 @@ export class TabGroup extends React.Component {
 }
 
 TabGroup.propTypes = {
-  group: React.PropTypes.object.isRequired,
-  router: React.PropTypes.object.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
+  group: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default TabGroup;

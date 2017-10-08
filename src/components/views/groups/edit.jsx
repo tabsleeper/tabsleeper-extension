@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 import { TabGroup } from '../../../models';
 import Icon from '../../../icons';
@@ -111,8 +112,8 @@ class Edit extends React.Component {
 };
 
 Edit.propTypes = {
-  uuid: React.PropTypes.string.isRequired,
-  router: React.PropTypes.object.isRequired,
+  uuid: PropTypes.string.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
 export { Edit };

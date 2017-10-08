@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { WindowService, TabService } from '../../../services';
 import { TabGroup } from '../../../models';
@@ -72,7 +73,7 @@ class Index extends React.Component {
 }
 
 Index.propTypes = {
-  router: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
 export { Index };

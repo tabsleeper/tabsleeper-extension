@@ -1,25 +1,30 @@
+const path = require('path');
+
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
 module.exports = {
-  context: __dirname + '/src',
   entry: {
-    popup:     './popup',
-    background: './background'
+    popup:     './src/popup',
+    background: './src/background'
   },
 
   output: {
-    path: __dirname + '/build',
-    filename: '[name].js'
+    filename: './build/[name].js',
   },
+
+  devtool: 'source-map',
 
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loader: 'babel',
-        query: {
-          cacheDirectory: true
-        }
+        loader: 'babel-loader'
       }
     ]
-  }
+  },
+
+  plugins: [
+    new CleanWebpackPlugin(['build'])
+  ]
 }

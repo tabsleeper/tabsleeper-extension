@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Groups from './groups';
 
@@ -54,7 +55,7 @@ export class Popup extends React.Component {
 }
 
 Popup.propTypes = {
-  router: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
 export default Popup;

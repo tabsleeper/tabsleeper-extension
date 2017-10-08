@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { TabService, WindowService } from '../services';
 import { TabActions, WindowActions } from '../actions';
@@ -38,7 +39,7 @@ class SleepWindowButton extends React.Component {
 }
 
 SleepWindowButton.propTypes = {
-  selectedCount: React.PropTypes.number.isRequired
+  selectedCount: PropTypes.number.isRequired
 };
 
 export { SleepWindowButton };

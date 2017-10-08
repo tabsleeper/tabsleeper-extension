@@ -1,4 +1,4 @@
-import { TabGroup } from '../models';
+import { TabGroup } from 'models';
 
 export default class TabGroupService {
   /**

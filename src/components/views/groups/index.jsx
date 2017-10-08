@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { WindowService, TabService } from '../../../services';
-import { TabGroup } from '../../../models';
-import Database from '../../../database';
+import { WindowService, TabService } from 'services';
+import { TabGroup } from 'models';
+import Database from 'database';
 
-import TabGroupComponent from '../../tab-group.jsx';
-import SleepWindowButton from '../../sleep-window-button.jsx';
+import TabGroupComponent from 'components/tab-group.jsx';
+import SleepWindowButton from 'components/sleep-window-button.jsx';
 
 class Index extends React.Component {
   static propTypes = {

@@ -1,4 +1,4 @@
-import { TabService, TabGroupService } from '../services';
+import { TabService, TabGroupService } from 'services';
 
 /**
  * Save the specified tabs

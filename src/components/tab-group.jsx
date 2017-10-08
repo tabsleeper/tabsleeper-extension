@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TabGroupActions } from '../actions';
-import constants from '../constants';
-import { Wake, Edit, Destroy } from '../icons';
+import { TabGroupActions } from 'actions';
+import constants from 'constants';
+import { Wake, Edit, Destroy } from 'icons';
 
 const SHOW_N_TABS = 3;
 

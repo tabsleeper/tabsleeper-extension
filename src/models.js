@@ -1,3 +1,3 @@
-import TabGroup from './models/tab-group';
+import TabGroup from 'models/tab-group';
 
 export { TabGroup };

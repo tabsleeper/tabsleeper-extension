@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import uniloc from 'uniloc';
 
-import Popup from './components/views/popup.jsx';
+import Popup from 'components/views/popup.jsx';
 
 domready(() => {
   const container = document.getElementById('container');

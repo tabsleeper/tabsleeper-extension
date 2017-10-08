@@ -1,4 +1,4 @@
-import Index from './groups/index.jsx';
-import Edit from './groups/edit.jsx';
+import Index from 'components/views/groups/index.jsx';
+import Edit from 'components/views/groups/edit.jsx';
 
 export { Index, Edit };

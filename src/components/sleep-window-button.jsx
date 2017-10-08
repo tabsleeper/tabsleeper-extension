@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TabService, WindowService } from '../services';
-import { TabActions, WindowActions } from '../actions';
+import { TabService, WindowService } from 'services';
+import { TabActions, WindowActions } from 'actions';
 
 function buttonText(count) {
   if (count > 2) {

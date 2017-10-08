@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { TabGroup } from '../../../models';
-import { Back } from '../../../icons';
+import { TabGroup } from 'models';
+import { Back } from 'icons';
 
 class Edit extends React.Component {
   static propTypes = {

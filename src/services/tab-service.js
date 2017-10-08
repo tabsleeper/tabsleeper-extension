@@ -1,4 +1,4 @@
-import { WindowService } from '../services';
+import { WindowService } from 'services';
 
 export default class TabService {
   /**

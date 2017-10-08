@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as Groups from './groups';
+import * as Groups from 'components/views/groups';
 
 class Popup extends React.Component {
   static propTypes = {

@@ -60,18 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 221);
+/******/ 	return __webpack_require__(__webpack_require__.s = 222);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 221:
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _debounce = __webpack_require__(222);
+var _debounce = __webpack_require__(223);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -93,12 +93,12 @@ chrome.tabs.onHighlighted.addListener((0, _debounce2.default)(handleOnHighlighte
 
 /***/ }),
 
-/***/ 222:
+/***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(92),
-    now = __webpack_require__(223),
-    toNumber = __webpack_require__(225);
+var isObject = __webpack_require__(91),
+    now = __webpack_require__(224),
+    toNumber = __webpack_require__(226);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -288,10 +288,10 @@ module.exports = debounce;
 
 /***/ }),
 
-/***/ 223:
+/***/ 224:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(93);
+var root = __webpack_require__(92);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -318,7 +318,7 @@ module.exports = now;
 
 /***/ }),
 
-/***/ 224:
+/***/ 225:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -330,11 +330,11 @@ module.exports = freeGlobal;
 
 /***/ }),
 
-/***/ 225:
+/***/ 226:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(92),
-    isSymbol = __webpack_require__(226);
+var isObject = __webpack_require__(91),
+    isSymbol = __webpack_require__(227);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -403,11 +403,11 @@ module.exports = toNumber;
 
 /***/ }),
 
-/***/ 226:
+/***/ 227:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(227),
-    isObjectLike = __webpack_require__(230);
+var baseGetTag = __webpack_require__(228),
+    isObjectLike = __webpack_require__(231);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -439,12 +439,12 @@ module.exports = isSymbol;
 
 /***/ }),
 
-/***/ 227:
+/***/ 228:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(94),
-    getRawTag = __webpack_require__(228),
-    objectToString = __webpack_require__(229);
+var Symbol = __webpack_require__(93),
+    getRawTag = __webpack_require__(229),
+    objectToString = __webpack_require__(230);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -474,10 +474,10 @@ module.exports = baseGetTag;
 
 /***/ }),
 
-/***/ 228:
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(94);
+var Symbol = __webpack_require__(93);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -527,7 +527,7 @@ module.exports = getRawTag;
 
 /***/ }),
 
-/***/ 229:
+/***/ 230:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -556,7 +556,7 @@ module.exports = objectToString;
 
 /***/ }),
 
-/***/ 230:
+/***/ 231:
 /***/ (function(module, exports) {
 
 /**
@@ -620,7 +620,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 92:
+/***/ 91:
 /***/ (function(module, exports) {
 
 /**
@@ -658,10 +658,10 @@ module.exports = isObject;
 
 /***/ }),
 
-/***/ 93:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(224);
+var freeGlobal = __webpack_require__(225);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -674,10 +674,10 @@ module.exports = root;
 
 /***/ }),
 
-/***/ 94:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(93);
+var root = __webpack_require__(92);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;

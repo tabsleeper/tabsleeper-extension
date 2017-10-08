@@ -64,7 +64,7 @@ class Index extends React.Component {
       <SleepWindowButton selectedCount={this.state.selectedTabs} />
       <ul className='popup--tab-groups'>
         {this.state.tabGroups.map(g => {
-          return <li key={g.uuid}><TabGroupComponent group={g} router={this.props.router} /></li>;
+          return <li key={g.uuid}><TabGroupComponent group={g} router={this.props.router} onDelete={this.refreshTabGroups} /></li>;
         })}
       </ul>
     </div>;

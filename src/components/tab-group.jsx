@@ -67,7 +67,7 @@ export class TabGroup extends React.Component {
    */
   onDeleteClicked(evt) {
     evt.preventDefault();
-    this.group.destroy();
+    this.group.destroy().then(this.props.onDelete);
   }
 
   /**
@@ -88,7 +88,7 @@ export class TabGroup extends React.Component {
   }
 
   render() {
-    let { group, className, router, ...attrs } = this.props;
+    let { group, className, router, onDelete, ...attrs } = this.props;
 
     return <div {...attrs} className={`tab-group ${className || ''}`}>
       <div className='tab-group--title-action-container'>
@@ -127,6 +127,7 @@ export class TabGroup extends React.Component {
 TabGroup.propTypes = {
   group: React.PropTypes.object.isRequired,
   router: React.PropTypes.object.isRequired,
+  onDelete: React.PropTypes.func.isRequired,
 };
 
 export default TabGroup;

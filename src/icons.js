@@ -6,4 +6,3 @@ import Back from './icons/back.jsx';
 import Check from './icons/check.jsx';
 
 export { Sleep, Wake, Edit, Destroy, Back, Check };
-export default { Sleep, Wake, Edit, Destroy, Back, Check };

@@ -22,5 +22,3 @@ export function sleepTabs(tabs) {
       })
   });
 }
-
-export default { saveTabs, sleepTabs };

@@ -1,5 +1,6 @@
 import { WindowService } from '../services';
-class TabService {
+
+export default class TabService {
   /**
    * Return the currently focused tab
    */
@@ -71,6 +72,3 @@ class TabService {
     });
   }
 }
-
-export { TabService };
-export default TabService;

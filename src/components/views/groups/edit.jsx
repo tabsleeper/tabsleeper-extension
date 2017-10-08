@@ -3,16 +3,21 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { TabGroup } from '../../../models';
-import Icon from '../../../icons';
+import { Back } from '../../../icons';
 
 class Edit extends React.Component {
+  static propTypes = {
+    uuid: PropTypes.string.isRequired,
+    router: PropTypes.object.isRequired,
+  }
+
+  state = {
+    groupName: "",
+    group: null,
+  }
+
   constructor(props) {
     super(props);
-
-    this.state = {
-      groupName: "",
-      group: null,
-    };
 
     this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -76,7 +81,7 @@ class Edit extends React.Component {
       return <div className='popup edit-group'>
         <div className='back-action'>
           <a href={`#${this.props.router.generate('groups')}`}>
-            <Icon.Back color='#484848' width='24px' height='24px' />
+            <Back color='#484848' width='24px' height='24px' />
             <span className='back-action--text'>Back</span>
           </a>
         </div>
@@ -98,7 +103,7 @@ class Edit extends React.Component {
     } else {
       return <div className='popup'>
         <div>
-          <Icon.Back color='#484848' width='24px' height='24px' />
+          <Back color='#484848' width='24px' height='24px' />
         </div>
         <p>
           There was a problem trying to edit the group
@@ -111,10 +116,4 @@ class Edit extends React.Component {
   }
 };
 
-Edit.propTypes = {
-  uuid: PropTypes.string.isRequired,
-  router: PropTypes.object.isRequired,
-};
-
-export { Edit };
 export default Edit;

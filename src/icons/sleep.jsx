@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Sleep({ color, width, height }) {
+export default function Sleep({ color, width, height }) {
   return <svg className="icon icon--sleep" width={width || "24px"} height={height || "24px"} viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
           <g stroke={color || '#000000'} strokeWidth="2">
@@ -9,5 +9,3 @@ export function Sleep({ color, width, height }) {
       </g>
   </svg>;
 }
-
-export default Sleep;

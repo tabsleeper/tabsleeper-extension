@@ -5,22 +5,27 @@ import { WindowService, TabService } from '../../../services';
 import { TabGroup } from '../../../models';
 import Database from '../../../database';
 
-import { TabGroup as TabGroupComponent } from '../../tab-group.jsx';
+import TabGroupComponent from '../../tab-group.jsx';
 import SleepWindowButton from '../../sleep-window-button.jsx';
 
 class Index extends React.Component {
+  static propTypes = {
+    router: PropTypes.object.isRequired,
+  }
+
+  state = {
+    selectedTabs: 1,
+    tabGroups: [],
+  }
+
+  db = new Database();
+
   constructor(props) {
     super(props)
-
-    this.state = {
-      selectedTabs: 1,
-      tabGroups: [],
-    }
 
     this.updateSelectedCount = this.updateSelectedCount.bind(this);
     this.refreshTabGroups = this.refreshTabGroups.bind(this);
 
-    this.db = new Database();
     this.db.open();
   }
 
@@ -74,16 +79,19 @@ class Index extends React.Component {
       <SleepWindowButton selectedCount={this.state.selectedTabs} />
       <ul className='popup--tab-groups'>
         {this.state.tabGroups.map(g => {
-          return <li key={g.uuid}><TabGroupComponent group={g} router={this.props.router} onDelete={this.refreshTabGroups} /></li>;
+          return (
+            <li key={g.uuid}>
+              <TabGroupComponent
+                group={g}
+                router={this.props.router}
+                onDelete={this.refreshTabGroups}
+                onWake={this.refreshTabGroups} />
+            </li>
+          );
         })}
       </ul>
     </div>;
   }
 }
 
-Index.propTypes = {
-  router: PropTypes.object.isRequired,
-};
-
-export { Index };
 export default Index;

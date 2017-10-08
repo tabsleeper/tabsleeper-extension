@@ -6,7 +6,7 @@ import Database from '../database';
 /**
  * Represents a group of suspended tabs, backed by IndexedDB
  */
-export class TabGroup {
+export default class TabGroup {
 
   uuid;
 
@@ -89,5 +89,3 @@ export class TabGroup {
     });
   }
 }
-
-export default TabGroup;

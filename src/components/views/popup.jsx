@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Groups from './groups';
+import * as Groups from './groups';
 
-export class Popup extends React.Component {
+class Popup extends React.Component {
+  static propTypes = {
+    router: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props);
 
@@ -53,9 +57,5 @@ export class Popup extends React.Component {
     }
   }
 }
-
-Popup.propTypes = {
-  router: PropTypes.object.isRequired,
-};
 
 export default Popup;

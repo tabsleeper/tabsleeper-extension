@@ -6306,14 +6306,21 @@ exports.TabGroupService = exports.WindowService = exports.TabService = undefined
 
 var _tabService = __webpack_require__(115);
 
+var _tabService2 = _interopRequireDefault(_tabService);
+
 var _windowService = __webpack_require__(116);
+
+var _windowService2 = _interopRequireDefault(_windowService);
 
 var _tabGroupService = __webpack_require__(117);
 
-exports.TabService = _tabService.TabService;
-exports.WindowService = _windowService.WindowService;
-exports.TabGroupService = _tabGroupService.TabGroupService;
-exports.default = { TabService: _tabService.TabService, WindowService: _windowService.WindowService, TabGroupService: _tabGroupService.TabGroupService };
+var _tabGroupService2 = _interopRequireDefault(_tabGroupService);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.TabService = _tabService2.default;
+exports.WindowService = _windowService2.default;
+exports.TabGroupService = _tabGroupService2.default;
 
 /***/ }),
 /* 16 */
@@ -7691,8 +7698,11 @@ exports.TabGroup = undefined;
 
 var _tabGroup = __webpack_require__(118);
 
-exports.TabGroup = _tabGroup.TabGroup;
-exports.default = { TabGroup: _tabGroup.TabGroup };
+var _tabGroup2 = _interopRequireDefault(_tabGroup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.TabGroup = _tabGroup2.default;
 
 /***/ }),
 /* 37 */
@@ -9530,22 +9540,21 @@ exports.TabGroupActions = exports.WindowActions = exports.TabActions = undefined
 
 var _tabActions = __webpack_require__(210);
 
-var _tabActions2 = _interopRequireDefault(_tabActions);
+var TabActions = _interopRequireWildcard(_tabActions);
 
 var _windowActions = __webpack_require__(211);
 
-var _windowActions2 = _interopRequireDefault(_windowActions);
+var WindowActions = _interopRequireWildcard(_windowActions);
 
 var _tabGroupActions = __webpack_require__(212);
 
-var _tabGroupActions2 = _interopRequireDefault(_tabGroupActions);
+var TabGroupActions = _interopRequireWildcard(_tabGroupActions);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-exports.TabActions = _tabActions2.default;
-exports.WindowActions = _windowActions2.default;
-exports.TabGroupActions = _tabGroupActions2.default;
-exports.default = { TabActions: _tabActions2.default, WindowActions: _windowActions2.default, TabGroupActions: _tabGroupActions2.default };
+exports.TabActions = TabActions;
+exports.WindowActions = WindowActions;
+exports.TabGroupActions = TabGroupActions;
 
 /***/ }),
 /* 50 */
@@ -13808,7 +13817,6 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Database = undefined;
 
 var _dexie = __webpack_require__(208);
 
@@ -13822,7 +13830,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Database = exports.Database = function (_Dexie) {
+var Database = function (_Dexie) {
   _inherits(Database, _Dexie);
 
   function Database() {
@@ -13909,7 +13917,6 @@ exports.Edit = _edit2.default;
 exports.Destroy = _destroy2.default;
 exports.Back = _back2.default;
 exports.Check = _check2.default;
-exports.default = { Sleep: _sleep2.default, Wake: _wake2.default, Edit: _edit2.default, Destroy: _destroy2.default, Back: _back2.default, Check: _check2.default };
 
 /***/ }),
 /* 92 */,
@@ -34354,7 +34361,6 @@ module.exports = function() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Popup = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -34368,7 +34374,9 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _groups = __webpack_require__(113);
 
-var _groups2 = _interopRequireDefault(_groups);
+var Groups = _interopRequireWildcard(_groups);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34378,7 +34386,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Popup = exports.Popup = function (_React$Component) {
+var Popup = function (_React$Component) {
   _inherits(Popup, _React$Component);
 
   function Popup(props) {
@@ -34436,11 +34444,11 @@ var Popup = exports.Popup = function (_React$Component) {
     value: function render() {
       switch (this.state.route.name) {
         case 'editGroup':
-          return _react2.default.createElement(_groups2.default.Edit, { router: this.props.router, uuid: this.state.route.options.uuid });
+          return _react2.default.createElement(Groups.Edit, { router: this.props.router, uuid: this.state.route.options.uuid });
 
         case 'groups':
         default:
-          return _react2.default.createElement(_groups2.default.Index, { router: this.props.router });
+          return _react2.default.createElement(Groups.Index, { router: this.props.router });
       }
     }
   }]);
@@ -34451,7 +34459,6 @@ var Popup = exports.Popup = function (_React$Component) {
 Popup.propTypes = {
   router: _propTypes2.default.object.isRequired
 };
-
 exports.default = Popup;
 
 /***/ }),
@@ -34478,7 +34485,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.Index = _index2.default;
 exports.Edit = _edit2.default;
-exports.default = { Index: _index2.default, Edit: _edit2.default };
 
 /***/ }),
 /* 114 */
@@ -34490,7 +34496,6 @@ exports.default = { Index: _index2.default, Edit: _edit2.default };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Index = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -34511,6 +34516,8 @@ var _database = __webpack_require__(90);
 var _database2 = _interopRequireDefault(_database);
 
 var _tabGroup = __webpack_require__(209);
+
+var _tabGroup2 = _interopRequireDefault(_tabGroup);
 
 var _sleepWindowButton = __webpack_require__(219);
 
@@ -34536,11 +34543,12 @@ var Index = function (_React$Component) {
       selectedTabs: 1,
       tabGroups: []
     };
+    _this.db = new _database2.default();
+
 
     _this.updateSelectedCount = _this.updateSelectedCount.bind(_this);
     _this.refreshTabGroups = _this.refreshTabGroups.bind(_this);
 
-    _this.db = new _database2.default();
     _this.db.open();
     return _this;
   }
@@ -34629,7 +34637,11 @@ var Index = function (_React$Component) {
             return _react2.default.createElement(
               'li',
               { key: g.uuid },
-              _react2.default.createElement(_tabGroup.TabGroup, { group: g, router: _this4.props.router, onDelete: _this4.refreshTabGroups })
+              _react2.default.createElement(_tabGroup2.default, {
+                group: g,
+                router: _this4.props.router,
+                onDelete: _this4.refreshTabGroups,
+                onWake: _this4.refreshTabGroups })
             );
           })
         )
@@ -34643,8 +34655,6 @@ var Index = function (_React$Component) {
 Index.propTypes = {
   router: _propTypes2.default.object.isRequired
 };
-
-exports.Index = Index;
 exports.default = Index;
 
 /***/ }),
@@ -34657,7 +34667,6 @@ exports.default = Index;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TabService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -34762,7 +34771,6 @@ var TabService = function () {
   return TabService;
 }();
 
-exports.TabService = TabService;
 exports.default = TabService;
 
 /***/ }),
@@ -34861,7 +34869,6 @@ var WindowService = function () {
   return WindowService;
 }();
 
-exports.WindowService = WindowService;
 exports.default = WindowService;
 
 /***/ }),
@@ -34874,7 +34881,6 @@ exports.default = WindowService;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TabGroupService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -34905,7 +34911,6 @@ var TabGroupService = function () {
   return TabGroupService;
 }();
 
-exports.TabGroupService = TabGroupService;
 exports.default = TabGroupService;
 
 /***/ }),
@@ -34918,7 +34923,6 @@ exports.default = TabGroupService;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TabGroup = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -34941,7 +34945,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * Represents a group of suspended tabs, backed by IndexedDB
  */
-var TabGroup = exports.TabGroup = function () {
+var TabGroup = function () {
   _createClass(TabGroup, null, [{
     key: 'read',
 
@@ -49622,7 +49626,6 @@ dbNamesDB.version(1).stores({ dbnames: 'name' });
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TabGroup = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -49643,8 +49646,6 @@ var _constants = __webpack_require__(89);
 var _constants2 = _interopRequireDefault(_constants);
 
 var _icons = __webpack_require__(91);
-
-var _icons2 = _interopRequireDefault(_icons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49695,7 +49696,7 @@ function renderExpandAction(tabs, expanded, clickHandler) {
   }
 }
 
-var TabGroup = exports.TabGroup = function (_React$Component) {
+var TabGroup = function (_React$Component) {
   _inherits(TabGroup, _React$Component);
 
   function TabGroup(props) {
@@ -49703,11 +49704,10 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (TabGroup.__proto__ || Object.getPrototypeOf(TabGroup)).call(this, props));
 
-    _this.group = props.group;
-
     _this.state = {
-      tabs: _this.group.getTabs()
+      tabs: _this.props.group.getTabs()
     };
+
 
     _this.onWakeClicked = _this.onWakeClicked.bind(_this);
     _this.onSaveClicked = _this.onSaveClicked.bind(_this);
@@ -49728,7 +49728,7 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
     key: 'onWakeClicked',
     value: function onWakeClicked(evt) {
       evt.preventDefault();
-      _actions.TabGroupActions.wakeGroup(this.props.group);
+      _actions.TabGroupActions.wakeGroup(this.props.group).then(this.props.onWake);
     }
 
     /**
@@ -49739,7 +49739,7 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
     key: 'onSaveClicked',
     value: function onSaveClicked(evt) {
       evt.preventDefault();
-      this.group.save();
+      this.props.group.save();
     }
 
     /**
@@ -49750,7 +49750,7 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
     key: 'onDeleteClicked',
     value: function onDeleteClicked(evt) {
       evt.preventDefault();
-      this.group.destroy().then(this.props.onDelete);
+      this.props.group.destroy().then(this.props.onDelete);
     }
 
     /**
@@ -49761,7 +49761,7 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
     key: 'onEditClicked',
     value: function onEditClicked(evt) {
       evt.preventDefault();
-      var path = this.props.router.generate('editGroup', { uuid: this.group.uuid });
+      var path = this.props.router.generate('editGroup', { uuid: this.props.group.uuid });
       window.location.hash = '#' + path;
     }
 
@@ -49783,7 +49783,8 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
           className = _props.className,
           router = _props.router,
           onDelete = _props.onDelete,
-          attrs = _objectWithoutProperties(_props, ['group', 'className', 'router', 'onDelete']);
+          onWake = _props.onWake,
+          attrs = _objectWithoutProperties(_props, ['group', 'className', 'router', 'onDelete', 'onWake']);
 
       return _react2.default.createElement(
         'div',
@@ -49805,7 +49806,7 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
               _react2.default.createElement(
                 'a',
                 { onClick: this.onWakeClicked },
-                _react2.default.createElement(_icons2.default.Wake, { color: '#0C74D5', width: '18px', height: '18px' })
+                _react2.default.createElement(_icons.Wake, { color: '#0C74D5', width: '18px', height: '18px' })
               )
             ),
             _react2.default.createElement(
@@ -49814,7 +49815,7 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
               _react2.default.createElement(
                 'a',
                 { onClick: this.onEditClicked },
-                _react2.default.createElement(_icons2.default.Edit, { color: '#0C74D5', width: '18px', height: '18px' })
+                _react2.default.createElement(_icons.Edit, { color: '#0C74D5', width: '18px', height: '18px' })
               )
             ),
             _react2.default.createElement(
@@ -49823,7 +49824,7 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
               _react2.default.createElement(
                 'a',
                 { onClick: this.onDeleteClicked },
-                _react2.default.createElement(_icons2.default.Destroy, { color: '#0C74D5', width: '18px', height: '18px' })
+                _react2.default.createElement(_icons.Destroy, { color: '#0C74D5', width: '18px', height: '18px' })
               )
             )
           )
@@ -49844,9 +49845,9 @@ var TabGroup = exports.TabGroup = function (_React$Component) {
 TabGroup.propTypes = {
   group: _propTypes2.default.object.isRequired,
   router: _propTypes2.default.object.isRequired,
-  onDelete: _propTypes2.default.func.isRequired
+  onDelete: _propTypes2.default.func.isRequired,
+  onWake: _propTypes2.default.func.isRequired
 };
-
 exports.default = TabGroup;
 
 /***/ }),
@@ -49885,8 +49886,6 @@ function sleepTabs(tabs) {
     });
   });
 }
-
-exports.default = { saveTabs: saveTabs, sleepTabs: sleepTabs };
 
 /***/ }),
 /* 211 */
@@ -49932,8 +49931,6 @@ function sleepWindow(windowId) {
   });
 }
 
-exports.default = { saveWindow: saveWindow, sleepWindow: sleepWindow };
-
 /***/ }),
 /* 212 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -49965,8 +49962,6 @@ function wakeGroup(group) {
   });
 }
 
-exports.default = { wakeGroup: wakeGroup };
-
 /***/ }),
 /* 213 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -49977,7 +49972,7 @@ exports.default = { wakeGroup: wakeGroup };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Sleep = Sleep;
+exports.default = Sleep;
 
 var _react = __webpack_require__(5);
 
@@ -50005,8 +50000,6 @@ function Sleep(_ref) {
     );
 }
 
-exports.default = Sleep;
-
 /***/ }),
 /* 214 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -50017,7 +50010,7 @@ exports.default = Sleep;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Wake = Wake;
+exports.default = Wake;
 
 var _react = __webpack_require__(5);
 
@@ -50038,8 +50031,6 @@ function Wake(_ref) {
   );
 }
 
-exports.default = Wake;
-
 /***/ }),
 /* 215 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -50050,7 +50041,7 @@ exports.default = Wake;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Edit = Edit;
+exports.default = Edit;
 
 var _react = __webpack_require__(5);
 
@@ -50071,8 +50062,6 @@ function Edit(_ref) {
   );
 }
 
-exports.default = Edit;
-
 /***/ }),
 /* 216 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -50083,7 +50072,7 @@ exports.default = Edit;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Destroy = Destroy;
+exports.default = Destroy;
 
 var _react = __webpack_require__(5);
 
@@ -50104,8 +50093,6 @@ function Destroy(_ref) {
   );
 }
 
-exports.default = Destroy;
-
 /***/ }),
 /* 217 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -50116,7 +50103,7 @@ exports.default = Destroy;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Back = Back;
+exports.default = Back;
 
 var _react = __webpack_require__(5);
 
@@ -50137,8 +50124,6 @@ function Back(_ref) {
   );
 }
 
-exports.default = Back;
-
 /***/ }),
 /* 218 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -50149,7 +50134,7 @@ exports.default = Back;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Back = Back;
+exports.default = Back;
 
 var _react = __webpack_require__(5);
 
@@ -50170,8 +50155,6 @@ function Back(_ref) {
   );
 }
 
-exports.default = Back;
-
 /***/ }),
 /* 219 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -50182,7 +50165,6 @@ exports.default = Back;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SleepWindowButton = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -50260,8 +50242,6 @@ var SleepWindowButton = function (_React$Component) {
 SleepWindowButton.propTypes = {
   selectedCount: _propTypes2.default.number.isRequired
 };
-
-exports.SleepWindowButton = SleepWindowButton;
 exports.default = SleepWindowButton;
 
 /***/ }),
@@ -50274,7 +50254,6 @@ exports.default = SleepWindowButton;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Edit = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -50293,8 +50272,6 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 var _models = __webpack_require__(36);
 
 var _icons = __webpack_require__(91);
-
-var _icons2 = _interopRequireDefault(_icons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50316,6 +50293,7 @@ var Edit = function (_React$Component) {
       groupName: "",
       group: null
     };
+
 
     _this.onGroupNameChanged = _this.onGroupNameChanged.bind(_this);
     _this.onSubmit = _this.onSubmit.bind(_this);
@@ -50402,7 +50380,7 @@ var Edit = function (_React$Component) {
             _react2.default.createElement(
               'a',
               { href: '#' + this.props.router.generate('groups') },
-              _react2.default.createElement(_icons2.default.Back, { color: '#484848', width: '24px', height: '24px' }),
+              _react2.default.createElement(_icons.Back, { color: '#484848', width: '24px', height: '24px' }),
               _react2.default.createElement(
                 'span',
                 { className: 'back-action--text' },
@@ -50440,7 +50418,7 @@ var Edit = function (_React$Component) {
           _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_icons2.default.Back, { color: '#484848', width: '24px', height: '24px' })
+            _react2.default.createElement(_icons.Back, { color: '#484848', width: '24px', height: '24px' })
           ),
           _react2.default.createElement(
             'p',
@@ -50464,14 +50442,12 @@ var Edit = function (_React$Component) {
   return Edit;
 }(_react2.default.Component);
 
-;
-
 Edit.propTypes = {
   uuid: _propTypes2.default.string.isRequired,
   router: _propTypes2.default.object.isRequired
 };
+;
 
-exports.Edit = Edit;
 exports.default = Edit;
 
 /***/ })

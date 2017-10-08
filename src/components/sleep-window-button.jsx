@@ -13,6 +13,10 @@ function buttonText(count) {
 }
 
 class SleepWindowButton extends React.Component {
+  static propTypes = {
+    selectedCount: PropTypes.number.isRequired
+  }
+
   constructor(props) {
     super(props);
 
@@ -38,9 +42,4 @@ class SleepWindowButton extends React.Component {
   }
 }
 
-SleepWindowButton.propTypes = {
-  selectedCount: PropTypes.number.isRequired
-};
-
-export { SleepWindowButton };
 export default SleepWindowButton;

@@ -28,5 +28,3 @@ export function sleepWindow(windowId) {
       });
   });
 }
-
-export default { saveWindow, sleepWindow };

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { TabGroupActions } from '../actions';
 import constants from '../constants';
-import Icon from '../icons';
+import { Wake, Edit, Destroy } from '../icons';
 
 const SHOW_N_TABS = 3;
 
@@ -28,15 +28,20 @@ function renderExpandAction(tabs, expanded, clickHandler) {
   }
 }
 
-export class TabGroup extends React.Component {
+class TabGroup extends React.Component {
+  static propTypes = {
+    group: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onWake: PropTypes.func.isRequired,
+  }
+
+  state = {
+    tabs: this.props.group.getTabs()
+  }
+
   constructor(props) {
     super(props);
-
-    this.group = props.group;
-
-    this.state = {
-      tabs: this.group.getTabs()
-    };
 
     this.onWakeClicked   = this.onWakeClicked.bind(this);
     this.onSaveClicked   = this.onSaveClicked.bind(this);
@@ -52,7 +57,7 @@ export class TabGroup extends React.Component {
    */
   onWakeClicked(evt) {
     evt.preventDefault();
-    TabGroupActions.wakeGroup(this.props.group);
+    TabGroupActions.wakeGroup(this.props.group).then(this.props.onWake);
   }
 
   /**
@@ -60,7 +65,7 @@ export class TabGroup extends React.Component {
    */
   onSaveClicked(evt) {
     evt.preventDefault();
-    this.group.save();
+    this.props.group.save();
   }
 
   /**
@@ -68,7 +73,7 @@ export class TabGroup extends React.Component {
    */
   onDeleteClicked(evt) {
     evt.preventDefault();
-    this.group.destroy().then(this.props.onDelete);
+    this.props.group.destroy().then(this.props.onDelete);
   }
 
   /**
@@ -76,7 +81,7 @@ export class TabGroup extends React.Component {
    */
   onEditClicked(evt) {
     evt.preventDefault();
-    const path = this.props.router.generate('editGroup', { uuid: this.group.uuid });
+    const path = this.props.router.generate('editGroup', { uuid: this.props.group.uuid });
     window.location.hash = `#${path}`;
   }
 
@@ -89,7 +94,7 @@ export class TabGroup extends React.Component {
   }
 
   render() {
-    let { group, className, router, onDelete, ...attrs } = this.props;
+    let { group, className, router, onDelete, onWake, ...attrs } = this.props;
 
     return <div {...attrs} className={`tab-group ${className || ''}`}>
       <div className='tab-group--title-action-container'>
@@ -100,17 +105,17 @@ export class TabGroup extends React.Component {
         <ul className='tab-group--actions'>
           <li>
             <a onClick={this.onWakeClicked}>
-              <Icon.Wake color='#0C74D5' width='18px' height='18px' />
+              <Wake color='#0C74D5' width='18px' height='18px' />
             </a>
           </li>
           <li>
             <a onClick={this.onEditClicked}>
-              <Icon.Edit color='#0C74D5' width='18px' height='18px' />
+              <Edit color='#0C74D5' width='18px' height='18px' />
             </a>
           </li>
           <li>
             <a onClick={this.onDeleteClicked}>
-              <Icon.Destroy color='#0C74D5' width='18px' height='18px' />
+              <Destroy color='#0C74D5' width='18px' height='18px' />
             </a>
           </li>
         </ul>
@@ -124,11 +129,5 @@ export class TabGroup extends React.Component {
     </div>;
   }
 }
-
-TabGroup.propTypes = {
-  group: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
 
 export default TabGroup;

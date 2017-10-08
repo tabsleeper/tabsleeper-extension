@@ -1,6 +1,5 @@
-import TabActions from './actions/tab-actions';
-import WindowActions from './actions/window-actions';
-import TabGroupActions from './actions/tab-group-actions';
+import * as TabActions from './actions/tab-actions';
+import * as WindowActions from './actions/window-actions';
+import * as TabGroupActions from './actions/tab-group-actions';
 
 export { TabActions, WindowActions, TabGroupActions };
-export default { TabActions, WindowActions, TabGroupActions };

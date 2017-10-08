@@ -1,4 +1,4 @@
-class WindowService {
+export default class WindowService {
   /**
    * Get a list of all currently open, regular windows
    */
@@ -59,6 +59,3 @@ class WindowService {
     });
   }
 }
-
-export { WindowService };
-export default WindowService;

@@ -1,6 +1,6 @@
 import { TabGroup } from '../models';
 
-class TabGroupService {
+export default class TabGroupService {
   /**
    * Save a set of tabs into a new TabGroup
    */
@@ -14,6 +14,3 @@ class TabGroupService {
     });
   }
 }
-
-export { TabGroupService };
-export default TabGroupService;

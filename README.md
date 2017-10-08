@@ -9,10 +9,6 @@ all of the time.
 
 Note: These slept tabs **do not sync** between your machines.
 
-If you're getting tab overload from deep research rabbit holes, look at
-[Trailblazer](http://trailblazer.io) as it is designed to work with that case
-in mind.
-
 # Upcoming features
 
 - Re-ordering groups

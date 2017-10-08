@@ -34569,6 +34569,18 @@ var Index = function (_React$Component) {
     }
 
     /**
+     * Clean up the event listeners so we don't try and update an unmounted
+     * component
+     */
+
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      chrome.runtime.onMessage.removeListener(this.refreshTabGroups);
+      chrome.tabs.onHighlighted.removeListener(this.updateSelectedCount);
+    }
+
+    /**
      * Fetch tabGroups from storage and update component state
      */
 

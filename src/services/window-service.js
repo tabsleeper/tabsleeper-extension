@@ -32,7 +32,7 @@ export default class WindowService {
       };
 
       // Firefox does not support the focused property
-      if (InstallTrigger) {
+      if (window.InstallTrigger) {
         delete payload.focused;
       }
 

@@ -34558,8 +34558,8 @@ var Index = function (_React$Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      chrome.runtime.onMessage.addListener(this.refreshTabGroups);
-      chrome.tabs.onHighlighted.addListener(this.updateSelectedCount);
+      browser.runtime.onMessage.addListener(this.refreshTabGroups);
+      browser.tabs.onHighlighted.addListener(this.updateSelectedCount);
     }
 
     /**
@@ -34570,8 +34570,8 @@ var Index = function (_React$Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.refreshTabGroups);
-      chrome.tabs.onHighlighted.removeListener(this.updateSelectedCount);
+      browser.runtime.onMessage.removeListener(this.refreshTabGroups);
+      browser.tabs.onHighlighted.removeListener(this.updateSelectedCount);
     }
 
     /**
@@ -34673,13 +34673,9 @@ var TabService = function () {
      */
     value: function getCurrentTab() {
       return new Promise(function (resolve, reject) {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(tabs[0]);
-          }
-        });
+        browser.tabs.query({ active: true, currentWindow: true }).then(function (tabs) {
+          return resolve(tabs[0]);
+        }).catch(reject);
       });
     }
 
@@ -34691,13 +34687,7 @@ var TabService = function () {
     key: 'getSelectedTabs',
     value: function getSelectedTabs(windowId) {
       return new Promise(function (resolve, reject) {
-        chrome.tabs.query({ windowId: windowId, highlighted: true }, function (tabs) {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(tabs);
-          }
-        });
+        browser.tabs.query({ windowId: windowId, highlighted: true }).then(resolve).catch(reject);
       });
     }
 
@@ -34709,13 +34699,7 @@ var TabService = function () {
     key: 'getTabsInWindow',
     value: function getTabsInWindow(windowId) {
       return new Promise(function (resolve, reject) {
-        chrome.tabs.query({ windowId: windowId }, function (tabs) {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(tabs);
-          }
-        });
+        browser.tabs.query({ windowId: windowId }).then(resolve).catch(reject);
       });
     }
 
@@ -34728,7 +34712,7 @@ var TabService = function () {
     value: function closeTab(tab) {
       return new Promise(function (resolve, reject) {
         TabService.closeTabs([tab]).then(function () {
-          resolve(tab);
+          return resolve(tab);
         }).catch(reject);
       });
     }
@@ -34741,15 +34725,11 @@ var TabService = function () {
     key: 'closeTabs',
     value: function closeTabs(tabs) {
       return new Promise(function (resolve, reject) {
-        chrome.tabs.remove(tabs.map(function (t) {
+        browser.tabs.remove(tabs.map(function (t) {
           return t.id;
-        }), function () {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(tabs);
-          }
-        });
+        })).then(function () {
+          return resolve(tabs);
+        }).catch(reject);
       });
     }
   }]);
@@ -34787,13 +34767,7 @@ var WindowService = function () {
      */
     value: function getAllWindows() {
       return new Promise(function (resolve, reject) {
-        chrome.windows.getAll({ windowTypes: ['normal'] }, function (windows) {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(windows);
-          }
-        });
+        browser.windows.getAll({ windowTypes: ['normal'] }).then(resolve).catch(reject);
       });
     }
 
@@ -34805,13 +34779,7 @@ var WindowService = function () {
     key: 'getCurrentWindow',
     value: function getCurrentWindow() {
       return new Promise(function (resolve, reject) {
-        chrome.windows.getCurrent({ populate: true }, function (win) {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(win);
-          }
-        });
+        browser.windows.getCurrent({ populate: true }).then(resolve).catch(reject);
       });
     }
 
@@ -34823,13 +34791,17 @@ var WindowService = function () {
     key: 'createWindow',
     value: function createWindow(urls) {
       return new Promise(function (resolve, reject) {
-        chrome.windows.create({ url: urls, focused: true }, function (win) {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(win);
-          }
-        });
+        var payload = {
+          url: urls,
+          focused: true
+        };
+
+        // Firefox does not support the focused property
+        if (window.InstallTrigger) {
+          delete payload.focused;
+        }
+
+        browser.windows.create(payload).then(resolve).catch(reject);
       });
     }
 
@@ -34841,13 +34813,9 @@ var WindowService = function () {
     key: 'closeWindow',
     value: function closeWindow(id) {
       return new Promise(function (resolve, reject) {
-        chrome.windows.remove(id, function () {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve();
-          }
-        });
+        browser.windows.remove(id).then(function () {
+          return resolve();
+        }).catch(reject);
       });
     }
   }]);
@@ -35004,7 +34972,7 @@ var TabGroup = function () {
           createdAt: _this.createdAt.toJSON(),
           updatedAt: new Date().toJSON()
         }).then(function () {
-          chrome.runtime.sendMessage(_constants2.default.CHANGE);
+          browser.runtime.sendMessage(_constants2.default.CHANGE);
           resolve(_this);
         }).catch(function (err) {
           return reject(err);
@@ -35027,7 +34995,7 @@ var TabGroup = function () {
 
       return new Promise(function (resolve, reject) {
         db.groups.delete(_this2.uuid).then(function () {
-          chrome.runtime.sendMessage(_constants2.default.CHANGE);
+          browser.runtime.sendMessage(_constants2.default.CHANGE);
           resolve(_this2);
         }).catch(function (err) {
           return reject(err);
@@ -38833,7 +38801,7 @@ module.exports.makeKey = makeKey
 /* 167 */
 /***/ (function(module, exports) {
 
-module.exports = {"_from":"elliptic@^6.0.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"elliptic@^6.0.0","name":"elliptic","escapedName":"elliptic","rawSpec":"^6.0.0","saveSpec":null,"fetchSpec":"^6.0.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_shasum":"cac9af8762c85836187003c8dfe193e5e2eae5df","_spec":"elliptic@^6.0.0","_where":"/mnt/verse/git/tabsleeper/extension/node_modules/browserify-sign","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"bundleDependencies":false,"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"deprecated":false,"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
+module.exports = {"_args":[["elliptic@6.4.0","/Users/greg/git/tabsleeper/extension"]],"_development":true,"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"/Users/greg/git/tabsleeper/extension","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
 
 /***/ }),
 /* 168 */
@@ -49956,7 +49924,13 @@ function wakeGroup(group) {
       });
 
       group.destroy().then(function () {
-        _services.WindowService.createWindow(urls).then(resolve).catch(reject);
+        _services.WindowService.createWindow(urls).then(resolve).catch(function (error) {
+          // Attempt to preserve the group if something goes wrong closing
+          // the window
+          group.save();
+
+          reject(error);
+        });
       });
     });
   });

@@ -1,6 +1,6 @@
 {
   "name": "tab-sleeper",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Sleep and wake windows in Google Chrome",
   "scripts": {
     "build": "webpack"

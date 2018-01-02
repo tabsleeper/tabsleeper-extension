@@ -1,6 +1,6 @@
 {
   "name": "tabsleeper",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Lightweight tab management",
   "manifest_version": 2,
   "applications": {

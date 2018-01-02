@@ -79,9 +79,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function setSelectedCount(count) {
   if (count >= 2) {
-    chrome.browserAction.setBadgeText({ text: '' + count });
+    browser.browserAction.setBadgeText({ text: '' + count });
   } else {
-    chrome.browserAction.setBadgeText({ text: '' });
+    browser.browserAction.setBadgeText({ text: '' });
   }
 }
 
@@ -89,7 +89,7 @@ function handleOnHighlighted(highlightInfo) {
   setSelectedCount(highlightInfo.tabIds.length);
 }
 
-chrome.tabs.onHighlighted.addListener((0, _debounce2.default)(handleOnHighlighted, 200));
+browser.tabs.onHighlighted.addListener((0, _debounce2.default)(handleOnHighlighted, 200));
 
 /***/ }),
 

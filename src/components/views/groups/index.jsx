@@ -58,14 +58,10 @@ class Index extends React.Component {
    * Fetch tabGroups from storage and update component state
    */
   refreshTabGroups() {
-    return new Promise((resolve) => {
-      this.db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
-        tabGroups = tabGroups.map(g => new TabGroup(g));
+    this.db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
+      tabGroups = tabGroups.map(g => new TabGroup(g));
 
-        this.setState({ tabGroups })
-
-        resolve();
-      });
+      this.setState({ tabGroups })
     });
   }
 
@@ -73,12 +69,9 @@ class Index extends React.Component {
    * Updates the selected tab count to display on the sleep button
    */
   updateSelectedCount() {
-    return new Promise((resolve) => {
-      WindowService.getCurrentWindow()
-        .then(win => TabService.getSelectedTabs(win.id))
-        .then(tabs => this.setState({ selectedTabs: tabs.length }))
-        .then(() => resolve());
-    });
+    WindowService.getCurrentWindow()
+      .then(win => TabService.getSelectedTabs(win.id))
+      .then(tabs => this.setState({ selectedTabs: tabs.length }));
   }
 
   render() {

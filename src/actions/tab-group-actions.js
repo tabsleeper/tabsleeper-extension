@@ -9,7 +9,15 @@ export function wakeGroup(group) {
       let urls = group.getTabs().map(t => t.url);
 
       group.destroy().then(() => {
-        WindowService.createWindow(urls).then(resolve).catch(reject);
+        WindowService.createWindow(urls)
+          .then(resolve)
+          .catch(error => {
+            // Attempt to preserve the group if something goes wrong closing
+            // the window
+            group.save();
+
+            reject(error);
+          });
       });
     });
   });

@@ -64,7 +64,7 @@ export default class TabGroup {
         updatedAt: new Date().toJSON(),
       })
         .then(() => {
-          chrome.runtime.sendMessage(constants.CHANGE);
+          browser.runtime.sendMessage(constants.CHANGE);
           resolve(this)
         })
         .catch(err => reject(err));
@@ -82,7 +82,7 @@ export default class TabGroup {
     return new Promise((resolve, reject) => {
       db.groups.delete(this.uuid)
         .then(() => {
-          chrome.runtime.sendMessage(constants.CHANGE);
+          browser.runtime.sendMessage(constants.CHANGE);
           resolve(this);
         })
         .catch(err => reject(err));

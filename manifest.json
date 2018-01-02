@@ -3,6 +3,12 @@
   "version": "0.0.9",
   "description": "Lightweight tab management",
   "manifest_version": 2,
+  "applications": {
+    "gecko": {
+      "id": "gecko-extension@tabsleeper.com",
+      "strict_min_version": "53.0"
+    }
+  },
   "permissions": [
     "chrome://favicon/",
     "tabs",
@@ -13,6 +19,7 @@
   },
   "background": {
     "scripts": [
+      "vendor/webextension-polyfill.min.js",
       "build/background.js"
     ]
   },

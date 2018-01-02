@@ -41,8 +41,8 @@ class Index extends React.Component {
    * Set up a listener so the page will update when changes are broadcast
    */
   componentDidMount() {
-    chrome.runtime.onMessage.addListener(this.refreshTabGroups);
-    chrome.tabs.onHighlighted.addListener(this.updateSelectedCount);
+    browser.runtime.onMessage.addListener(this.refreshTabGroups);
+    browser.tabs.onHighlighted.addListener(this.updateSelectedCount);
   }
 
   /**
@@ -50,18 +50,22 @@ class Index extends React.Component {
    * component
    */
   componentWillUnmount() {
-    chrome.runtime.onMessage.removeListener(this.refreshTabGroups);
-    chrome.tabs.onHighlighted.removeListener(this.updateSelectedCount);
+    browser.runtime.onMessage.removeListener(this.refreshTabGroups);
+    browser.tabs.onHighlighted.removeListener(this.updateSelectedCount);
   }
 
   /**
    * Fetch tabGroups from storage and update component state
    */
   refreshTabGroups() {
-    this.db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
-      tabGroups = tabGroups.map(g => new TabGroup(g));
+    return new Promise((resolve) => {
+      this.db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
+        tabGroups = tabGroups.map(g => new TabGroup(g));
 
-      this.setState({ tabGroups })
+        this.setState({ tabGroups })
+
+        resolve();
+      });
     });
   }
 
@@ -69,9 +73,12 @@ class Index extends React.Component {
    * Updates the selected tab count to display on the sleep button
    */
   updateSelectedCount() {
-    WindowService.getCurrentWindow().
-      then(win => TabService.getSelectedTabs(win.id)).
-      then(tabs => this.setState({ selectedTabs: tabs.length }));
+    return new Promise((resolve) => {
+      WindowService.getCurrentWindow()
+        .then(win => TabService.getSelectedTabs(win.id))
+        .then(tabs => this.setState({ selectedTabs: tabs.length }))
+        .then(() => resolve());
+    });
   }
 
   render() {

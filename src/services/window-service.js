@@ -4,13 +4,9 @@ export default class WindowService {
    */
   static getAllWindows() {
     return new Promise((resolve, reject) => {
-      chrome.windows.getAll({ windowTypes: ['normal'] }, (windows) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(windows);
-        }
-      });
+      browser.windows.getAll({ windowTypes: ['normal'] })
+        .then(resolve)
+        .catch(reject);
     });
   }
 
@@ -19,13 +15,9 @@ export default class WindowService {
    */
   static getCurrentWindow() {
     return new Promise((resolve, reject) => {
-      chrome.windows.getCurrent({ populate: true }, (win) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(win);
-        }
-      });
+      browser.windows.getCurrent({ populate: true })
+        .then(resolve)
+        .catch(reject);
     });
   }
 
@@ -34,13 +26,20 @@ export default class WindowService {
    */
   static createWindow(urls) {
     return new Promise((resolve, reject) => {
-      chrome.windows.create({ url: urls, focused: true }, (win) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(win);
-        }
-      });
+      const payload = {
+        url: urls,
+        focused: true,
+      };
+
+      // Firefox does not support the focused property
+      if (InstallTrigger) {
+        delete payload.focused;
+      }
+
+
+      browser.windows.create(payload)
+        .then(resolve)
+        .catch(reject);
     });
   }
 
@@ -49,13 +48,9 @@ export default class WindowService {
    */
   static closeWindow(id) {
     return new Promise((resolve, reject) => {
-      chrome.windows.remove(id, () => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve();
-        }
-      });
+      browser.windows.remove(id)
+        .then(() => resolve())
+        .catch(reject);
     });
   }
 }

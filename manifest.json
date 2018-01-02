@@ -13,6 +13,7 @@
   },
   "background": {
     "scripts": [
+      "vendor/webextension-polyfill.min.js",
       "build/background.js"
     ]
   },

@@ -6,13 +6,9 @@ export default class TabService {
    */
   static getCurrentTab() {
     return new Promise((resolve, reject) => {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(tabs[0]);
-        }
-      });
+      browser.tabs.query({ active: true, currentWindow: true })
+        .then(tabs => resolve(tabs[0]))
+        .catch(reject);
     });
   }
 
@@ -21,13 +17,9 @@ export default class TabService {
    */
   static getSelectedTabs(windowId) {
     return new Promise((resolve, reject) => {
-      chrome.tabs.query({ windowId, highlighted: true }, (tabs) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(tabs);
-        }
-      });
+      browser.tabs.query({ windowId, highlighted: true })
+        .then(resolve)
+        .catch(reject);
     });
   }
 
@@ -36,23 +28,19 @@ export default class TabService {
    */
   static getTabsInWindow(windowId) {
     return new Promise((resolve, reject) => {
-      chrome.tabs.query({ windowId }, (tabs) => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(tabs);
-        }
-      });
+      browser.tabs.query({ windowId })
+        .then(resolve)
+        .catch(reject);
     });
   }
-  
+
   /**
    * Close a single tab
    */
   static closeTab(tab) {
     return new Promise((resolve, reject) => {
       TabService.closeTabs([tab])
-        .then(() => { resolve(tab) })
+        .then(() => resolve(tab))
         .catch(reject);
     });
   }
@@ -62,13 +50,9 @@ export default class TabService {
    */
   static closeTabs(tabs) {
     return new Promise((resolve, reject) => {
-      chrome.tabs.remove(tabs.map(t => t.id), () => {
-        if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
-        } else {
-          resolve(tabs);
-        }
-      });
+      browser.tabs.remove(tabs.map(t => t.id))
+        .then(() => resolve(tabs))
+        .catch(reject);
     });
   }
 }

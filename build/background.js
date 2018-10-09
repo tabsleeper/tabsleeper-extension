@@ -60,18 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 222);
+/******/ 	return __webpack_require__(__webpack_require__.s = 210);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 222:
+/***/ 210:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _debounce = __webpack_require__(223);
+var _debounce = __webpack_require__(211);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -79,9 +79,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function setSelectedCount(count) {
   if (count >= 2) {
-    chrome.browserAction.setBadgeText({ text: '' + count });
+    browser.browserAction.setBadgeText({ text: '' + count });
   } else {
-    chrome.browserAction.setBadgeText({ text: '' });
+    browser.browserAction.setBadgeText({ text: '' });
   }
 }
 
@@ -89,16 +89,16 @@ function handleOnHighlighted(highlightInfo) {
   setSelectedCount(highlightInfo.tabIds.length);
 }
 
-chrome.tabs.onHighlighted.addListener((0, _debounce2.default)(handleOnHighlighted, 200));
+browser.tabs.onHighlighted.addListener((0, _debounce2.default)(handleOnHighlighted, 200));
 
 /***/ }),
 
-/***/ 223:
+/***/ 211:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(91),
-    now = __webpack_require__(224),
-    toNumber = __webpack_require__(226);
+var isObject = __webpack_require__(82),
+    now = __webpack_require__(212),
+    toNumber = __webpack_require__(214);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -288,10 +288,10 @@ module.exports = debounce;
 
 /***/ }),
 
-/***/ 224:
+/***/ 212:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(92);
+var root = __webpack_require__(83);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -318,7 +318,7 @@ module.exports = now;
 
 /***/ }),
 
-/***/ 225:
+/***/ 213:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -330,11 +330,11 @@ module.exports = freeGlobal;
 
 /***/ }),
 
-/***/ 226:
+/***/ 214:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(91),
-    isSymbol = __webpack_require__(227);
+var isObject = __webpack_require__(82),
+    isSymbol = __webpack_require__(215);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -403,11 +403,11 @@ module.exports = toNumber;
 
 /***/ }),
 
-/***/ 227:
+/***/ 215:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(228),
-    isObjectLike = __webpack_require__(231);
+var baseGetTag = __webpack_require__(216),
+    isObjectLike = __webpack_require__(219);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -439,12 +439,12 @@ module.exports = isSymbol;
 
 /***/ }),
 
-/***/ 228:
+/***/ 216:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(93),
-    getRawTag = __webpack_require__(229),
-    objectToString = __webpack_require__(230);
+var Symbol = __webpack_require__(84),
+    getRawTag = __webpack_require__(217),
+    objectToString = __webpack_require__(218);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -474,10 +474,10 @@ module.exports = baseGetTag;
 
 /***/ }),
 
-/***/ 229:
+/***/ 217:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(93);
+var Symbol = __webpack_require__(84);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -527,7 +527,7 @@ module.exports = getRawTag;
 
 /***/ }),
 
-/***/ 230:
+/***/ 218:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -556,7 +556,7 @@ module.exports = objectToString;
 
 /***/ }),
 
-/***/ 231:
+/***/ 219:
 /***/ (function(module, exports) {
 
 /**
@@ -620,7 +620,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 91:
+/***/ 82:
 /***/ (function(module, exports) {
 
 /**
@@ -658,10 +658,10 @@ module.exports = isObject;
 
 /***/ }),
 
-/***/ 92:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(225);
+var freeGlobal = __webpack_require__(213);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -674,10 +674,10 @@ module.exports = root;
 
 /***/ }),
 
-/***/ 93:
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(92);
+var root = __webpack_require__(83);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;

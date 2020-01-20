@@ -222,3 +222,11 @@ html, body {
     font-size: 1.4rem;
     line-height: 2rem;
   }
+
+.export-link {
+  font-size: 10px;
+  color: #484848;
+  display: block;
+  text-align: center;
+  padding: 6px;
+}

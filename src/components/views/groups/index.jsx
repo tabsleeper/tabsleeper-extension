@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { WindowService, TabService } from 'services';
+import { DataActions } from 'actions';
+import { TabService, WindowService } from 'services';
 import { TabGroup } from 'models';
-import Database from 'database';
 
 import TabGroupComponent from 'components/tab-group.jsx';
 import SleepWindowButton from 'components/sleep-window-button.jsx';
@@ -18,15 +18,12 @@ class Index extends React.Component {
     tabGroups: [],
   }
 
-  db = new Database();
-
   constructor(props) {
     super(props)
 
-    this.updateSelectedCount = this.updateSelectedCount.bind(this);
+    this.exportData = this.exportData.bind(this);
     this.refreshTabGroups = this.refreshTabGroups.bind(this);
-
-    this.db.open();
+    this.updateSelectedCount = this.updateSelectedCount.bind(this);
   }
 
   /**
@@ -54,15 +51,27 @@ class Index extends React.Component {
     browser.tabs.onHighlighted.removeListener(this.updateSelectedCount);
   }
 
+  exportData(evt) {
+    evt.preventDefault();
+
+    DataActions.exportJson().then(json => {
+      const blob = new Blob([json]);
+
+      const link = window.document.createElement("a");
+      link.href = window.URL.createObjectURL(blob, { type: "text/plain" });
+      link.download = "tabgroups.tabsleeperbackup";
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(link.href);
+      document.body.removeChild(link);
+    });
+  }
+
   /**
    * Fetch tabGroups from storage and update component state
    */
   refreshTabGroups() {
-    this.db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
-      tabGroups = tabGroups.map(g => new TabGroup(g));
-
-      this.setState({ tabGroups })
-    });
+    TabGroup.all().then(tabGroups => this.setState({ tabGroups }));
   }
 
   /**
@@ -89,6 +98,9 @@ class Index extends React.Component {
             </li>
           );
         })}
+        <li>
+          <a className="export-link" href="#" onClick={this.exportData}>Export Tab Data</a>
+        </li>
       </ul>
     </div>;
   }

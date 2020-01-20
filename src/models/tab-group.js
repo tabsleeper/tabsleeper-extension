@@ -12,6 +12,19 @@ export default class TabGroup {
 
   tabs;
 
+  static all() {
+    const db = new Database();
+    db.open();
+
+    return new Promise((resolve, reject) => {
+      db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
+        tabGroups = tabGroups.map(g => new TabGroup(g));
+
+        resolve(tabGroups);
+      });
+    });
+  }
+
   /**
    * Attempts to read a specific tab group from the database by UUID
    */

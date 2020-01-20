@@ -1,15 +1,18 @@
 const path = require('path');
 
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+  mode: 'production',
+
   entry: {
     popup:     './src/popup',
     background: './src/background'
   },
 
   output: {
-    filename: './build/[name].js',
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
   },
 
   devtool: 'source-map',
@@ -24,7 +27,7 @@ module.exports = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
@@ -34,6 +37,6 @@ module.exports = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(['build'])
+    new CleanWebpackPlugin()
   ]
 }

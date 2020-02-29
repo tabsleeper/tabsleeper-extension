@@ -2,3 +2,4 @@ build/.keep
 node_modules/
 build/
 output/
+manifest.json

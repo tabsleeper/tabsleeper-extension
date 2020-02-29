@@ -44,8 +44,31 @@ If there are no problems, great!
 
 ## Loading into Chrome
 
+The manifest is constructed as part of the build process, so you'll need to
+link it to the repository root in order to load the extension:
+
+    $ ln -s ./build/platform/chrome/manifest.json ./manifest.json
+
+Then load the extension as normal.
+
 See Chrome developer docs section on [loading the
 Extension](https://developer.chrome.com/extensions/getstarted#unpacked)
+
+## Loading into Firefox
+
+The manifest is constructed as part of the build process, so you'll need to
+link it to the repository root in order to load the extension:
+
+    $ ln -s ./build/platform/firefox/manifest.json ./manifest.json
+
+Then load the extension as normal.
+
+Note: if you have recently built the extension in release/production mode,
+rebuild it in development mode (`npm run build`) otherwise you will load a
+temporary extension with the same ID as the production one, and risk data loss.
+
+See Firefox developer docs section on [loading the
+Extension](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)
 
 ## Submitting your changes
 

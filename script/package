@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-BUILD_TAG="${CIRCLE_TAG:-dev-${CIRCLE_SHA1:-local}}"
+BUILD_TAG="${CIRCLE_TAG:-${CIRCLE_BRANCH:-dev}-${CIRCLE_SHA1:-local}}"
+
+mkdir -p output/packages
 
 for PLATFORM in "chrome" "firefox"; do
-  ARCHIVE="tabsleeper-extension-${PLATFORM}-${BUILD_TAG}.zip"
+  ARCHIVE="output/packages/tabsleeper-extension-${PLATFORM}-${BUILD_TAG}.zip"
 
   # Build the archive with the extension source
   zip -r $ARCHIVE \

@@ -15,8 +15,8 @@ jobs:
       - run: ./script/build
       - run: ./script/package
       - store_artifacts:
-          path: 'tabsleeper-extension.zip'
-          prefix: 'packages'
+          path: 'output/packages'
+          destination: 'packages'
 workflows:
     build:
       jobs:

@@ -1,3 +1,17 @@
 #!/usr/bin/env bash
 
-zip -r tabsleeper-extension.zip manifest.json dist/ static/ icon/ vendor/
+BUILD_TAG="${CIRCLE_TAG:-dev-${CIRCLE_SHA1:-local}}"
+
+for PLATFORM in "chrome" "firefox"; do
+  ARCHIVE="tabsleeper-extension-${PLATFORM}-${BUILD_TAG}.zip"
+
+  # Build the archive with the extension source
+  zip -r $ARCHIVE \
+    build/dist \
+    static \
+    icon \
+    vendor
+
+  # Include the platform specific manifest at the top level of the archive (-j)
+  zip $ARCHIVE -j build/platform/$PLATFORM/manifest.json
+done

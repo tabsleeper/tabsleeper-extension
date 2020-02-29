@@ -1,42 +1,71 @@
 const path = require('path');
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
-  mode: 'production',
+module.exports = function(env, argv) {
+  const applyTransformation = (content, transformation) => {
+    const parsedContent = JSON.parse(content)
 
-  entry: {
-    popup:     './src/popup',
-    background: './src/background'
-  },
+    const transformedContent = transformation(parsedContent, argv.mode);
 
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-  },
+    return JSON.stringify(transformedContent, null, 2);
+  }
 
-  devtool: 'source-map',
+  return {
+    entry: {
+      'dist/popup':     './src/popup',
+      'dist/background': './src/background'
+    },
 
-  resolve: {
-    modules: [
-      // Include a resolver configuration so we don't have to use relative
-      // paths for importing our own source code
-      path.resolve(__dirname, 'src'),
-      'node_modules'
+    output: {
+      path: path.resolve(__dirname, 'build'),
+      filename: '[name].js',
+    },
+
+    devtool: (argv.mode === "development") ? 'inline-source-map' : false,
+
+    resolve: {
+      modules: [
+        // Include a resolver configuration so we don't have to use relative
+        // paths for importing our own source code
+        path.resolve(__dirname, 'src'),
+        'node_modules'
+      ]
+    },
+
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /(node_modules)/,
+          loader: 'babel-loader'
+        }
+      ]
+    },
+
+    plugins: [
+      new CleanWebpackPlugin(),
+      new CopyWebpackPlugin([
+        {
+          from: 'platform/manifest.common.json',
+          to: 'platform/chrome/manifest.json',
+          transform: (content, path) => {
+            const transform = require('./platform/chrome/manifest.transform');
+
+            return applyTransformation(content, transform);
+          }
+        },
+        {
+          from: 'platform/manifest.common.json',
+          to: 'platform/firefox/manifest.json',
+          transform: (content, path) => {
+            const transform = require('./platform/firefox/manifest.transform');
+
+            return applyTransformation(content, transform);
+          }
+        }
+      ])
     ]
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /(node_modules)/,
-        loader: 'babel-loader'
-      }
-    ]
-  },
-
-  plugins: [
-    new CleanWebpackPlugin()
-  ]
+  }
 }

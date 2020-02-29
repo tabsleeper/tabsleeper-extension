@@ -1,4 +1,4 @@
 build/.keep
 node_modules/
-tabsleeper-extension.zip
-dist/
+tabsleeper-extension*.zip
+build/

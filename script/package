@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+zip -r tabsleeper-extension.zip manifest.json dist/ static/ icon/ vendor/

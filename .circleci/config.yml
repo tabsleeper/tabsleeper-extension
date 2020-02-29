@@ -1,0 +1,23 @@
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+jobs:
+  build:
+    working_directory: ~/tabsleeper
+    docker:
+      - image: circleci/node:13.6.0
+    steps:
+      - checkout
+      - run:
+          name: install-npm
+          command: 'sudo npm install -g npm@6.14.1'
+      - run: ./script/setup
+      - run: ./script/build
+      - run: ./script/package
+      - store_artifacts:
+          path: 'tabsleeper-extension.zip'
+          prefix: 'packages'
+workflows:
+    build:
+      jobs:
+        - build

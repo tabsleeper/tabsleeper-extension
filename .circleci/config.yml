@@ -18,6 +18,18 @@ jobs:
           path: 'output/packages'
           destination: 'packages'
 workflows:
-    build:
-      jobs:
-        - build
+  version: 2
+  build-master:
+    jobs:
+      - build:
+        filters:
+          branches:
+            only: master
+  build-release-tag:
+    jobs:
+      - build:
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /.*/

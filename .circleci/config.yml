@@ -22,14 +22,14 @@ workflows:
   build-master:
     jobs:
       - build:
-        filters:
-          branches:
-            only: master
+          filters:
+            branches:
+              only: master
   build-release-tag:
     jobs:
       - build:
-        filters:
-          branches:
-            ignore: /.*/
-          tags:
-            only: /.*/
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/

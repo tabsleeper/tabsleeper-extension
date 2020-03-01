@@ -5,26 +5,16 @@ import { TabService, WindowService } from 'services';
 import { TabActions, WindowActions } from 'actions';
 
 function buttonText(count) {
-  if (count > 2) {
+  if (count >= 2) {
     return `Sleep ${count} Selected Tabs`;
   } else {
     return "Sleep this window";
   }
 }
 
-class SleepWindowButton extends React.Component {
-  static propTypes = {
-    selectedCount: PropTypes.number.isRequired
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick(evt) {
-    if (this.props.selectedCount >= 2) {
+export default ({ selectedCount }) => {
+  const onClick = (evt) => {
+    if (selectedCount >= 2) {
       WindowService.getCurrentWindow().
         then(win => TabService.getSelectedTabs(win.id)).
         then(TabActions.sleepTabs);
@@ -33,13 +23,11 @@ class SleepWindowButton extends React.Component {
     }
   }
 
-  render() {
-    return <button className='sleep-window-button' onClick={this.onClick}>
+  return (
+    <button className='sleep-window-button' onClick={onClick}>
       <span>
-        {buttonText(this.props.selectedCount)}
+        {buttonText(selectedCount)}
       </span>
-    </button>;
-  }
-}
-
-export default SleepWindowButton;
+    </button>
+  );
+};

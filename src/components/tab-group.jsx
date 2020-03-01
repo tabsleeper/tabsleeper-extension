@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { TabGroupActions } from 'actions';
@@ -28,106 +28,101 @@ function renderExpandAction(tabs, expanded, clickHandler) {
   }
 }
 
-class TabGroup extends React.Component {
-  static propTypes = {
-    group: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onWake: PropTypes.func.isRequired,
-  }
+export default ({ group, className, onDelete, onWake, ...attrs }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [draftTitle, setDraftTitle] = useState(group.name || '');
 
-  state = {
-    tabs: this.props.group.getTabs()
-  }
+  const tabs = group.getTabs();
 
-  constructor(props) {
-    super(props);
-
-    this.onWakeClicked   = this.onWakeClicked.bind(this);
-    this.onSaveClicked   = this.onSaveClicked.bind(this);
-    this.onDeleteClicked = this.onDeleteClicked.bind(this);
-    this.onEditClicked = this.onEditClicked.bind(this);
-    this.onExpandClicked = this.onExpandClicked.bind(this);
-  }
-
-  /**
-   * Wake the tab group.
-   *
-   * Creates a new window containing the tabs, and closes the current NTP
-   */
-  onWakeClicked(evt) {
+  const onWakeClicked = (evt) => {
     evt.preventDefault();
-    TabGroupActions.wakeGroup(this.props.group).then(this.props.onWake);
-  }
+    TabGroupActions.wakeGroup(group).then(onWake);
+  };
 
-  /**
-   * Save any changes made to the tab group
-   */
-  onSaveClicked(evt) {
+  const onDeleteClicked = (evt) => {
     evt.preventDefault();
-    this.props.group.save();
-  }
+    group.destroy().then(onDelete);
+  };
 
-  /**
-   * Destroys the tab group
-   */
-  onDeleteClicked(evt) {
+  const onEditClicked = (evt) => {
     evt.preventDefault();
-    this.props.group.destroy().then(this.props.onDelete);
-  }
+    setIsEditing(true);
+  };
 
-  /**
-   * Navigate to the edit dialog
-   */
-  onEditClicked(evt) {
+  const onExpandClicked = (evt) => {
     evt.preventDefault();
-    const path = this.props.router.generate('editGroup', { uuid: this.props.group.uuid });
-    window.location.hash = `#${path}`;
-  }
+    setIsExpanded(true);
+  };
 
-  /**
-   * Expands the tab group to show all tabs in the card
-   */
-  onExpandClicked(evt) {
+  const onDraftTitleChanged = (evt) => {
+    setDraftTitle(evt.target.value);
+  };
+
+  const onCancelEdit = (evt) => {
     evt.preventDefault();
-    this.setState({ expanded: true });
+    setIsEditing(false);
+    setDraftTitle(group.name);
   }
 
-  render() {
-    let { group, className, router, onDelete, onWake, ...attrs } = this.props;
+  const onSaveEdit = (evt) => {
+    evt.preventDefault();
+    group.name = draftTitle;
+    group.save();
+    setIsEditing(false);
+  }
 
-    return <div {...attrs} className={`tab-group ${className || ''}`}>
-      <div className='tab-group--title-action-container'>
-        <span className='tab-group--title'>
-          {(group.name) ? `${group.name} (${this.state.tabs.length})` : groupTitleText(this.state.tabs)}
-        </span>
+  if (isEditing) {
+    return (
+      <div {...attrs} className={`tab-group ${className || ''}`}>
+        <div className='tab-group--title-action-container'>
+          <span className='tab-group--title'>Name your tab group</span>
+        </div>
 
-        <ul className='tab-group--actions'>
-          <li>
-            <a onClick={this.onWakeClicked}>
-              <Wake color='#0C74D5' width='18px' height='18px' />
-            </a>
-          </li>
-          <li>
-            <a onClick={this.onEditClicked}>
-              <Edit color='#0C74D5' width='18px' height='18px' />
-            </a>
-          </li>
-          <li>
-            <a onClick={this.onDeleteClicked}>
-              <Destroy color='#0C74D5' width='18px' height='18px' />
-            </a>
-          </li>
-        </ul>
+        <div className='tab-group--edit-form'>
+          <form onSubmit={onSaveEdit}>
+            <div className='input-group'>
+              <input type='text' name='title' value={draftTitle} onChange={onDraftTitleChanged} autoFocus />
+            </div>
+            <div className='input-group'>
+              <button type='button' className='btn btn-primary' onClick={onSaveEdit}>Save</button>
+              <button type='button' className='btn btn-secondary ml-1' onClick={onCancelEdit}>Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <ul className='tab-group--urls'>
-        {renderTabList(this.state.tabs, this.state.expanded)}
-      </ul>
-
-      {renderExpandAction(this.state.tabs, this.state.expanded, this.onExpandClicked)}
-    </div>;
+    );
   }
-}
 
-export default TabGroup;
+  return <div {...attrs} className={`tab-group ${className || ''}`}>
+    <div className='tab-group--title-action-container'>
+      <span className='tab-group--title'>
+        {(group.name) ? `${group.name} (${tabs.length})` : groupTitleText(tabs)}
+      </span>
+
+      <ul className='tab-group--actions'>
+        <li>
+          <a onClick={onWakeClicked}>
+            <Wake color='#0C74D5' width='18px' height='18px' />
+          </a>
+        </li>
+        <li>
+          <a onClick={onEditClicked}>
+            <Edit color='#0C74D5' width='18px' height='18px' />
+          </a>
+        </li>
+        <li>
+          <a onClick={onDeleteClicked}>
+            <Destroy color='#0C74D5' width='18px' height='18px' />
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <ul className='tab-group--urls'>
+      {renderTabList(tabs, isExpanded)}
+    </ul>
+
+    {renderExpandAction(tabs, isExpanded, onExpandClicked)}
+  </div>;
+};

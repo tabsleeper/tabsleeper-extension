@@ -65,6 +65,13 @@ export default class TabGroup {
    * If successful, broadcasts a change event.
    */
   save() {
+    const tabs = this.tabs.map(tab => ({
+      id: tab.id,
+      url: tab.url,
+      favIconUrl: tab.favIconUrl,
+      title: tab.title,
+    }));
+
     const db = new Database();
     db.open();
 
@@ -72,7 +79,7 @@ export default class TabGroup {
       db.groups.put({
         uuid: this.uuid,
         name: this.name,
-        tabs: this.tabs,
+        tabs,
         createdAt: this.createdAt.toJSON(),
         updatedAt: new Date().toJSON(),
       })

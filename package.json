@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "Sleep and wake windows in Google Chrome",
   "scripts": {
+    "watch": "webpack --mode=development --watch",
     "build": "webpack --mode=development",
     "build:release": "webpack --mode=production"
   },
@@ -21,9 +22,9 @@
     "dexie": "^2.0.4",
     "domready": "^1.0.8",
     "node-uuid": "^1.4.7",
-    "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "uniloc": "^0.3.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"

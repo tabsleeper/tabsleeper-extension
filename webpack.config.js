@@ -15,6 +15,7 @@ module.exports = function(env, argv) {
   return {
     entry: {
       'dist/popup':     './src/popup',
+      'dist/manage-data': './src/manage-data',
       'dist/background': './src/background'
     },
 

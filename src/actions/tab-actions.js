@@ -1,11 +1,14 @@
-import { TabService, TabGroupService } from 'services';
+import { TabGroup } from 'models';
+import { TabService } from 'services';
 
 /**
  * Save the specified tabs
  */
 export function saveTabs(tabs) {
   return new Promise((resolve, reject) => {
-    TabGroupService.saveTabs(tabs)
+    let group = new TabGroup({ tabs });
+
+    group.save()
       .then(resolve)
       .catch(reject);
   });

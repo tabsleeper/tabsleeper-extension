@@ -82,7 +82,7 @@ export default ({ group, className, onDelete, onWake, ...attrs }) => {
         <div className='tab-group--edit-form'>
           <form onSubmit={onSaveEdit}>
             <div className='input-group'>
-              <input type='text' name='title' value={draftTitle} onChange={onDraftTitleChanged} autoFocus />
+              <input type='text' name='title' autocomplete="off" value={draftTitle} onChange={onDraftTitleChanged} autoFocus />
             </div>
             <div className='input-group'>
               <button type='button' className='btn btn-primary' onClick={onSaveEdit}>Save</button>

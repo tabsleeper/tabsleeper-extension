@@ -4,8 +4,7 @@
   "description": "Lightweight tab management",
   "manifest_version": 2,
   "permissions": [
-    "tabs",
-    "topSites"
+    "tabs"
   ],
   "icons": {
     "128": "icon/128.png"

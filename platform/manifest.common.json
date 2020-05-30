@@ -16,7 +16,7 @@
       "build/dist/background.js"
     ]
   },
-  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+  "content_security_policy": "default-src 'self'",
   "browser_action": {
     "default_icon": {
       "19": "icon/browserAction/19.png",

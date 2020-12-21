@@ -1,7 +1,7 @@
 const path = require('path');
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = function(env, argv) {
   const applyTransformation = (content, transformation) => {
@@ -13,6 +13,8 @@ module.exports = function(env, argv) {
   }
 
   return {
+    mode: argv.mode,
+
     entry: {
       'dist/popup':     './src/popup',
       'dist/manage-data': './src/manage-data',
@@ -24,7 +26,7 @@ module.exports = function(env, argv) {
       filename: '[name].js',
     },
 
-    devtool: (argv.mode === "development") ? 'inline-source-map' : false,
+    devtool: (argv.mode === 'development') ? 'inline-source-map' : false,
 
     resolve: {
       modules: [
@@ -47,26 +49,28 @@ module.exports = function(env, argv) {
 
     plugins: [
       new CleanWebpackPlugin(),
-      new CopyWebpackPlugin([
-        {
-          from: 'platform/manifest.common.json',
-          to: 'platform/chrome/manifest.json',
-          transform: (content, path) => {
-            const transform = require('./platform/chrome/manifest.transform');
+      new CopyPlugin({
+        patterns: [
+          {
+            from: 'platform/manifest.common.json',
+            to: 'platform/chrome/manifest.json',
+            transform: (content, path) => {
+              const transform = require('./platform/chrome/manifest.transform');
 
-            return applyTransformation(content, transform);
-          }
-        },
-        {
-          from: 'platform/manifest.common.json',
-          to: 'platform/firefox/manifest.json',
-          transform: (content, path) => {
-            const transform = require('./platform/firefox/manifest.transform');
+              return applyTransformation(content, transform);
+            }
+          },
+          {
+            from: 'platform/manifest.common.json',
+            to: 'platform/firefox/manifest.json',
+            transform: (content, path) => {
+              const transform = require('./platform/firefox/manifest.transform');
 
-            return applyTransformation(content, transform);
+              return applyTransformation(content, transform);
+            }
           }
-        }
-      ])
+        ]
+      })
     ]
   }
 }

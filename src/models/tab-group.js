@@ -1,4 +1,4 @@
-import UUID from 'node-uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import constants from 'constants.js';
 import Database from 'database';
@@ -45,7 +45,7 @@ export default class TabGroup {
     });
   }
 
-  constructor({ uuid = UUID.v4(), name, tabs, createdAt, updatedAt }) {
+  constructor({ uuid = uuidv4(), name, tabs, createdAt, updatedAt }) {
     this.uuid = uuid;
     this.name = name;
     this.tabs = tabs;

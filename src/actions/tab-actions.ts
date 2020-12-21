@@ -1,5 +1,5 @@
-import { TabGroup } from 'models';
-import { TabService } from 'services';
+import { TabGroup } from '@models';
+import { TabService } from '@services';
 
 /**
  * Save the specified tabs

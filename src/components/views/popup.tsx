@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DataActions } from 'actions';
-import useTabGroups from 'hooks/use-tab-groups';
-import useSelectedTabCount from 'hooks/use-selected-tab-count';
+import { DataActions } from '@actions';
+import useTabGroups from '@hooks/use-tab-groups';
+import useSelectedTabCount from '@hooks/use-selected-tab-count';
 
-import TabGroupComponent from 'components/tab-group.jsx';
-import SleepWindowButton from 'components/sleep-window-button.jsx';
+import TabGroupComponent from '@components/tab-group';
+import SleepWindowButton from '@components/sleep-window-button';
 
 export default () => {
   const [tabGroups, refreshTabGroups] = useTabGroups();

@@ -1,12 +1,12 @@
 import React, { createRef } from 'react';
 
-import { DataActions } from 'actions';
-import { TabService, WindowService } from 'services';
-import { TabGroup } from 'models';
+import { DataActions } from '@actions';
+import { TabService, WindowService } from '@services';
+import { TabGroup } from '@models';
 
-import useTabGroups from 'hooks/use-tab-groups';
+import useTabGroups from '@hooks/use-tab-groups';
 
-import TabGroupComponent from 'components/tab-group.jsx';
+import TabGroupComponent from '@components/tab-group';
 
 const exportGroups = (groups) => {
   DataActions.exportJson(groups).then(json => {

@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    // "noImplicitAny": true, // once conversion is done
+    "module": "es6",
+    "moduleResolution": "node",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true, // remove once conversion is done
+    "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
+    "outDir": "./build/tmp",
+    "baseUrl": "./",
+    "paths": {
+      "@root/*": ["src/*"],
+      "@actions": ["src/actions"],
+      "@actions/*": ["src/actions/*"],
+      "@components": ["src/components"],
+      "@components/*": ["src/components/*"],
+      "@hooks": ["src/hooks"],
+      "@hooks/*": ["src/hooks/*"],
+      "@icons": ["src/icons"],
+      "@icons/*": ["src/icons/*"],
+      "@models": ["src/models"],
+      "@models/*": ["src/models/*"],
+      "@services": ["src/services"],
+      "@services/*": ["src/services/*"]
+    }
+  }
+}

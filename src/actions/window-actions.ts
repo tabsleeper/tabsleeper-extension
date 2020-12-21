@@ -1,5 +1,5 @@
-import { WindowService, TabService } from 'services';
-import { TabActions } from 'actions';
+import { WindowService, TabService } from '@services';
+import { TabActions } from '@actions';
 
 /**
  * Save all tabs in the specified window

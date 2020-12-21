@@ -16,9 +16,9 @@ module.exports = function(env, argv) {
     mode: argv.mode,
 
     entry: {
-      'dist/popup':     './src/popup',
-      'dist/manage-data': './src/manage-data',
-      'dist/background': './src/background'
+      'dist/popup':     './src/popup.tsx',
+      'dist/manage-data': './src/manage-data.tsx',
+      'dist/background': './src/background.ts'
     },
 
     output: {
@@ -29,20 +29,25 @@ module.exports = function(env, argv) {
     devtool: (argv.mode === 'development') ? 'inline-source-map' : false,
 
     resolve: {
-      modules: [
-        // Include a resolver configuration so we don't have to use relative
-        // paths for importing our own source code
-        path.resolve(__dirname, 'src'),
-        'node_modules'
-      ]
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      modules: ['node_modules'],
+      alias: {
+        "@root": path.resolve(__dirname, 'src'),
+        "@actions": path.resolve(__dirname, 'src/actions'),
+        "@components": path.resolve(__dirname, 'src/components'),
+        "@hooks": path.resolve(__dirname, 'src/hooks'),
+        "@icons": path.resolve(__dirname, 'src/icons'),
+        "@models": path.resolve(__dirname, 'src/models'),
+        "@services": path.resolve(__dirname, 'src/services'),
+      }
     },
 
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.tsx?$/,
           exclude: /(node_modules)/,
-          loader: 'babel-loader'
+          loader: 'ts-loader'
         }
       ]
     },

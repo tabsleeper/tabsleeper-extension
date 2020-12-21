@@ -2,9 +2,10 @@ import domready from 'domready';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Popup from 'components/views/popup.jsx';
+import ManageData from '@components/views/manage-data';
 
 domready(() => {
   const container = document.getElementById('container');
-  ReactDOM.render(<Popup />, container);
+
+  ReactDOM.render(<ManageData />, container);
 });

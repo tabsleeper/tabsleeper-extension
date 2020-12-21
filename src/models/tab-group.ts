@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import constants from 'constants.js';
-import Database from 'database';
+import constants from '@root/constants';
+import Database from '@root/database';
 
 /**
  * Represents a group of suspended tabs, backed by IndexedDB

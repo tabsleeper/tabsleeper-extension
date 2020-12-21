@@ -1,4 +1,4 @@
-export default class TabService {
+class TabService {
   /**
    * Return the currently focused tab
    */
@@ -54,3 +54,5 @@ export default class TabService {
     });
   }
 }
+
+export default TabService;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { TabService, WindowService } from 'services';
+import { TabService, WindowService } from '@services';
 
 export default () => {
   const [selectedCount, setSelectedCount] = useState(1);

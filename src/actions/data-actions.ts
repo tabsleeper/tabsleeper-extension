@@ -1,4 +1,4 @@
-import { TabGroup } from 'models';
+import { TabGroup } from '@models';
 
 /**
  * Export all data in JSON format

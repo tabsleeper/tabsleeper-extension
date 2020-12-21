@@ -1,4 +1,4 @@
-import { TabService, WindowService } from 'services';
+import { TabService, WindowService } from '@services';
 
 /**
  * Creates a new window from the group's tab URLs, and then destroys the group

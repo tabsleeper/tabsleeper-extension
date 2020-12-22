@@ -1,3 +1,6 @@
 module.exports = function(common, mode) {
-  return common;
+  return {
+    ...common,
+    minimum_chrome_version: "73"
+  };
 }

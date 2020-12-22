@@ -11,7 +11,7 @@ module.exports = function(common, mode) {
     applications: {
       gecko: {
         id,
-        strict_min_version: "53.0"
+        strict_min_version: "66.0"
       }
     },
   };

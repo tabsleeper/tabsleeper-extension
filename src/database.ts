@@ -1,6 +1,7 @@
 import Dexie from 'dexie';
 
-export default class Database extends Dexie {
+class Database extends Dexie {
+  groups: Dexie.Table<IGroup, string>;
 
   static DB_NAME = 'tab-sleeper';
 
@@ -37,6 +38,19 @@ export default class Database extends Dexie {
       .stores({
         groups: 'uuid,createdAt,updatedAt' // indexed primary key
       });
-  }
 
+    this.groups = this.table('groups');
+  }
 }
+
+export type TabInfo = Pick<browser.tabs.Tab, "id" | "url" | "favIconUrl" | "title">;
+
+export interface IGroup {
+  uuid: string;
+  name?: string;
+  tabs: TabInfo[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export default Database;

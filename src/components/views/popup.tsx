@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { FunctionComponent } from 'react';
 
 import { DataActions } from '@actions';
 import useTabGroups from '@hooks/use-tab-groups';
@@ -8,7 +8,7 @@ import useSelectedTabCount from '@hooks/use-selected-tab-count';
 import TabGroupComponent from '@components/tab-group';
 import SleepWindowButton from '@components/sleep-window-button';
 
-export default () => {
+const Popup: FunctionComponent = () => {
   const [tabGroups, refreshTabGroups] = useTabGroups();
   const [selectedTabs] = useSelectedTabCount();
 
@@ -43,3 +43,5 @@ export default () => {
     </div>
   );
 }
+
+export default Popup;

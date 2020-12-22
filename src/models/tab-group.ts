@@ -1,24 +1,25 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import constants from '@root/constants';
-import Database from '@root/database';
+import Database, { IGroup, TabInfo } from '@root/database';
 
 /**
  * Represents a group of suspended tabs, backed by IndexedDB
  */
 export default class TabGroup {
+  uuid: string;
+  name?: string;
+  tabs: TabInfo[];
+  createdAt: Date;
+  updatedAt: Date;
 
-  uuid;
-
-  tabs;
-
-  static all() {
+  static all(): Promise<TabGroup[]> {
     const db = new Database();
     db.open();
 
     return new Promise((resolve, reject) => {
-      db.groups.orderBy('createdAt').reverse().toArray((tabGroups) => {
-        tabGroups = tabGroups.map(g => new TabGroup(g));
+      db.groups.orderBy('createdAt').reverse().toArray((storedTabGroups) => {
+        const tabGroups = storedTabGroups.map(g => new TabGroup(g));
 
         resolve(tabGroups);
       });
@@ -28,7 +29,7 @@ export default class TabGroup {
   /**
    * Attempts to read a specific tab group from the database by UUID
    */
-  static read(uuid) {
+  static read(uuid: string): Promise<TabGroup> {
     const db = new Database();
     db.open();
 
@@ -45,8 +46,8 @@ export default class TabGroup {
     });
   }
 
-  constructor({ uuid = uuidv4(), name, tabs, createdAt, updatedAt }) {
-    this.uuid = uuid;
+  constructor({ uuid, name, tabs, createdAt, updatedAt }: { uuid?: string, name?: string, tabs: TabInfo[], createdAt?: string, updatedAt?: string }) {
+    this.uuid = uuid || uuidv4();
     this.name = name;
     this.tabs = tabs;
     this.createdAt = (createdAt) ? new Date(createdAt) : new Date();
@@ -56,7 +57,7 @@ export default class TabGroup {
   /**
    * Return the tabs that this group holds
    */
-  getTabs() {
+  getTabs(): TabInfo[] {
     return this.tabs;
   }
 
@@ -64,7 +65,7 @@ export default class TabGroup {
    * Saves the tab group to the store, resolving with the tab group.
    * If successful, broadcasts a change event.
    */
-  save() {
+  save(): Promise<this> {
     const tabs = this.tabs.map(tab => ({
       id: tab.id,
       url: tab.url,
@@ -95,7 +96,7 @@ export default class TabGroup {
    * Destroys the tab group, resolving with the now-deleted tab group
    * If successful, broadcasts a change event.
    */
-  destroy() {
+  destroy(): Promise<this> {
     const db = new Database();
     db.open();
 

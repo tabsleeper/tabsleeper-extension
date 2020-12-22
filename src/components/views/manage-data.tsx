@@ -1,4 +1,5 @@
 import React, { createRef } from 'react';
+import type { FunctionComponent } from 'react';
 
 import { DataActions } from '@actions';
 import { TabService, WindowService } from '@services';
@@ -13,7 +14,7 @@ const exportGroups = (groups) => {
     const blob = new Blob([json]);
 
     const link = window.document.createElement("a");
-    link.href = window.URL.createObjectURL(blob, { type: "text/plain" });
+    link.href = window.URL.createObjectURL(blob);
     link.download = "tabgroups.tabsleeperbackup";
     document.body.appendChild(link);
     link.click();
@@ -22,9 +23,9 @@ const exportGroups = (groups) => {
   });
 };
 
-export default ({ router }) => {
+const ManageData: FunctionComponent = () => {
   const [tabGroups, refreshTabGroups] = useTabGroups();
-  const fileRef = createRef();
+  const fileRef = createRef<HTMLInputElement>();
 
   const exportAllGroups = () => {
     exportGroups(tabGroups);
@@ -39,14 +40,17 @@ export default ({ router }) => {
 
     reader.onload = () => {
       if (reader.readyState === FileReader.DONE) {
-        DataActions.importJson(reader.result).then(() => {
+        // We can make this type assertion due to us calling `readAsText` below
+        const json = reader.result as string;
+
+        DataActions.importJson(json).then(() => {
           refreshTabGroups();
           fileRef.current.value = null;
         });
       }
     }
 
-    reader.readAsText(file); 
+    reader.readAsText(file);
   };
 
   return (
@@ -88,3 +92,5 @@ export default ({ router }) => {
     </div>
   );
 };
+
+export default ManageData;

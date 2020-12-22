@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TabGroup } from '@models';
 
-export default () => {
+export default (): [tabGroups: TabGroup[], refreshTabGroups: VoidFunction] => {
   const [tabGroups, setTabGroups] = useState([]);
 
   const refreshTabGroups = () => {

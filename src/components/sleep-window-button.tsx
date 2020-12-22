@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { FunctionComponent } from 'react';
 
 import { TabService, WindowService } from '@services';
 import { TabActions, WindowActions } from '@actions';
@@ -12,7 +12,11 @@ function buttonText(count) {
   }
 }
 
-export default ({ selectedCount }) => {
+interface Props {
+  selectedCount: number;
+}
+
+const SleepWindowButton: FunctionComponent<Props> = ({ selectedCount }) => {
   const onClick = (evt) => {
     if (selectedCount >= 2) {
       WindowService.getCurrentWindow().
@@ -31,3 +35,5 @@ export default ({ selectedCount }) => {
     </button>
   );
 };
+
+export default SleepWindowButton;

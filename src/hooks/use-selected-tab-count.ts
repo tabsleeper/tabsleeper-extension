@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { TabService, WindowService } from '@services';
 
-export default () => {
+export default (): [selectedCount: number] => {
   const [selectedCount, setSelectedCount] = useState(1);
 
   const updateSelectedCount = () => {

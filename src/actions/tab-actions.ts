@@ -1,10 +1,11 @@
 import { TabGroup } from '@models';
 import { TabService } from '@services';
+import type { TabInfo } from '@root/database';
 
 /**
  * Save the specified tabs
  */
-export function saveTabs(tabs) {
+export function saveTabs(tabs: browser.tabs.Tab[]): Promise<TabGroup> {
   return new Promise((resolve, reject) => {
     let group = new TabGroup({ tabs });
 
@@ -17,7 +18,7 @@ export function saveTabs(tabs) {
 /**
  * Save the specified tabs and then close them
  */
-export function sleepTabs(tabs) {
+export function sleepTabs(tabs: browser.tabs.Tab[]): Promise<TabGroup> {
   return new Promise((resolve, reject) => {
     saveTabs(tabs)
       .then((group) => {

@@ -2,7 +2,7 @@ class WindowService {
   /**
    * Get a list of all currently open, regular windows
    */
-  static getAllWindows() {
+  static getAllWindows(): Promise<browser.windows.Window[]> {
     return new Promise((resolve, reject) => {
       browser.windows.getAll({ windowTypes: ['normal'] })
         .then(resolve)
@@ -13,7 +13,7 @@ class WindowService {
   /**
    * Get the currently focused window
    */
-  static getCurrentWindow() {
+  static getCurrentWindow(): Promise<browser.windows.Window> {
     return new Promise((resolve, reject) => {
       browser.windows.getCurrent({ populate: true })
         .then(resolve)
@@ -24,7 +24,7 @@ class WindowService {
   /**
    * Create a new window with tabs for the specified list of urls
    */
-  static createWindow(urls) {
+  static createWindow(urls): Promise<browser.windows.Window> {
     return new Promise((resolve, reject) => {
       const payload = {
         url: urls,
@@ -46,10 +46,10 @@ class WindowService {
   /**
    * Close the specified window
    */
-  static closeWindow(id) {
+  static closeWindow(id): Promise<void> {
     return new Promise((resolve, reject) => {
       browser.windows.remove(id)
-        .then(() => resolve())
+        .then(() => resolve(undefined))
         .catch(reject);
     });
   }

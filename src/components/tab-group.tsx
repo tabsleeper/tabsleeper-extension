@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import type { FunctionComponent } from 'react';
 
 import { TabGroupActions } from '@actions';
 import constants from '@root/constants';
 import { Wake, Edit, Destroy } from '@icons';
+import type { TabGroup as ITabGroup } from '@models';
 
 const SHOW_N_TABS = 3;
 
@@ -28,10 +29,17 @@ function renderExpandAction(tabs, expanded, clickHandler) {
   }
 }
 
-export default ({ group, className, onDelete, onWake, ...attrs }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [draftTitle, setDraftTitle] = useState(group.name || '');
+interface Props {
+  group: ITabGroup;
+  className?: string;
+  onDelete: VoidFunction;
+  onWake: VoidFunction;
+};
+
+const TabGroup: FunctionComponent<Props> = ({ group, className, onDelete, onWake, ...attrs }) => {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [draftTitle, setDraftTitle] = useState<string>(group.name || '');
 
   const tabs = group.getTabs();
 
@@ -82,7 +90,7 @@ export default ({ group, className, onDelete, onWake, ...attrs }) => {
         <div className='tab-group--edit-form'>
           <form onSubmit={onSaveEdit}>
             <div className='input-group'>
-              <input type='text' name='title' autocomplete="off" value={draftTitle} onChange={onDraftTitleChanged} autoFocus />
+              <input type='text' name='title' autoComplete="off" value={draftTitle} onChange={onDraftTitleChanged} autoFocus />
             </div>
             <div className='input-group'>
               <button type='button' className='btn btn-primary' onClick={onSaveEdit}>Save</button>
@@ -126,3 +134,5 @@ export default ({ group, className, onDelete, onWake, ...attrs }) => {
     {renderExpandAction(tabs, isExpanded, onExpandClicked)}
   </div>;
 };
+
+export default TabGroup;

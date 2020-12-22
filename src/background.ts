@@ -1,6 +1,6 @@
-import debounce from 'lodash/debounce';
+import { debounce } from 'lodash';
 
-function setSelectedCount(count) {
+function setSelectedCount(count: number) {
   if (count >= 2) {
     browser.browserAction.setBadgeText({ text: `${count}` });
   } else {
@@ -8,7 +8,12 @@ function setSelectedCount(count) {
   }
 }
 
-function handleOnHighlighted(highlightInfo) {
+interface HighlightEvent {
+  windowId: number;
+  tabIds: number[];
+}
+
+function handleOnHighlighted(highlightInfo: HighlightEvent) {
   setSelectedCount(highlightInfo.tabIds.length);
 }
 

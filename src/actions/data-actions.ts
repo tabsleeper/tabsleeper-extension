@@ -1,9 +1,25 @@
 import { TabGroup } from '@models';
+import type { TabInfo } from '@root/database';
+
+interface ExportedTabGroup {
+  name?: string;
+  tabs: TabInfo[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ExportV1 {
+  version: "1";
+  exportedAt: string;
+  tabGroups: ExportedTabGroup[];
+};
+
+type ExportBundle = ExportV1;
 
 /**
  * Export all data in JSON format
  */
-export function exportJson(tabGroups) {
+export function exportJson(tabGroups: TabGroup[]): Promise<string> {
   return new Promise((resolve, reject) => {
     Promise.resolve(tabGroups)
       .then(tabGroups => {
@@ -28,8 +44,8 @@ export function exportJson(tabGroups) {
 /**
  * Import supplied JSON data
  */
-export function importJson(json) {
-  const { version, tabGroups } = JSON.parse(json);
+export function importJson(json: string): Promise<TabGroup[]> {
+  const { version, tabGroups } = JSON.parse(json) as ExportBundle;
 
   if (version !== "1") {
     throw `Unrecognized file version: ${version}`

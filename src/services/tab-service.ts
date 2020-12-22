@@ -2,7 +2,7 @@ class TabService {
   /**
    * Return the currently focused tab
    */
-  static getCurrentTab() {
+  static getCurrentTab(): Promise<browser.tabs.Tab> {
     return new Promise((resolve, reject) => {
       browser.tabs.query({ active: true, currentWindow: true })
         .then(tabs => resolve(tabs[0]))
@@ -13,7 +13,7 @@ class TabService {
   /**
    * Get all selected tabs in a given window
    */
-  static getSelectedTabs(windowId) {
+  static getSelectedTabs(windowId): Promise<browser.tabs.Tab[]> {
     return new Promise((resolve, reject) => {
       browser.tabs.query({ windowId, highlighted: true })
         .then(resolve)
@@ -24,7 +24,7 @@ class TabService {
   /**
    * Get all tabs in a given window
    */
-  static getTabsInWindow(windowId) {
+  static getTabsInWindow(windowId): Promise<browser.tabs.Tab[]> {
     return new Promise((resolve, reject) => {
       browser.tabs.query({ windowId })
         .then(resolve)
@@ -35,7 +35,7 @@ class TabService {
   /**
    * Close a single tab
    */
-  static closeTab(tab) {
+  static closeTab(tab: browser.tabs.Tab): Promise<browser.tabs.Tab> {
     return new Promise((resolve, reject) => {
       TabService.closeTabs([tab])
         .then(() => resolve(tab))
@@ -46,7 +46,7 @@ class TabService {
   /**
    * Close all supplied tabs
    */
-  static closeTabs(tabs) {
+  static closeTabs(tabs: browser.tabs.Tab[]): Promise<browser.tabs.Tab[]> {
     return new Promise((resolve, reject) => {
       browser.tabs.remove(tabs.map(t => t.id))
         .then(() => resolve(tabs))

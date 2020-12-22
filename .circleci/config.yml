@@ -5,12 +5,9 @@ jobs:
   build:
     working_directory: ~/tabsleeper
     docker:
-      - image: circleci/node:13.6.0
+      - image: circleci/node:15.4.0
     steps:
       - checkout
-      - run:
-          name: install-npm
-          command: 'sudo npm install -g npm@6.14.1'
       - run: ./script/setup
       - run: ./script/build
       - run: ./script/package

@@ -24,8 +24,7 @@ up or have any questions, email me - my address is on my GitHub profile)
 
 ## Set up
 
-[Get Node](https://nodejs.org/en/) - This project is currently built using
-13.6.0 with npm >= 5
+[Get Node](https://nodejs.org/en/) - This project is currently built on v15.4.0
 
 Fork and clone this repository
 

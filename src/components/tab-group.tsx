@@ -1,25 +1,33 @@
-import React, { useState } from 'react';
-import type { FunctionComponent } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
+import type {
+  ChangeEvent,
+  FormEvent,
+  FunctionComponent,
+  MouseEvent,
+  MouseEventHandler
+} from 'react';
 
 import { TabGroupActions } from '@actions';
 import constants from '@root/constants';
 import { Wake, Edit, Destroy } from '@icons';
+import type { TabInfo } from '@root/database';
 import type { TabGroup as ITabGroup } from '@models';
 
 const SHOW_N_TABS = 3;
 
-function groupTitleText(tabs) {
+function groupTitleText(tabs: TabInfo[]) {
   let pluralization = (tabs.length === 1) ? '' : 's';
   return `${tabs.length} Tab${pluralization}`;
 }
 
-function renderTabList(tabs, expanded) {
+function renderTabList(tabs: TabInfo[], expanded: boolean) {
   if (!expanded) tabs = tabs.slice(0, SHOW_N_TABS);
 
   return tabs.map(t => <li key={t.id}><a href={t.url}>{t.title}</a></li>);
 }
 
-function renderExpandAction(tabs, expanded, clickHandler) {
+function renderExpandAction(tabs: TabInfo[], expanded: boolean, clickHandler: MouseEventHandler) {
   if (!expanded && tabs.length > SHOW_N_TABS) {
     return (<div className='tab-group--expand'>
       <a onClick={clickHandler}>
@@ -43,37 +51,37 @@ const TabGroup: FunctionComponent<Props> = ({ group, className, onDelete, onWake
 
   const tabs = group.getTabs();
 
-  const onWakeClicked = (evt) => {
+  const onWakeClicked = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     TabGroupActions.wakeGroup(group).then(onWake);
   };
 
-  const onDeleteClicked = (evt) => {
+  const onDeleteClicked = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     group.destroy().then(onDelete);
   };
 
-  const onEditClicked = (evt) => {
+  const onEditClicked = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     setIsEditing(true);
   };
 
-  const onExpandClicked = (evt) => {
+  const onExpandClicked = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     setIsExpanded(true);
   };
 
-  const onDraftTitleChanged = (evt) => {
+  const onDraftTitleChanged = (evt: ChangeEvent<HTMLInputElement>) => {
     setDraftTitle(evt.target.value);
   };
 
-  const onCancelEdit = (evt) => {
+  const onCancelEdit = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     setIsEditing(false);
     setDraftTitle(group.name);
   }
 
-  const onSaveEdit = (evt) => {
+  const onSaveEdit = (evt: FormEvent) => {
     evt.preventDefault();
     group.name = draftTitle;
     group.save();
@@ -93,7 +101,7 @@ const TabGroup: FunctionComponent<Props> = ({ group, className, onDelete, onWake
               <input type='text' name='title' autoComplete="off" value={draftTitle} onChange={onDraftTitleChanged} autoFocus />
             </div>
             <div className='input-group'>
-              <button type='button' className='btn btn-primary' onClick={onSaveEdit}>Save</button>
+              <input type='submit' className='btn btn-primary' value="Save" />
               <button type='button' className='btn btn-secondary ml-1' onClick={onCancelEdit}>Cancel</button>
             </div>
           </form>

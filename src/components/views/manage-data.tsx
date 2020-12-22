@@ -1,5 +1,6 @@
-import React, { createRef } from 'react';
-import type { FunctionComponent } from 'react';
+import * as React from 'react';
+import { createRef } from 'react';
+import type { FormEvent, FunctionComponent, MouseEvent } from 'react';
 
 import { DataActions } from '@actions';
 import { TabService, WindowService } from '@services';
@@ -9,7 +10,7 @@ import useTabGroups from '@hooks/use-tab-groups';
 
 import TabGroupComponent from '@components/tab-group';
 
-const exportGroups = (groups) => {
+const exportGroups = (groups: TabGroup[]) => {
   DataActions.exportJson(groups).then(json => {
     const blob = new Blob([json]);
 
@@ -31,7 +32,7 @@ const ManageData: FunctionComponent = () => {
     exportGroups(tabGroups);
   }
 
-  const importData = (evt) => {
+  const importData = (evt: FormEvent) => {
     evt.preventDefault();
 
     let file = fileRef.current.files[0];
@@ -72,7 +73,7 @@ const ManageData: FunctionComponent = () => {
       </div>
       <div className="manage-data--tab-groups">
         {tabGroups.map(g => {
-          const exportGroup = (evt) => exportGroups([g]);
+          const exportGroup = (evt: MouseEvent<HTMLButtonElement>) => exportGroups([g]);
 
           return (
             <div key={g.uuid} className="manage-data--tab-group-row">

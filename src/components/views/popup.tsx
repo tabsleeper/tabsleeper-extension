@@ -1,5 +1,5 @@
-import React from 'react';
-import type { FunctionComponent } from 'react';
+import * as React from 'react';
+import type { FunctionComponent, MouseEvent } from 'react';
 
 import { DataActions } from '@actions';
 import useTabGroups from '@hooks/use-tab-groups';
@@ -12,7 +12,7 @@ const Popup: FunctionComponent = () => {
   const [tabGroups, refreshTabGroups] = useTabGroups();
   const [selectedTabs] = useSelectedTabCount();
 
-  const openManageData = (evt) => {
+  const openManageData = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
 
     browser.tabs.create({ url: "/static/manage-data.html" });

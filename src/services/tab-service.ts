@@ -13,7 +13,7 @@ class TabService {
   /**
    * Get all selected tabs in a given window
    */
-  static getSelectedTabs(windowId): Promise<browser.tabs.Tab[]> {
+  static getSelectedTabs(windowId: number): Promise<browser.tabs.Tab[]> {
     return new Promise((resolve, reject) => {
       browser.tabs.query({ windowId, highlighted: true })
         .then(resolve)
@@ -24,7 +24,7 @@ class TabService {
   /**
    * Get all tabs in a given window
    */
-  static getTabsInWindow(windowId): Promise<browser.tabs.Tab[]> {
+  static getTabsInWindow(windowId: number): Promise<browser.tabs.Tab[]> {
     return new Promise((resolve, reject) => {
       browser.tabs.query({ windowId })
         .then(resolve)

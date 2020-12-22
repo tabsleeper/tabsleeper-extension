@@ -24,7 +24,7 @@ class WindowService {
   /**
    * Create a new window with tabs for the specified list of urls
    */
-  static createWindow(urls): Promise<browser.windows.Window> {
+  static createWindow(urls: string[]): Promise<browser.windows.Window> {
     return new Promise((resolve, reject) => {
       const payload = {
         url: urls,
@@ -46,7 +46,7 @@ class WindowService {
   /**
    * Close the specified window
    */
-  static closeWindow(id): Promise<void> {
+  static closeWindow(id: number): Promise<void> {
     return new Promise((resolve, reject) => {
       browser.windows.remove(id)
         .then(() => resolve(undefined))

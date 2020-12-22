@@ -1,10 +1,10 @@
-import React from 'react';
-import type { FunctionComponent } from 'react';
+import * as React from 'react';
+import type { MouseEvent, FunctionComponent } from 'react';
 
 import { TabService, WindowService } from '@services';
 import { TabActions, WindowActions } from '@actions';
 
-function buttonText(count) {
+function buttonText(count: number) {
   if (count >= 2) {
     return `Sleep ${count} Selected Tabs`;
   } else {
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const SleepWindowButton: FunctionComponent<Props> = ({ selectedCount }) => {
-  const onClick = (evt) => {
+  const onClick = (evt: MouseEvent<HTMLButtonElement>) => {
     if (selectedCount >= 2) {
       WindowService.getCurrentWindow().
         then(win => TabService.getSelectedTabs(win.id)).

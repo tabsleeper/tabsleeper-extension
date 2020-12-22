@@ -1,11 +1,7 @@
-import domready from 'domready';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 import ManageData from '@components/views/manage-data';
 
-domready(() => {
-  const container = document.getElementById('container');
-
-  ReactDOM.render(<ManageData />, container);
-});
+const container = document.getElementById('container');
+ReactDOM.render(<ManageData />, container);

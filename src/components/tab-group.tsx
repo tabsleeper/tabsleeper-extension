@@ -9,7 +9,6 @@ import type {
 } from 'react';
 
 import { TabGroupActions } from '@actions';
-import constants from '@root/constants';
 import { Wake, Edit, Destroy } from '@icons';
 import type { TabInfo } from '@root/database';
 import type { TabGroup as ITabGroup } from '@models';

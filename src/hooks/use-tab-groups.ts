@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import { TabGroup } from '@models';
+import { addListener, MessageHandler } from '@messaging'
 
 export default (): [tabGroups: TabGroup[], refreshTabGroups: VoidFunction] => {
   const [tabGroups, setTabGroups] = useState([]);
 
   const refreshTabGroups = () => {
     TabGroup.all().then(setTabGroups);
+
+    return false;
   }
 
   useEffect(() => {
-    browser.runtime.onMessage.addListener(refreshTabGroups);
-
     refreshTabGroups();
 
-    return () => {
-      browser.runtime.onMessage.removeListener(refreshTabGroups);
-    };
+    return addListener(refreshTabGroups);
   }, []);
 
   return [tabGroups, refreshTabGroups];

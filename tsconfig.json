@@ -19,6 +19,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@icons": ["src/icons"],
       "@icons/*": ["src/icons/*"],
+      "@messaging": ["src/messaging.ts"],
       "@models": ["src/models"],
       "@models/*": ["src/models/*"],
       "@services": ["src/services"],

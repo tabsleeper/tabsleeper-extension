@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import constants from '@root/constants';
+import * as Messaging from '@messaging';
 import Database, { IGroup, TabInfo } from '@root/database';
 
 /**
@@ -66,11 +66,12 @@ export default class TabGroup {
    * If successful, broadcasts a change event.
    */
   save(): Promise<this> {
-    const tabs = this.tabs.map(tab => ({
+    const tabs: TabInfo[] = this.tabs.map(tab => ({
       id: tab.id,
       url: tab.url,
       favIconUrl: tab.favIconUrl,
       title: tab.title,
+      pinned: tab.pinned || false, // Migratory, the browser should supply this
     }));
 
     const db = new Database();
@@ -85,7 +86,7 @@ export default class TabGroup {
         updatedAt: new Date().toJSON(),
       })
         .then(() => {
-          browser.runtime.sendMessage(constants.CHANGE);
+          Messaging.sendMessage({ type: Messaging.Type.CHANGE });
           resolve(this)
         })
         .catch(err => reject(err));
@@ -103,7 +104,7 @@ export default class TabGroup {
     return new Promise((resolve, reject) => {
       db.groups.delete(this.uuid)
         .then(() => {
-          browser.runtime.sendMessage(constants.CHANGE);
+          Messaging.sendMessage({ type: Messaging.Type.CHANGE });
           resolve(this);
         })
         .catch(err => reject(err));

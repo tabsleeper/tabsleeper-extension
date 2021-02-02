@@ -37,6 +37,7 @@ module.exports = function(env, argv) {
         "@components": path.resolve(__dirname, 'src/components'),
         "@hooks": path.resolve(__dirname, 'src/hooks'),
         "@icons": path.resolve(__dirname, 'src/icons'),
+        "@messaging": path.resolve(__dirname, 'src/messaging'),
         "@models": path.resolve(__dirname, 'src/models'),
         "@services": path.resolve(__dirname, 'src/services'),
       }

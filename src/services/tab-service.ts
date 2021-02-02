@@ -53,6 +53,17 @@ class TabService {
         .catch(reject);
     });
   }
+
+  /**
+   * Update a specified tab's properties
+   */
+  static updateTab(tabId: browser.tabs.Tab["id"], properties: { pinned: boolean }): Promise<browser.tabs.Tab> {
+    return new Promise((resolve, reject) => {
+      browser.tabs.update(tabId, properties)
+        .then(resolve)
+        .catch(reject);
+    });
+  }
 }
 
 export default TabService;

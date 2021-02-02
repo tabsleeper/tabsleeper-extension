@@ -43,7 +43,7 @@ class Database extends Dexie {
   }
 }
 
-export type TabInfo = Pick<browser.tabs.Tab, "id" | "url" | "favIconUrl" | "title">;
+export type TabInfo = Pick<browser.tabs.Tab, "id" | "url" | "favIconUrl" | "title" | "pinned">;
 
 export interface IGroup {
   uuid: string;

@@ -1,5 +1,5 @@
-import { TabGroup } from '@models';
-import type { TabInfo } from '@root/database';
+import { TabGroup } from "@models";
+import type { TabInfo } from "@root/database";
 
 interface ExportedTabGroup {
   name?: string;
@@ -12,7 +12,7 @@ interface ExportV1 {
   version: "1";
   exportedAt: string;
   tabGroups: ExportedTabGroup[];
-};
+}
 
 type ExportBundle = ExportV1;
 
@@ -22,20 +22,20 @@ type ExportBundle = ExportV1;
 export function exportJson(tabGroups: TabGroup[]): Promise<string> {
   return new Promise((resolve, reject) => {
     Promise.resolve(tabGroups)
-      .then(tabGroups => {
-        return tabGroups.map(tabGroup => {
+      .then((tabGroups) => {
+        return tabGroups.map((tabGroup) => {
           // Strip any group UUIDs that are present
           let { uuid, ...group } = tabGroup;
 
           return group;
         });
       })
-      .then(tabGroups => ({
+      .then((tabGroups) => ({
         tabGroups,
-        version: '1',
-        exportedAt: new Date()
+        version: "1",
+        exportedAt: new Date(),
       }))
-      .then(data => JSON.stringify(data, null, 2))
+      .then((data) => JSON.stringify(data, null, 2))
       .then(resolve)
       .catch(reject);
   });
@@ -48,13 +48,11 @@ export function importJson(json: string): Promise<TabGroup[]> {
   const { version, tabGroups } = JSON.parse(json) as ExportBundle;
 
   if (version !== "1") {
-    throw `Unrecognized file version: ${version}`
+    throw `Unrecognized file version: ${version}`;
   }
 
   return new Promise((resolve, reject) => {
-    Promise.all(
-      tabGroups.map(group => new TabGroup(group).save())
-    )
+    Promise.all(tabGroups.map((group) => new TabGroup(group).save()))
       .then(resolve)
       .catch(reject);
   });

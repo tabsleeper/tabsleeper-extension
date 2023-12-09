@@ -1,10 +1,13 @@
+import * as browser from "webextension-polyfill";
+
 class WindowService {
   /**
    * Get a list of all currently open, regular windows
    */
-  static getAllWindows(): Promise<browser.windows.Window[]> {
+  static getAllWindows(): Promise<browser.Windows.Window[]> {
     return new Promise((resolve, reject) => {
-      browser.windows.getAll({ windowTypes: ['normal'] })
+      browser.windows
+        .getAll({ windowTypes: ["normal"] })
         .then(resolve)
         .catch(reject);
     });
@@ -13,9 +16,10 @@ class WindowService {
   /**
    * Get the currently focused window
    */
-  static getCurrentWindow(): Promise<browser.windows.Window> {
+  static getCurrentWindow(): Promise<browser.Windows.Window> {
     return new Promise((resolve, reject) => {
-      browser.windows.getCurrent({ populate: true })
+      browser.windows
+        .getCurrent({ populate: true })
         .then(resolve)
         .catch(reject);
     });
@@ -24,22 +28,13 @@ class WindowService {
   /**
    * Create a new window with tabs for the specified list of urls
    */
-  static createWindow(urls: string[]): Promise<browser.windows.Window> {
+  static createWindow(urls: string[]): Promise<browser.Windows.Window> {
     return new Promise((resolve, reject) => {
       const payload = {
         url: urls,
-        focused: true,
       };
 
-      // Firefox does not support the focused property
-      if (window.InstallTrigger) {
-        delete payload.focused;
-      }
-
-
-      browser.windows.create(payload)
-        .then(resolve)
-        .catch(reject);
+      browser.windows.create(payload).then(resolve).catch(reject);
     });
   }
 
@@ -48,7 +43,8 @@ class WindowService {
    */
   static closeWindow(id: number): Promise<void> {
     return new Promise((resolve, reject) => {
-      browser.windows.remove(id)
+      browser.windows
+        .remove(id)
         .then(() => resolve(undefined))
         .catch(reject);
     });

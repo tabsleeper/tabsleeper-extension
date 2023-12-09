@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { TabGroup } from '@models';
-import { addListener, MessageHandler } from '@messaging'
+import { useState, useEffect } from "react";
+import { TabGroup } from "@models";
+import { addListener, MessageHandler } from "@messaging";
 
 export default (): [tabGroups: TabGroup[], refreshTabGroups: VoidFunction] => {
   const [tabGroups, setTabGroups] = useState([]);
@@ -9,7 +9,7 @@ export default (): [tabGroups: TabGroup[], refreshTabGroups: VoidFunction] => {
     TabGroup.all().then(setTabGroups);
 
     return false;
-  }
+  };
 
   useEffect(() => {
     refreshTabGroups();

@@ -1,1 +1,1 @@
-export { default as TabGroup } from '@models/tab-group';
+export { default as TabGroup } from "@models/tab-group";

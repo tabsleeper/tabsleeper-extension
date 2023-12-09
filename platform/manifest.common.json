@@ -2,21 +2,18 @@
   "name": "tabsleeper",
   "version": "0.3.0",
   "description": "Lightweight tab management",
-  "manifest_version": 2,
-  "permissions": [
-    "tabs"
-  ],
+  "manifest_version": 3,
+  "permissions": ["tabs"],
   "icons": {
     "128": "icon/128.png"
   },
   "background": {
-    "scripts": [
-      "vendor/webextension-polyfill.min.js",
-      "build/dist/background.js"
-    ]
+    "service_worker": "build/dist/background.js"
   },
-  "content_security_policy": "default-src 'self'",
-  "browser_action": {
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'"
+  },
+  "action": {
     "default_icon": {
       "19": "icon/browserAction/19.png",
       "38": "icon/browserAction/38.png"

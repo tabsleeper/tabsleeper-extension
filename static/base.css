@@ -3,14 +3,18 @@
 /* Medium: 500 */
 /* Bold: 'bold'/700 */
 
-* { box-sizing: border-box }
+* {
+  box-sizing: border-box;
+}
 
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
   height: 420px;
 
-  background: #F8F8F8;
+  background: #f8f8f8;
 }
 
 .ml-1 {
@@ -21,8 +25,10 @@ html, body {
   vertical-align: middle;
 }
 
-h1, h2 {
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+h1,
+h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -50,27 +56,27 @@ h2 {
   margin: 0 auto;
 }
 
-  .manage-data--global-actions {
-    margin: 1rem 0;
-  }
+.manage-data--global-actions {
+  margin: 1rem 0;
+}
 
-  .manage-data--tab-group-row {
-  }
+.manage-data--tab-group-row {
+}
 
-    .manage-data--tab-group {
-      display: inline-block;
-      width: calc(100% - 120px - 1rem);
-    }
+.manage-data--tab-group {
+  display: inline-block;
+  width: calc(100% - 120px - 1rem);
+}
 
-      .manage-data--tab-group .tab-group {
-        width: 100%;
-      }
+.manage-data--tab-group .tab-group {
+  width: 100%;
+}
 
-    .manage-data--tab-group-actions {
-      display: inline-block;
-      vertical-align: top;
-      width: 120px;
-    }
+.manage-data--tab-group-actions {
+  display: inline-block;
+  vertical-align: top;
+  width: 120px;
+}
 
 /**
  * Higher level layout and aesthetic rules for NewTab
@@ -78,41 +84,42 @@ h2 {
 .popup {
   height: 420px;
   width: 300px;
-  color: #2B2B2B;
+  color: #2b2b2b;
   display: flex;
   flex-direction: column;
 }
 
-  .primary-action {
-  }
+.primary-action {
+}
 
-  /**
+/**
    * Tab Groups section
    */
-  .popup--tab-groups {
-    text-align: left;
-    overflow-x: hidden;
-    overflow-y: auto;
-    flex-grow: 1;
-  }
+.popup--tab-groups {
+  text-align: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-grow: 1;
+}
 
 /**
  * Navigate-back action
  */
-.back-action {}
-  .back-action a {
-    text-decoration: none;
-    color: #484848;
-    font-size: 1.3rem;
-  }
+.back-action {
+}
+.back-action a {
+  text-decoration: none;
+  color: #484848;
+  font-size: 1.3rem;
+}
 
-  .back-action .icon {
-    margin: 16px 12px;
-  }
+.back-action .icon {
+  margin: 16px 12px;
+}
 
-  .back-action .back-action--text {
-    vertical-align: text-bottom;
-  }
+.back-action .back-action--text {
+  vertical-align: text-bottom;
+}
 
 /**
  * Form components
@@ -126,27 +133,28 @@ h2 {
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   transition: all 0.2s ease-in-out;
 }
 
-  .btn.btn-primary {
-    background: #2196F3;
-    color: white;
-  }
+.btn.btn-primary {
+  background: #2196f3;
+  color: white;
+}
 
-  .btn.btn-primary:hover {
-    background: #319EF5;
-  }
+.btn.btn-primary:hover {
+  background: #319ef5;
+}
 
-  .btn.btn-secondary {
-    background: #FFFFFF;
-    color: #444444;
-  }
+.btn.btn-secondary {
+  background: #ffffff;
+  color: #444444;
+}
 
-  .btn.btn-secondary:hover {
-    background: #DDDDDD;
-  }
+.btn.btn-secondary:hover {
+  background: #dddddd;
+}
 
 /**
  * Sleep Window Button Component
@@ -158,35 +166,39 @@ h2 {
   height: 48px;
   display: block;
   cursor: pointer;
-  background: #2196F3;
+  background: #2196f3;
   border: none;
   border-radius: 3px;
   color: white;
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Ubuntu", "Segoe UI",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.16),
+    0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.2s ease-in-out;
 }
 
 .sleep-window-button:hover {
-  background: #319EF5;
+  background: #319ef5;
 
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12), 0 1px 8px rgba(0, 0, 0, 0.23);
+  box-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.12),
+    0 1px 8px rgba(0, 0, 0, 0.23);
 }
 
-  .sleep-window-button span {
-    line-height: 24px;
-    font-size: 16px;
-  }
+.sleep-window-button span {
+  line-height: 24px;
+  font-size: 16px;
+}
 
-    .sleep-window-button .icon {
-      margin-right: 0.3rem;
-    }
+.sleep-window-button .icon {
+  margin-right: 0.3rem;
+}
 
-    .sleep-window-button * {
-      vertical-align: middle;
-    }
-
+.sleep-window-button * {
+  vertical-align: middle;
+}
 
 /**
  * TabGroup component
@@ -200,129 +212,131 @@ h2 {
   border-radius: 3px;
   background: white;
 
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.2s ease-in-out;
 
   font-size: 1rem;
 }
 
-  .tab-group--title-action-container {
-    display: flex;
-    flex-direction: row;
+.tab-group--title-action-container {
+  display: flex;
+  flex-direction: row;
 
-    padding: 0.75rem 0.75rem 0.25rem;
-  }
+  padding: 0.75rem 0.75rem 0.25rem;
+}
 
-    .tab-group--title {
-      display: inline-block;
-      flex: 1;
+.tab-group--title {
+  display: inline-block;
+  flex: 1;
 
-      padding-top: 0.25em;
+  padding-top: 0.25em;
 
-      text-align: left;
-      font-weight: 400;
+  text-align: left;
+  font-weight: 400;
 
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      letter-spacing: 0.1em;
-      color: #777777;
-    }
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  color: #777777;
+}
 
-    .tab-group--actions {
-      display: inline-block;
-    }
+.tab-group--actions {
+  display: inline-block;
+}
 
-      .tab-group--actions a:hover {
-        cursor: pointer;
-        opacity: 0.6;
-        transition: 100ms;
-      }
+.tab-group--actions a:hover {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 100ms;
+}
 
-      .tab-group--actions>li {
-        display: inline-block;
+.tab-group--actions > li {
+  display: inline-block;
 
-        margin: 0;
-        margin-left: 0.5rem;
-      }
+  margin: 0;
+  margin-left: 0.5rem;
+}
 
-  .tab-group--edit-form {
-    display: flex;
-    flex-direction: column;
+.tab-group--edit-form {
+  display: flex;
+  flex-direction: column;
 
-    padding: 0.75rem;
-  }
+  padding: 0.75rem;
+}
 
+.tab-group--urls {
+  padding: 0.75rem;
+  padding-top: 0;
+}
 
-  .tab-group--urls {
-    padding: 0.75rem;
-    padding-top: 0;
-  }
+.tab-group--urls li {
+  margin-top: 0.5rem;
+}
 
-    .tab-group--urls li {
-      margin-top: 0.5rem;
-    }
+.tab-group--urls a {
+  text-decoration: none;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #2b2b2b;
+}
 
-    .tab-group--urls a {
-      text-decoration: none;
-      display: block;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      color: #2B2B2B;
-    }
-
-    .tab-group--urls a:hover {
-      /*text-decoration: underline;
+.tab-group--urls a:hover {
+  /*text-decoration: underline;
       color: #2B2B2B;*/
-      cursor: default;
-    }
+  cursor: default;
+}
 
-  .tab-group--expand {
-    padding: 0.75rem;
-    padding-top: 0;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-align: right;
-    color: #1976D2;
-  }
+.tab-group--expand {
+  padding: 0.75rem;
+  padding-top: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: right;
+  color: #1976d2;
+}
 
-  .tab-group--expand a:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+.tab-group--expand a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 
-.edit-group {}
+.edit-group {
+}
 
-  .edit-group--input-group {
-    margin: 0.5rem;
-  }
+.edit-group--input-group {
+  margin: 0.5rem;
+}
 
-  .edit-group--input-group label {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+.edit-group--input-group label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 
-    text-align: left;
-    font-weight: 400;
-    font-size: 0.75rem;
-    color: #777777;
-  }
+  text-align: left;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: #777777;
+}
 
-  .edit-group--input-group input[type=text] {
-    background: none;
-    border: none;
-    border-bottom: 2px solid #484848;
-    color: #484848;
+.edit-group--input-group input[type="text"] {
+  background: none;
+  border: none;
+  border-bottom: 2px solid #484848;
+  color: #484848;
 
-    margin-top: 0.4rem;
-    width: 100%;
+  margin-top: 0.4rem;
+  width: 100%;
 
-    font-size: 1.4rem;
-    line-height: 2rem;
-  }
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
 
 .export-link {
   font-size: 10px;

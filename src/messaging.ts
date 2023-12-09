@@ -1,3 +1,4 @@
+import * as browser from "webextension-polyfill";
 import { TabGroup } from "@models";
 
 export enum Type {
@@ -10,13 +11,11 @@ interface ChangeMessage {
 }
 
 interface WakeGroupMessage {
-   type: Type.WAKE_GROUP;
-   groupId: TabGroup["uuid"];
- }
+  type: Type.WAKE_GROUP;
+  groupId: TabGroup["uuid"];
+}
 
-export type Message =
-  | ChangeMessage
-  | WakeGroupMessage;
+export type Message = ChangeMessage | WakeGroupMessage;
 
 export type MessageHandler = (message: Message) => void;
 
@@ -45,5 +44,5 @@ export function addListener(listenerFn: MessageHandler): VoidFunction {
 
   return () => {
     browser.runtime.onMessage.removeListener(listenerFn);
-  }
+  };
 }

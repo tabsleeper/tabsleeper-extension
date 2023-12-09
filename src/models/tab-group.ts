@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-import * as Messaging from '@messaging';
-import Database, { IGroup, TabInfo } from '@root/database';
+import * as Messaging from "@messaging";
+import Database, { IGroup, TabInfo } from "@root/database";
 
 /**
  * Represents a group of suspended tabs, backed by IndexedDB
@@ -18,11 +18,14 @@ export default class TabGroup {
     db.open();
 
     return new Promise((resolve, reject) => {
-      db.groups.orderBy('createdAt').reverse().toArray((storedTabGroups) => {
-        const tabGroups = storedTabGroups.map(g => new TabGroup(g));
+      db.groups
+        .orderBy("createdAt")
+        .reverse()
+        .toArray((storedTabGroups) => {
+          const tabGroups = storedTabGroups.map((g) => new TabGroup(g));
 
-        resolve(tabGroups);
-      });
+          resolve(tabGroups);
+        });
     });
   }
 
@@ -34,8 +37,9 @@ export default class TabGroup {
     db.open();
 
     return new Promise((resolve, reject) => {
-      db.groups.get(uuid)
-        .then(record => {
+      db.groups
+        .get(uuid)
+        .then((record) => {
           if (record) {
             resolve(new TabGroup(record));
           } else {
@@ -46,12 +50,24 @@ export default class TabGroup {
     });
   }
 
-  constructor({ uuid, name, tabs, createdAt, updatedAt }: { uuid?: string, name?: string, tabs: TabInfo[], createdAt?: string, updatedAt?: string }) {
+  constructor({
+    uuid,
+    name,
+    tabs,
+    createdAt,
+    updatedAt,
+  }: {
+    uuid?: string;
+    name?: string;
+    tabs: TabInfo[];
+    createdAt?: string;
+    updatedAt?: string;
+  }) {
     this.uuid = uuid || uuidv4();
     this.name = name;
     this.tabs = tabs;
-    this.createdAt = (createdAt) ? new Date(createdAt) : new Date();
-    this.updatedAt = (updatedAt) ? new Date(updatedAt) : new Date();
+    this.createdAt = createdAt ? new Date(createdAt) : new Date();
+    this.updatedAt = updatedAt ? new Date(updatedAt) : new Date();
   }
 
   /**
@@ -66,7 +82,7 @@ export default class TabGroup {
    * If successful, broadcasts a change event.
    */
   save(): Promise<this> {
-    const tabs: TabInfo[] = this.tabs.map(tab => ({
+    const tabs: TabInfo[] = this.tabs.map((tab) => ({
       id: tab.id,
       url: tab.url,
       favIconUrl: tab.favIconUrl,
@@ -78,18 +94,19 @@ export default class TabGroup {
     db.open();
 
     return new Promise((resolve, reject) => {
-      db.groups.put({
-        uuid: this.uuid,
-        name: this.name,
-        tabs,
-        createdAt: this.createdAt.toJSON(),
-        updatedAt: new Date().toJSON(),
-      })
+      db.groups
+        .put({
+          uuid: this.uuid,
+          name: this.name,
+          tabs,
+          createdAt: this.createdAt.toJSON(),
+          updatedAt: new Date().toJSON(),
+        })
         .then(() => {
           Messaging.sendMessage({ type: Messaging.Type.CHANGE });
-          resolve(this)
+          resolve(this);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   }
 
@@ -102,12 +119,13 @@ export default class TabGroup {
     db.open();
 
     return new Promise((resolve, reject) => {
-      db.groups.delete(this.uuid)
+      db.groups
+        .delete(this.uuid)
         .then(() => {
           Messaging.sendMessage({ type: Messaging.Type.CHANGE });
           resolve(this);
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   }
 }

@@ -9,7 +9,8 @@
   "scripts": {
     "watch": "webpack --mode=development --watch",
     "build": "webpack --mode=development",
-    "build:release": "webpack --mode=production"
+    "build:release": "webpack --mode=production",
+    "fmt": "prettier --write static/**/* src/**/* platform/**/*"
   },
   "author": "Greg Signal",
   "license": "MIT",
@@ -18,16 +19,18 @@
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/uuid": "^9.0.7",
+    "@types/webextension-polyfill": "^0.10.7",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "dexie": "^3.2.4",
     "lodash": "^4.17.21",
+    "prettier": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1",
-    "web-ext-types": "^3.2.1",
+    "webextension-polyfill": "^0.10.0",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   }

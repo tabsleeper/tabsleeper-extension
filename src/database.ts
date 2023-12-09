@@ -1,12 +1,12 @@
 import Dexie from 'dexie';
 
+const DB_NAME = 'tab-sleeper';
+
 class Database extends Dexie {
   groups: Dexie.Table<IGroup, string>;
 
-  static DB_NAME = 'tab-sleeper';
-
   constructor() {
-    super(Database.DB_NAME);
+    super(DB_NAME);
 
     this.version(1)
       .stores({

@@ -1,7 +1,8 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as React from "react";
+import { createRoot } from "react-dom/client";
 
-import ManageData from '@components/views/manage-data';
+import ManageData from "@components/views/manage-data";
 
-const container = document.getElementById('container');
-ReactDOM.render(<ManageData />, container);
+const container = document.getElementById("container");
+const root = createRoot(container);
+root.render(<ManageData />);

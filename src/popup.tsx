@@ -1,7 +1,8 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as React from "react";
+import { createRoot } from "react-dom/client";
 
-import Popup from '@components/views/popup';
+import Popup from "@components/views/popup";
 
-const container = document.getElementById('container');
-ReactDOM.render(<Popup />, container);
+const container = document.getElementById("container");
+const root = createRoot(container);
+root.render(<Popup />);

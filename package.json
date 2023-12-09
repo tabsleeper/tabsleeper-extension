@@ -2,6 +2,10 @@
   "name": "tab-sleeper",
   "version": "0.3.0",
   "description": "Sleep and wake windows in Google Chrome",
+  "engines": {
+    "node": ">= 20",
+    "npm": ">= 10"
+  },
   "scripts": {
     "watch": "webpack --mode=development --watch",
     "build": "webpack --mode=development",

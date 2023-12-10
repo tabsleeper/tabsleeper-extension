@@ -12,7 +12,7 @@ module.exports = function (common, mode) {
     browser_specific_settings: {
       gecko: {
         id,
-        strict_min_version: "66.0",
+        strict_min_version: "105.0",
       },
     },
   };

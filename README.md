@@ -24,7 +24,7 @@ up or have any questions, email me - my address is on my GitHub profile)
 
 ## Set up
 
-[Get Node](https://nodejs.org/en/) - This project is currently built on v15.4.0
+[Get Node](https://nodejs.org/en/) - The current version is described in .circleci/config.yml
 
 Fork and clone this repository
 

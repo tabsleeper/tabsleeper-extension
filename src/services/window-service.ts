@@ -30,11 +30,19 @@ class WindowService {
    */
   static createWindow(urls: string[]): Promise<browser.Windows.Window> {
     return new Promise((resolve, reject) => {
-      const payload = {
-        url: urls,
-      };
+    	let sanitized = urls.map((url) => {
+        	if (url.startsWith("file")) {
+        		url = url.replace("file://", "");
+            	return `http://localhost:3000/?path=${url}`;
+        	}
+        	return url;
+        });
 
-      browser.windows.create(payload).then(resolve).catch(reject);
+        const payload = {
+        	url: sanitized,
+        };
+
+        browser.windows.create(payload).then(resolve).catch(reject);
     });
   }
 
